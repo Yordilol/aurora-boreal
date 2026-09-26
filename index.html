@@ -8,7 +8,7 @@
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: monospace;
     background: #050914;
     color: white;
     min-height: 100vh;
@@ -69,6 +69,33 @@ button {
     display: none;
 }
 
+#terminal {
+    display: none;
+    text-align: left;
+    background: #020602;
+    border: 1px solid #20ff75;
+    border-radius: 12px;
+    padding: 20px;
+    color: #20ff75;
+    min-height: 220px;
+    box-shadow: 0 0 15px #20ff7533;
+}
+
+#terminalText {
+    white-space: pre-line;
+    line-height: 1.7;
+}
+
+.cursor {
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
 .file {
     display: block;
     background: #111b2e;
@@ -103,6 +130,13 @@ placeholder="Escribe la contraseña">
 <p id="error">Contraseña incorrecta</p>
 
 </div>
+</div>
+
+
+<div id="terminal">
+
+<div id="terminalText"></div><span class="cursor">█</span>
+
 </div>
 
 
@@ -145,7 +179,40 @@ if (password === "SAMARITAN") {
 
 document.getElementById("login").style.display = "none";
 
+document.getElementById("terminal").style.display = "block";
+
+let texto =
+"> INITIALIZING AURORA BOREAL...\n" +
+"> CONNECTING TO SYSTEM...\n" +
+"> CHECKING SECURITY...\n" +
+"> ACCESS GRANTED\n" +
+"> WELCOME, ADMIN\n" +
+"> SYSTEM ONLINE";
+
+let i = 0;
+
+let intervalo = setInterval(function() {
+
+document.getElementById("terminalText").textContent =
+texto.substring(0, i);
+
+i++;
+
+if (i > texto.length) {
+
+clearInterval(intervalo);
+
+setTimeout(function() {
+
+document.getElementById("terminal").style.display = "none";
+
 document.getElementById("contenido").style.display = "block";
+
+}, 1200);
+
+}
+
+}, 35);
 
 } else {
 
@@ -158,4 +225,4 @@ document.getElementById("error").style.display = "block";
 </script>
 
 </body>
-  </html>
+</html>
