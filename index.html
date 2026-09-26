@@ -4,263 +4,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aurora Boreal</title>
-
 <style>
-body {
-    margin: 0;
-    font-family: monospace;
-    background: #050914;
-    color: white;
-    min-height: 100vh;
-}
-
-.container {
-    width: 90%;
-    max-width: 600px;
-    margin: auto;
-    padding-top: 70px;
-    text-align: center;
-}
-/* 🌌 AURORA BOREAL */
-body::before,
-body::after {
-    content: "";
-    position: fixed;
-    width: 70vw;
-    height: 70vh;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.22;
-    z-index: -1;
-    pointer-events: none;
-}
-
-body::before {
-    background: #00ff88;
-    top: -25%;
-    left: -15%;
-    animation: aurora1 9s ease-in-out infinite alternate;
-}
-
-body::after {
-    background: #0066ff;
-    bottom: -25%;
-    right: -15%;
-    animation: aurora2 11s ease-in-out infinite alternate;
-}
-
-@keyframes aurora1 {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(30vw, 15vh) scale(1.3); }
-    100% { transform: translate(5vw, 35vh) scale(1); }
-}
-
-@keyframes aurora2 {
-    0% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-25vw, -20vh) scale(1.35); }
-    100% { transform: translate(-5vw, -5vh) scale(1); }
-}
-h1 {
-    font-size: 38px;
-}
-
-.subtitle {
-    color: #9ca8bd;
-}
-
-.box {
-    background: #0d1424;
-    border: 1px solid #26334d;
-    border-radius: 15px;
-    padding: 25px;
-    margin-top: 25px;
-}
-
-input {
-    width: 90%;
-    padding: 14px;
-    border-radius: 8px;
-    border: 1px solid #34425d;
-    background: #080d18;
-    color: white;
-    font-size: 16px;
-}
-
-button {
-    width: 96%;
-    margin-top: 12px;
-    padding: 14px;
-    border: none;
-    border-radius: 8px;
-    background: #4d7cff;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-#error {
-    color: #ff6262;
-    display: none;
-}
-
-#contenido {
-    display: none;
-}
-
-#terminal {
-    display: none;
-    text-align: left;
-    background: #020602;
-    border: 1px solid #20ff75;
-    border-radius: 12px;
-    padding: 20px;
-    color: #20ff75;
-    min-height: 220px;
-    box-shadow: 0 0 15px #20ff7533;
-}
-
-#terminalText {
-    white-space: pre-line;
-    line-height: 1.7;
-}
-
-.cursor {
-    animation: blink 0.7s infinite;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
-
-.file {
-    display: block;
-    background: #111b2e;
-    color: white;
-    text-decoration: none;
-    padding: 15px;
-    border-radius: 10px;
-    margin-top: 12px;
-}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;color:#dffcff;font-family:Arial,Helvetica,sans-serif}body{position:relative}
+body:before,body:after{content:"";position:fixed;width:70vw;height:70vh;border-radius:50%;filter:blur(100px);opacity:.2;pointer-events:none;z-index:0}body:before{background:#00ff9d;left:-20%;top:-25%;animation:a1 10s ease-in-out infinite alternate}body:after{background:#155cff;right:-20%;bottom:-25%;animation:a2 12s ease-in-out infinite alternate}@keyframes a1{to{transform:translate(30vw,18vh) scale(1.3)}}@keyframes a2{to{transform:translate(-25vw,-20vh) scale(1.3)}}
+#login{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:#020711}.loginBox{width:min(420px,90vw);padding:34px;border:1px solid #1ce9d0;border-radius:18px;background:#07101ce8;box-shadow:0 0 45px #00e0c52b;text-align:center}.loginBox h1{letter-spacing:10px;margin:0 0 8px;font-weight:400}.loginBox p{color:#7794a8}.loginBox input{width:100%;padding:15px;border-radius:9px;border:1px solid #294354;background:#030912;color:#fff;outline:none}.loginBox button{width:100%;margin-top:12px;padding:14px;border:1px solid #18e7d2;border-radius:9px;background:#07302f;color:#bffff8;font-weight:bold}.err{display:none;color:#ff6175!important}
+#terminal{position:fixed;inset:0;z-index:19;display:none;align-items:center;justify-content:center;background:#010706}.term{width:min(650px,88vw);padding:25px;color:#28ff91;font-family:monospace;line-height:1.8;border:1px solid #20ff75;background:#020a06;box-shadow:0 0 40px #20ff7522}.cursor{animation:blink .7s infinite}@keyframes blink{50%{opacity:0}}
+#app{position:fixed;inset:0;z-index:2;display:none}.top{position:absolute;top:22px;left:30px;right:30px;display:flex;justify-content:space-between;z-index:5;letter-spacing:4px}.brand{color:#25eee0;font-size:22px}.status{font-size:11px;color:#7ca3ad;letter-spacing:2px}.status b{color:#1fffb0}.scene{position:absolute;inset:0;perspective:900px;overflow:hidden}.world{position:absolute;width:100%;height:100%;transform-style:preserve-3d;transition:transform 1.5s cubic-bezier(.2,.8,.2,1)}
+svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.flow{fill:none;stroke-width:2;opacity:.75;stroke-dasharray:7 13;animation:flow 7s linear infinite}.flow2{fill:none;stroke-width:1;opacity:.25}.cyan{stroke:#17e8db}.blue{stroke:#3c8dff}.purple{stroke:#b65cff}.green{stroke:#35ffa2}@keyframes flow{to{stroke-dashoffset:-200}}
+.orbit{fill:none;stroke:#43e8dd;stroke-width:1;opacity:.16}.particle{fill:#fff;filter:drop-shadow(0 0 6px currentColor)}
+.core{position:absolute;left:50%;top:50%;width:175px;height:175px;transform:translate(-50%,-50%);border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid #35fff0;background:radial-gradient(circle,#0b3940 0%,#04141e 45%,#020711 72%);box-shadow:0 0 25px #16e8d355,0 0 90px #16e8d322;z-index:4}.core:before,.core:after{content:"";position:absolute;border-radius:50%;border:1px solid #35fff055}.core:before{inset:-18px;animation:spin 12s linear infinite}.core:after{inset:-35px;border-style:dashed;animation:spin 18s linear infinite reverse}.core span{letter-spacing:9px;font-size:24px;color:#bffff9;margin-left:9px}@keyframes spin{to{transform:rotate(360deg)}}
+.node{position:absolute;width:112px;height:112px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#03111cbb;border:1px solid currentColor;box-shadow:0 0 25px currentColor;z-index:3;transition:1s}.node strong{font-size:12px;letter-spacing:3px}.node small{font-size:9px;margin-top:7px;opacity:.65;letter-spacing:1px}.images{left:19%;top:22%;color:#22f0dd}.files{right:19%;top:22%;color:#4d9dff}.notes{left:17%;bottom:20%;color:#bd64ff}.system{right:17%;bottom:20%;color:#38ffa4}.node.focus{transform:scale(1.35);box-shadow:0 0 35px currentColor,0 0 90px currentColor}.node.dim{opacity:.12;filter:blur(2px)}
+.icon{font-size:25px;margin-bottom:5px}.command{position:absolute;left:50%;bottom:42px;transform:translateX(-50%);width:min(760px,82vw);height:58px;border:1px solid #20e9d6;border-radius:35px;background:#020b14d9;box-shadow:0 0 35px #00e0d522;display:flex;align-items:center;padding:0 20px;z-index:10}.command span{color:#23f2df;font-size:24px;margin-right:12px}.command input{flex:1;background:none;border:0;outline:0;color:#dff;font-size:16px;font-family:monospace}.command input::placeholder{color:#58717f}.help{position:absolute;bottom:12px;left:30px;color:#547887;font:11px monospace;letter-spacing:1px}.help b{color:#1ce8d4}.message{position:absolute;top:100px;left:50%;transform:translateX(-50%);color:#76a8b4;font:11px monospace;letter-spacing:3px;opacity:0;transition:.4s}.message.show{opacity:1}
+.panel{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#010812e8;z-index:15}.panelBox{width:min(650px,88vw);padding:30px;border:1px solid #20e9d6;background:#06131eeF;box-shadow:0 0 50px #00e0d533}.panelBox h2{letter-spacing:5px;color:#4fffe9}.panelBox a{display:block;color:#dff;text-decoration:none;padding:13px;border-bottom:1px solid #17313b}.close{margin-top:20px;color:#1ff0dd;cursor:pointer;font-family:monospace}
+@media(max-width:700px){.top{left:15px;right:15px;top:15px}.brand{font-size:16px}.core{width:125px;height:125px}.core span{font-size:17px}.node{width:86px;height:86px}.node strong{font-size:9px}.node small{display:none}.images{left:5%;top:23%}.files{right:5%;top:23%}.notes{left:5%;bottom:23%}.system{right:5%;bottom:23%}.command{bottom:30px;width:92vw}.help{display:none}}
 </style>
 </head>
-
 <body>
-
-<div class="container">
-
-<div id="login">
-
-<h1>🌌 Aurora Boreal</h1>
-
-<p class="subtitle">Área privada</p>
-
-<div class="box">
-
-<input
-type="password"
-id="password"
-placeholder="Escribe la contraseña">
-
-<button onclick="entrar()">ENTRAR</button>
-
-<p id="error">Contraseña incorrecta</p>
-
+<div id="login"><div class="loginBox"><h1>AURORA</h1><p>ÁREA PRIVADA</p><input id="password" type="password" placeholder="Escribe la contraseña"><button onclick="entrar()">ENTRAR</button><p id="error" class="err">Contraseña incorrecta</p></div></div>
+<div id="terminal"><div class="term"><div id="terminalText"></div><span class="cursor">█</span></div></div>
+<div id="app">
+<div class="top"><div class="brand">A U R O R A</div><div class="status">● <b>SYSTEM ONLINE</b></div></div>
+<div class="message" id="message"></div>
+<div class="scene"><div class="world" id="world">
+<svg viewBox="0 0 1000 700" preserveAspectRatio="none">
+<ellipse class="orbit" cx="500" cy="350" rx="330" ry="190"/><ellipse class="orbit" cx="500" cy="350" rx="220" ry="300" transform="rotate(55 500 350)"/>
+<path id="pathImages" class="flow cyan" d="M500 350 C390 280 310 185 190 210 C110 225 115 330 270 360 C365 378 410 310 500 350"/>
+<path id="pathFiles" class="flow blue" d="M500 350 C610 280 700 185 810 210 C900 230 875 330 730 360 C630 380 585 310 500 350"/>
+<path id="pathNotes" class="flow purple" d="M500 350 C390 410 300 520 175 500 C85 485 110 385 260 350 C360 325 410 405 500 350"/>
+<path id="pathSystem" class="flow green" d="M500 350 C610 410 700 520 825 500 C910 485 890 390 740 350 C640 325 590 405 500 350"/>
+<path class="flow2 cyan" d="M500 350 C365 230 270 170 130 260"/><path class="flow2 blue" d="M500 350 C635 230 730 170 870 260"/><path class="flow2 purple" d="M500 350 C350 470 260 560 120 455"/><path class="flow2 green" d="M500 350 C650 470 740 560 880 455"/>
+</svg>
+<div class="core"><span>AURORA</span></div>
+<div class="node images" data-target="images"><div class="icon">▧</div><strong>IMAGES</strong><small>FOTOS · GALERÍA</small></div>
+<div class="node files" data-target="files"><div class="icon">□</div><strong>FILES</strong><small>ARCHIVOS · DOCS</small></div>
+<div class="node notes" data-target="notes"><div class="icon">▤</div><strong>NOTES</strong><small>IDEAS · REGISTROS</small></div>
+<div class="node system" data-target="system"><div class="icon">⚙</div><strong>SYSTEM</strong><small>ESTADO · RED</small></div>
+</div></div>
+<form class="command" id="commandForm"><span>›</span><input id="commandInput" autocomplete="off" placeholder="Escribe un comando..."></form>
+<div class="help"><b>COMANDOS:</b> home · files · images · notes · system · help</div>
 </div>
-</div>
-
-
-<div id="terminal">
-
-<div id="terminalText"></div><span class="cursor">█</span>
-
-</div>
-
-
-<div id="contenido">
-
-<h1>🌌 Aurora Boreal</h1>
-
-<p class="subtitle">Archivos privados</p>
-
-<div class="box">
-
-<h2>📁 Mis archivos</h2>
-
-<a class="file" href="#">
-📄 Documentos
-</a>
-
-<a class="file" href="dNzkoOn.png">
-🖼️ Fotografías
-</a>
-
-<a class="file" href="#">
-📁 Otros archivos
-</a>
-
-</div>
-</div>
-
-</div>
-
-
+<div class="panel" id="panel"><div class="panelBox"><h2 id="panelTitle"></h2><div id="panelContent"></div><div class="close" onclick="home()">[ volver a AURORA ]</div></div></div>
 <script>
-
-function entrar() {
-
-let password =
-document.getElementById("password").value;
-
-if (password === "SAMARITAN") {
-
-document.getElementById("login").style.display = "none";
-
-document.getElementById("terminal").style.display = "block";
-
-let texto =
-"> INITIALIZING AURORA BOREAL...\n" +
-"> CONNECTING TO SYSTEM...\n" +
-"> CHECKING SECURITY...\n" +
-"> ACCESS GRANTED\n" +
-"> WELCOME, ADMIN\n" +
-"> SYSTEM ONLINE";
-
-let i = 0;
-
-let intervalo = setInterval(function() {
-
-document.getElementById("terminalText").textContent =
-texto.substring(0, i);
-
-i++;
-
-if (i > texto.length) {
-
-clearInterval(intervalo);
-
-setTimeout(function() {
-
-document.getElementById("terminal").style.display = "none";
-
-document.getElementById("contenido").style.display = "block";
-
-}, 1200);
-
-}
-
-}, 35);
-
-} else {
-
-document.getElementById("error").style.display = "block";
-
-}
-
-}
-
+function entrar(){const p=document.getElementById('password').value;if(p==='SAMARITAN'){document.getElementById('login').style.display='none';const t=document.getElementById('terminal');t.style.display='flex';let s='> INITIALIZING AURORA...\n> CONNECTING TO SYSTEM...\n> CHECKING SECURITY...\n> ACCESS GRANTED\n> WELCOME, ADMIN\n> SYSTEM ONLINE';let i=0;const out=document.getElementById('terminalText');const timer=setInterval(()=>{out.textContent=s.substring(0,i++);if(i>s.length){clearInterval(timer);setTimeout(()=>{t.style.display='none';document.getElementById('app').style.display='block'},800)}},28)}else document.getElementById('error').style.display='block'}
+const nodes=[...document.querySelectorAll('.node')];const world=document.getElementById('world');const msg=document.getElementById('message');
+function navigate(cmd){cmd=cmd.toLowerCase().trim();if(!cmd)return;if(cmd==='help'){showPanel('COMMANDS',['home — regresar al núcleo','files — archivos','images — fotografías','notes — notas','system — estado del sistema']);return}if(cmd==='home'){home();return}if(['files','images','notes','system'].includes(cmd)){focus(cmd);return}showPanel('UNKNOWN COMMAND',['Comando no reconocido.','Escribe: help']);}
+function focus(name){nodes.forEach(n=>n.classList.toggle('focus',n.dataset.target===name));nodes.forEach(n=>n.classList.toggle('dim',n.dataset.target!==name));const transforms={files:'translateX(-24%) scale(1.45)',images:'translateX(24%) scale(1.45)',notes:'translate(25%,-22%) scale(1.45)',system:'translate(-25%,-22%) scale(1.45)'};world.style.transform=transforms[name];msg.textContent='NAVIGATING → '+name.toUpperCase();msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),1600);setTimeout(()=>showPanel(name.toUpperCase(),content(name)),900)}
+function content(name){if(name==='images')return ['FOTOGRAFÍAS','Galería visual · dNzkoOn.png'];if(name==='files')return ['ARCHIVOS','Documentos · carpetas · descargas'];if(name==='notes')return ['NOTAS','Ideas · registros · apuntes'];return ['SYSTEM','Estado: ONLINE · Aurora activa'];}
+function showPanel(title,items){document.getElementById('panelTitle').textContent=title;document.getElementById('panelContent').innerHTML=items.map(x=>'<a href="#">'+x+'</a>').join('');document.getElementById('panel').style.display='flex'}
+function home(){document.getElementById('panel').style.display='none';nodes.forEach(n=>n.classList.remove('focus','dim'));world.style.transform='none';msg.classList.remove('show')}
+document.getElementById('commandForm').addEventListener('submit',e=>{e.preventDefault();navigate(document.getElementById('commandInput').value);document.getElementById('commandInput').value=''});document.getElementById('commandInput').addEventListener('keydown',e=>{if(e.key==='Escape')home()});nodes.forEach(n=>n.addEventListener('click',()=>navigate(n.dataset.target)));
 </script>
-
-</body>
-</html>
+</body></html>
