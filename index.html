@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Boreal</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #050914;
+    color: white;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: auto;
+    padding-top: 70px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 38px;
+}
+
+.subtitle {
+    color: #9ca8bd;
+}
+
+.box {
+    background: #0d1424;
+    border: 1px solid #26334d;
+    border-radius: 15px;
+    padding: 25px;
+    margin-top: 25px;
+}
+
+input {
+    width: 90%;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #34425d;
+    background: #080d18;
+    color: white;
+    font-size: 16px;
+}
+
+button {
+    width: 96%;
+    margin-top: 12px;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #4d7cff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#error {
+    color: #ff6262;
+    display: none;
+}
+
+#contenido {
+    display: none;
+}
+
+.file {
+    display: block;
+    background: #111b2e;
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 10px;
+    margin-top: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div id="login">
+
+<h1>🌌 Aurora Boreal</h1>
+
+<p class="subtitle">Área privada</p>
+
+<div class="box">
+
+<input
+type="password"
+id="password"
+placeholder="Escribe la contraseña">
+
+<button onclick="entrar()">ENTRAR</button>
+
+<p id="error">Contraseña incorrecta</p>
+
+</div>
+</div>
+
+
+<div id="contenido">
+
+<h1>🌌 Aurora Boreal</h1>
+
+<p class="subtitle">Archivos privados</p>
+
+<div class="box">
+
+<h2>📁 Mis archivos</h2>
+
+<a class="file" href="#">
+📄 Documentos
+</a>
+
+<a class="file" href="#">
+🖼️ Fotografías
+</a>
+
+<a class="file" href="#">
+📁 Otros archivos
+</a>
+
+</div>
+</div>
+
+</div>
+
+
+<script>
+
+function entrar() {
+
+let password =
+document.getElementById("password").value;
+
+if (password === "SAMARITAN") {
+
+document.getElementById("login").style.display = "none";
+
+document.getElementById("contenido").style.display = "block";
+
+} else {
+
+document.getElementById("error").style.display = "block";
+
+}
+
+}
+
+</script>
+
+</body>
+  </html>
