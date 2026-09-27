@@ -4,261 +4,972 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aurora Boreal</title>
+
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;color:#dffcff;font-family:Arial,Helvetica,sans-serif}body{position:relative}
-body:before,body:after{content:"";position:fixed;width:70vw;height:70vh;border-radius:50%;filter:blur(100px);opacity:.2;pointer-events:none;z-index:0}body:before{background:#00ff9d;left:-20%;top:-25%;animation:a1 10s ease-in-out infinite alternate}body:after{background:#155cff;right:-20%;bottom:-25%;animation:a2 12s ease-in-out infinite alternate}@keyframes a1{to{transform:translate(30vw,18vh) scale(1.3)}}@keyframes a2{to{transform:translate(-25vw,-20vh) scale(1.3)}}
-#login{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:#020711}.loginBox{width:min(420px,90vw);padding:34px;border:1px solid #1ce9d0;border-radius:18px;background:#07101ce8;box-shadow:0 0 45px #00e0c52b;text-align:center}.loginBox h1{letter-spacing:10px;margin:0 0 8px;font-weight:400}.loginBox p{color:#7794a8}.loginBox input{width:100%;padding:15px;border-radius:9px;border:1px solid #294354;background:#030912;color:#fff;outline:none}.loginBox button{width:100%;margin-top:12px;padding:14px;border:1px solid #18e7d2;border-radius:9px;background:#07302f;color:#bffff8;font-weight:bold}.err{display:none;color:#ff6175!important}
-#terminal{position:fixed;inset:0;z-index:19;display:none;align-items:center;justify-content:center;background:#010706}.term{width:min(650px,88vw);padding:25px;color:#28ff91;font-family:monospace;line-height:1.8;border:1px solid #20ff75;background:#020a06;box-shadow:0 0 40px #20ff7522}.cursor{animation:blink .7s infinite}@keyframes blink{50%{opacity:0}}
-#app{position:fixed;inset:0;z-index:2;display:none}.top{position:absolute;top:22px;left:30px;right:30px;display:flex;justify-content:space-between;z-index:5;letter-spacing:4px}.brand{color:#25eee0;font-size:22px}.status{font-size:11px;color:#7ca3ad;letter-spacing:2px}.status b{color:#1fffb0}.scene{position:absolute;inset:0;perspective:900px;overflow:hidden}.world{position:absolute;width:100%;height:100%;transform-style:preserve-3d;transition:transform 1.5s cubic-bezier(.2,.8,.2,1)}
-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.flow{fill:none;stroke-width:2;opacity:.75;stroke-dasharray:7 13;animation:flow 7s linear infinite}.flow2{fill:none;stroke-width:1;opacity:.25}.cyan{stroke:#17e8db}.blue{stroke:#3c8dff}.purple{stroke:#b65cff}.green{stroke:#35ffa2}@keyframes flow{to{stroke-dashoffset:-200}}
-.orbit{fill:none;stroke:#43e8dd;stroke-width:1;opacity:.16}.particle{fill:#fff;filter:drop-shadow(0 0 6px currentColor)}
-.core{position:absolute;left:50%;top:50%;width:175px;height:175px;transform:translate(-50%,-50%);border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid #35fff0;background:radial-gradient(circle,#0b3940 0%,#04141e 45%,#020711 72%);box-shadow:0 0 25px #16e8d355,0 0 90px #16e8d322;z-index:4}.core:before,.core:after{content:"";position:absolute;border-radius:50%;border:1px solid #35fff055}.core:before{inset:-18px;animation:spin 12s linear infinite}.core:after{inset:-35px;border-style:dashed;animation:spin 18s linear infinite reverse}.core span{letter-spacing:9px;font-size:24px;color:#bffff9;margin-left:9px}@keyframes spin{to{transform:rotate(360deg)}}
-.node{position:absolute;width:112px;height:112px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#03111cbb;border:1px solid currentColor;box-shadow:0 0 25px currentColor;z-index:3;transition:1s}.node strong{font-size:12px;letter-spacing:3px}.node small{font-size:9px;margin-top:7px;opacity:.65;letter-spacing:1px}.images{left:19%;top:22%;color:#22f0dd}.files{right:19%;top:22%;color:#4d9dff}.notes{left:17%;bottom:20%;color:#bd64ff}.system{right:17%;bottom:20%;color:#38ffa4}.node.focus{transform:scale(1.35);box-shadow:0 0 35px currentColor,0 0 90px currentColor}.node.dim{opacity:.12;filter:blur(2px)}
-.icon{font-size:25px;margin-bottom:5px}.command{position:absolute;left:50%;bottom:42px;transform:translateX(-50%);width:min(760px,82vw);height:58px;border:1px solid #20e9d6;border-radius:35px;background:#020b14d9;box-shadow:0 0 35px #00e0d522;display:flex;align-items:center;padding:0 20px;z-index:10}.command span{color:#23f2df;font-size:24px;margin-right:12px}.command input{flex:1;background:none;border:0;outline:0;color:#dff;font-size:16px;font-family:monospace}.command input::placeholder{color:#58717f}.help{position:absolute;bottom:12px;left:30px;color:#547887;font:11px monospace;letter-spacing:1px}.help b{color:#1ce8d4}.message{position:absolute;top:100px;left:50%;transform:translateX(-50%);color:#76a8b4;font:11px monospace;letter-spacing:3px;opacity:0;transition:.4s}.message.show{opacity:1}
-.panel{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#010812e8;z-index:15}.panelBox{width:min(650px,88vw);padding:30px;border:1px solid #20e9d6;background:#06131eeF;box-shadow:0 0 50px #00e0d533}.panelBox h2{letter-spacing:5px;color:#4fffe9}.panelBox a{display:block;color:#dff;text-decoration:none;padding:13px;border-bottom:1px solid #17313b}.close{margin-top:20px;color:#1ff0dd;cursor:pointer;font-family:monospace}
-.dataGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;max-height:48vh;overflow:auto;margin-top:15px}
-.dataCard{display:block!important;border:1px solid #17313b!important;padding:10px!important;background:#030b14;text-decoration:none}
-.dataCard:hover{border-color:#20e9d6!important;box-shadow:0 0 18px #00e0d522}
-.dataCard img{width:100%;height:115px;object-fit:cover;display:block;margin-bottom:8px}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020711;color:#dffcff;font-family:Arial,Helvetica,sans-serif}
+body{position:relative}
+
+body:before,body:after{
+content:"";position:fixed;width:70vw;height:70vh;border-radius:50%;
+filter:blur(100px);opacity:.2;pointer-events:none;z-index:0
+}
+body:before{background:#00ff9d;left:-20%;top:-25%;animation:a1 10s ease-in-out infinite alternate}
+body:after{background:#155cff;right:-20%;bottom:-25%;animation:a2 12s ease-in-out infinite alternate}
+
+@keyframes a1{to{transform:translate(30vw,18vh) scale(1.3)}}
+@keyframes a2{to{transform:translate(-25vw,-20vh) scale(1.3)}}
+
+#login{
+position:fixed;inset:0;z-index:20;display:flex;align-items:center;
+justify-content:center;background:#020711
+}
+.loginBox{
+width:min(420px,90vw);padding:34px;border:1px solid #1ce9d0;
+border-radius:18px;background:#07101ce8;box-shadow:0 0 45px #00e0c52b;
+text-align:center
+}
+.loginBox h1{letter-spacing:10px;margin:0 0 8px;font-weight:400}
+.loginBox p{color:#7794a8}
+.loginBox input{
+width:100%;padding:15px;border-radius:9px;border:1px solid #294354;
+background:#030912;color:#fff;outline:none
+}
+.loginBox button{
+width:100%;margin-top:12px;padding:14px;border:1px solid #18e7d2;
+border-radius:9px;background:#07302f;color:#bffff8;font-weight:bold
+}
+.err{display:none;color:#ff6175!important}
+
+#terminal{
+position:fixed;inset:0;z-index:19;display:none;align-items:center;
+justify-content:center;background:#010706
+}
+.term{
+width:min(650px,88vw);padding:25px;color:#28ff91;font-family:monospace;
+line-height:1.8;border:1px solid #20ff75;background:#020a06;
+box-shadow:0 0 40px #20ff7522
+}
+.cursor{animation:blink .7s infinite}
+@keyframes blink{50%{opacity:0}}
+
+#app{position:fixed;inset:0;z-index:2;display:none}
+
+.top{
+position:absolute;top:22px;left:30px;right:30px;display:flex;
+justify-content:space-between;z-index:5;letter-spacing:4px
+}
+.brand{color:#25eee0;font-size:22px}
+.status{font-size:11px;color:#7ca3ad;letter-spacing:2px}
+.status b{color:#1fffb0}
+
+.scene{position:absolute;inset:0;perspective:900px;overflow:hidden}
+.world{
+position:absolute;width:100%;height:100%;transform-style:preserve-3d;
+transition:transform 1.5s cubic-bezier(.2,.8,.2,1)
+}
+
+svg{
+position:absolute;inset:0;width:100%;height:100%;overflow:visible
+}
+.flow{
+fill:none;stroke-width:2;opacity:.75;stroke-dasharray:7 13;
+animation:flow 7s linear infinite
+}
+.flow2{fill:none;stroke-width:1;opacity:.25}
+.cyan{stroke:#17e8db}
+.blue{stroke:#3c8dff}
+.purple{stroke:#b65cff}
+.green{stroke:#35ffa2}
+@keyframes flow{to{stroke-dashoffset:-200}}
+
+.orbit{fill:none;stroke:#43e8dd;stroke-width:1;opacity:.16}
+.particle{fill:#fff;filter:drop-shadow(0 0 6px currentColor)}
+
+.core{
+position:absolute;left:50%;top:50%;width:175px;height:175px;
+transform:translate(-50%,-50%);border-radius:50%;display:flex;
+align-items:center;justify-content:center;border:1px solid #35fff0;
+background:radial-gradient(circle,#0b3940 0%,#04141e 45%,#020711 72%);
+box-shadow:0 0 25px #16e8d355,0 0 90px #16e8d322;z-index:4
+}
+.core:before,.core:after{
+content:"";position:absolute;border-radius:50%;border:1px solid #35fff055
+}
+.core:before{inset:-18px;animation:spin 12s linear infinite}
+.core:after{
+inset:-35px;border-style:dashed;animation:spin 18s linear infinite reverse
+}
+.core span{letter-spacing:9px;font-size:24px;color:#bffff9;margin-left:9px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.node{
+position:absolute;width:112px;height:112px;border-radius:50%;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+background:#03111cbb;border:1px solid currentColor;box-shadow:0 0 25px currentColor;
+z-index:3;transition:1s
+}
+.node strong{font-size:12px;letter-spacing:3px}
+.node small{font-size:9px;margin-top:7px;opacity:.65;letter-spacing:1px}
+.images{left:19%;top:22%;color:#22f0dd}
+.files{right:19%;top:22%;color:#4d9dff}
+.notes{left:17%;bottom:20%;color:#bd64ff}
+.system{right:17%;bottom:20%;color:#38ffa4}
+.node.focus{
+transform:scale(1.35);
+box-shadow:0 0 35px currentColor,0 0 90px currentColor
+}
+.node.dim{opacity:.12;filter:blur(2px)}
+
+.icon{font-size:25px;margin-bottom:5px}
+
+.command{
+position:absolute;left:50%;bottom:42px;transform:translateX(-50%);
+width:min(760px,82vw);height:58px;border:1px solid #20e9d6;
+border-radius:35px;background:#020b14d9;box-shadow:0 0 35px #00e0d522;
+display:flex;align-items:center;padding:0 20px;z-index:10
+}
+.command span{color:#23f2df;font-size:24px;margin-right:12px}
+.command input{
+flex:1;background:none;border:0;outline:0;color:#dff;font-size:16px;
+font-family:monospace
+}
+.command input::placeholder{color:#58717f}
+
+.help{
+position:absolute;bottom:12px;left:30px;color:#547887;
+font:11px monospace;letter-spacing:1px
+}
+.help b{color:#1ce8d4}
+
+.message{
+position:absolute;top:100px;left:50%;transform:translateX(-50%);
+color:#76a8b4;font:11px monospace;letter-spacing:3px;
+opacity:0;transition:.4s
+}
+.message.show{opacity:1}
+
+.panel{
+position:absolute;inset:0;display:none;align-items:center;
+justify-content:center;background:#010812e8;z-index:15
+}
+.panelBox{
+width:min(650px,88vw);padding:30px;border:1px solid #20e9d6;
+background:#06131eeF;box-shadow:0 0 50px #00e0d533
+}
+.panelBox h2{letter-spacing:5px;color:#4fffe9}
+.panelBox a{
+display:block;color:#dff;text-decoration:none;padding:13px;
+border-bottom:1px solid #17313b
+}
+.close{
+margin-top:20px;color:#1ff0dd;cursor:pointer;font-family:monospace
+}
+
+.dataGrid{
+display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+gap:12px;max-height:48vh;overflow:auto;margin-top:15px
+}
+.dataCard{
+display:block!important;border:1px solid #17313b!important;
+padding:10px!important;background:#030b14;text-decoration:none
+}
+.dataCard:hover{
+border-color:#20e9d6!important;box-shadow:0 0 18px #00e0d522
+}
+.dataCard img{
+width:100%;height:115px;object-fit:cover;display:block;margin-bottom:8px
+}
 .fileIcon{font-size:28px;margin-bottom:8px}
 .fileName{font-size:11px;word-break:break-word;color:#dff}
 .fileMeta{font-size:9px;color:#6f909c;margin-top:5px}
 .empty{color:#6f909c;font:12px monospace;padding:20px 0}
 .loading{color:#4fffe9;font:12px monospace;padding:20px 0}
-.systemGrid{display:grid;gap:8px;margin-top:15px}.systemRow{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid #17313b;padding:10px 0;font:11px monospace}.systemRow b{color:#4fffe9;font-weight:normal}
 
-@media(max-width:700px){.top{left:15px;right:15px;top:15px}.brand{font-size:16px}.core{width:125px;height:125px}.core span{font-size:17px}.node{width:86px;height:86px}.node strong{font-size:9px}.node small{display:none}.images{left:5%;top:23%}.files{right:5%;top:23%}.notes{left:5%;bottom:23%}.system{right:5%;bottom:23%}.command{bottom:30px;width:92vw}.help{display:none}}
+.systemGrid{display:grid;gap:8px;margin-top:15px}
+.systemRow{
+display:flex;justify-content:space-between;gap:20px;
+border-bottom:1px solid #17313b;padding:10px 0;font:11px monospace
+}
+.systemRow b{color:#4fffe9;font-weight:normal}
+
+
+/* =========================================================
+   AURORA ADMIN MODE
+   ========================================================= */
+
+#adminOverlay{
+position:fixed;
+inset:0;
+z-index:100;
+display:none;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+background:
+radial-gradient(circle at center,#061b24 0%,#020711 45%,#000308 100%);
+}
+
+#adminOverlay:before{
+content:"";
+position:absolute;
+inset:0;
+background:
+linear-gradient(rgba(20,255,220,.035) 1px,transparent 1px),
+linear-gradient(90deg,rgba(20,255,220,.035) 1px,transparent 1px);
+background-size:45px 45px;
+mask-image:linear-gradient(to bottom,transparent,#000 20%,#000 80%,transparent);
+pointer-events:none;
+}
+
+.adminAurora{
+position:absolute;
+width:65vw;
+height:35vh;
+border-radius:50%;
+filter:blur(60px);
+opacity:.22;
+pointer-events:none;
+}
+
+.adminAurora.a1{
+background:#00ffd5;
+left:-20%;
+top:5%;
+animation:adminA1 8s ease-in-out infinite alternate;
+}
+
+.adminAurora.a2{
+background:#145eff;
+right:-20%;
+bottom:0;
+animation:adminA2 10s ease-in-out infinite alternate;
+}
+
+.adminAurora.a3{
+background:#a83cff;
+left:20%;
+bottom:-25%;
+opacity:.16;
+animation:adminA3 12s ease-in-out infinite alternate;
+}
+
+@keyframes adminA1{
+to{transform:translate(35vw,20vh) rotate(15deg) scale(1.35)}
+}
+@keyframes adminA2{
+to{transform:translate(-30vw,-15vh) rotate(-15deg) scale(1.3)}
+}
+@keyframes adminA3{
+to{transform:translate(5vw,-20vh) scale(1.5)}
+}
+
+.adminParticles{
+position:absolute;
+inset:0;
+opacity:.45;
+background-image:
+radial-gradient(circle,#42ffe6 1px,transparent 1.5px),
+radial-gradient(circle,#468dff 1px,transparent 1.5px),
+radial-gradient(circle,#c05cff 1px,transparent 1.5px);
+background-size:80px 90px,120px 130px,170px 160px;
+background-position:10px 20px,50px 70px,20px 40px;
+animation:adminParticlesMove 18s linear infinite;
+pointer-events:none;
+}
+
+@keyframes adminParticlesMove{
+to{
+background-position:180px 250px,-200px 160px,250px -180px;
+}
+}
+
+#adminLogin,
+.adminCore{
+position:relative;
+z-index:5;
+width:min(700px,90vw);
+border:1px solid #25f5df;
+background:rgba(2,12,22,.88);
+box-shadow:
+0 0 25px #00ffe033,
+0 0 90px #00bfff16,
+inset 0 0 35px #00ffe00b;
+backdrop-filter:blur(12px);
+}
+
+#adminLogin{
+width:min(430px,88vw);
+padding:38px;
+text-align:center;
+border-radius:20px;
+animation:adminAppear .7s ease;
+}
+
+@keyframes adminAppear{
+from{opacity:0;transform:scale(.8) translateY(30px)}
+to{opacity:1;transform:scale(1) translateY(0)}
+}
+
+#adminLogin:before,
+.adminCore:before{
+content:"";
+position:absolute;
+inset:8px;
+border:1px solid #ffffff0a;
+pointer-events:none;
+}
+
+#adminLogin h2{
+margin:0;
+color:#52ffe9;
+letter-spacing:8px;
+font-weight:400;
+text-shadow:0 0 15px #00ffe0;
+}
+
+#adminLogin p{
+font:10px monospace;
+letter-spacing:3px;
+color:#638997;
+margin:14px 0 25px;
+}
+
+#adminPassword{
+width:100%;
+padding:15px;
+border:1px solid #164855;
+background:#01070d;
+color:#bffff8;
+outline:none;
+font-family:monospace;
+text-align:center;
+letter-spacing:3px;
+}
+
+#adminPassword:focus{
+border-color:#25f5df;
+box-shadow:0 0 18px #00ffe022;
+}
+
+.adminAccess{
+width:100%;
+margin-top:14px;
+padding:14px;
+border:1px solid #21f0d8;
+background:#06302f;
+color:#bffff8;
+cursor:pointer;
+font-family:monospace;
+letter-spacing:3px;
+transition:.3s;
+}
+
+.adminAccess:hover{
+background:#0b5550;
+box-shadow:0 0 25px #00ffe044;
+transform:translateY(-2px);
+}
+
+.adminError{
+display:none!important;
+color:#ff526d!important;
+margin:15px 0!important;
+text-shadow:0 0 10px #ff1744;
+}
+
+.adminCancel,
+.adminExit{
+margin-top:22px;
+font:10px monospace;
+letter-spacing:3px;
+color:#557f8c;
+cursor:pointer;
+transition:.3s;
+}
+
+.adminCancel:hover,
+.adminExit:hover{
+color:#4fffe9;
+text-shadow:0 0 10px #00ffe0;
+}
+
+.adminCore{
+padding:35px;
+border-radius:24px;
+animation:adminMenuAppear .7s ease;
+}
+
+@keyframes adminMenuAppear{
+from{opacity:0;transform:scale(.75);filter:blur(8px)}
+to{opacity:1;transform:scale(1);filter:blur(0)}
+}
+
+.adminHeader{
+text-align:center;
+font-size:25px;
+letter-spacing:10px;
+color:#52ffe9;
+text-shadow:0 0 20px #00ffe0;
+}
+
+.adminSub{
+text-align:center;
+margin-top:10px;
+font:10px monospace;
+letter-spacing:3px;
+color:#658d99;
+}
+
+.adminGrid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px;
+margin-top:32px;
+}
+
+.adminButton{
+position:relative;
+min-height:100px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:10px;
+border:1px solid #17515c;
+background:linear-gradient(145deg,#061923,#020a12);
+color:#b8fff8;
+font:11px monospace;
+letter-spacing:2px;
+cursor:pointer;
+overflow:hidden;
+transition:.35s;
+}
+
+.adminButton span{
+font-size:27px;
+color:#43ffe8;
+text-shadow:0 0 15px #00ffe0;
+}
+
+.adminButton:before{
+content:"";
+position:absolute;
+left:-100%;
+top:0;
+width:100%;
+height:1px;
+background:#4fffe9;
+box-shadow:0 0 12px #00ffe0;
+transition:.5s;
+}
+
+.adminButton:hover{
+border-color:#32f7df;
+box-shadow:
+0 0 20px #00ffe022,
+inset 0 0 25px #00ffe00b;
+transform:translateY(-4px) scale(1.02);
+}
+
+.adminButton:hover:before{
+left:100%;
+}
+
+.adminButton:active{
+transform:scale(.97);
+}
+
+.adminExit{
+text-align:center;
+margin-top:28px;
+}
+
+#adminMessage{
+animation:adminMessageIn .4s ease;
+}
+
+@keyframes adminMessageIn{
+from{opacity:0;transform:translateX(-50%) translateY(-15px)}
+to{opacity:1;transform:translateX(-50%) translateY(0)}
+}
+
+@media(max-width:700px){
+
+.top{
+left:15px;
+right:15px;
+top:15px
+}
+
+.brand{font-size:16px}
+
+.core{
+width:125px;
+height:125px
+}
+
+.core span{font-size:17px}
+
+.node{
+width:86px;
+height:86px
+}
+
+.node strong{font-size:9px}
+.node small{display:none}
+
+.images{left:5%;top:23%}
+.files{right:5%;top:23%}
+.notes{left:5%;bottom:23%}
+.system{right:5%;bottom:23%}
+
+.command{
+bottom:30px;
+width:92vw
+}
+
+.help{display:none}
+
+.adminCore{
+width:92vw;
+padding:25px 15px;
+}
+
+.adminGrid{
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+.adminButton{
+min-height:85px;
+font-size:9px;
+letter-spacing:1px;
+}
+
+.adminButton span{
+font-size:22px;
+}
+
+.adminHeader{
+font-size:19px;
+letter-spacing:6px;
+}
+
+.adminSub{
+font-size:8px;
+letter-spacing:2px;
+}
+}
+
 </style>
 </head>
+
 <body>
-<div id="login"><div class="loginBox"><h1>AURORA</h1><p>ÁREA PRIVADA</p><input id="password" type="password" placeholder="Escribe la contraseña"><button onclick="entrar()">ENTRAR</button><p id="error" class="err">Contraseña incorrecta</p></div></div>
-<div id="terminal"><div class="term"><div id="terminalText"></div><span class="cursor">█</span></div></div>
+
+<div id="login">
+<div class="loginBox">
+<h1>AURORA</h1>
+<p>ÁREA PRIVADA</p>
+<input id="password" type="password" placeholder="Escribe la contraseña">
+<button onclick="entrar()">ENTRAR</button>
+<p id="error" class="err">Contraseña incorrecta</p>
+</div>
+</div>
+
+<div id="terminal">
+<div class="term">
+<div id="terminalText"></div>
+<span class="cursor">█</span>
+</div>
+</div>
+
 <div id="app">
-<div class="top"><div class="brand">A U R O R A</div><div class="status">● <b>SYSTEM ONLINE</b></div></div>
+
+<div class="top">
+<div class="brand">A U R O R A</div>
+<div class="status">● <b>SYSTEM ONLINE</b></div>
+</div>
+
 <div class="message" id="message"></div>
-<div class="scene"><div class="world" id="world">
+
+<div class="scene">
+<div class="world" id="world">
+
 <svg viewBox="0 0 1000 700" preserveAspectRatio="none">
-<ellipse class="orbit" cx="500" cy="350" rx="330" ry="190"/><ellipse class="orbit" cx="500" cy="350" rx="220" ry="300" transform="rotate(55 500 350)"/>
+
+<ellipse class="orbit" cx="500" cy="350" rx="330" ry="190"/>
+<ellipse class="orbit" cx="500" cy="350" rx="220" ry="300" transform="rotate(55 500 350)"/>
+
 <path id="pathImages" class="flow cyan" d="M500 350 C390 280 310 185 190 210 C110 225 115 330 270 360 C365 378 410 310 500 350"/>
 <path id="pathFiles" class="flow blue" d="M500 350 C610 280 700 185 810 210 C900 230 875 330 730 360 C630 380 585 310 500 350"/>
 <path id="pathNotes" class="flow purple" d="M500 350 C390 410 300 520 175 500 C85 485 110 385 260 350 C360 325 410 405 500 350"/>
 <path id="pathSystem" class="flow green" d="M500 350 C610 410 700 520 825 500 C910 485 890 390 740 350 C640 325 590 405 500 350"/>
-<path class="flow2 cyan" d="M500 350 C365 230 270 170 130 260"/><path class="flow2 blue" d="M500 350 C635 230 730 170 870 260"/><path class="flow2 purple" d="M500 350 C350 470 260 560 120 455"/><path class="flow2 green" d="M500 350 C650 470 740 560 880 455"/>
+
+<path class="flow2 cyan" d="M500 350 C365 230 270 170 130 260"/>
+<path class="flow2 blue" d="M500 350 C635 230 730 170 870 260"/>
+<path class="flow2 purple" d="M500 350 C350 470 260 560 120 455"/>
+<path class="flow2 green" d="M500 350 C650 470 740 560 880 455"/>
+
 </svg>
-<div class="core"><span>AURORA</span></div>
-<div class="node images" data-target="images"><div class="icon">▧</div><strong>IMAGES</strong><small>FOTOS · GALERÍA</small></div>
-<div class="node files" data-target="files"><div class="icon">□</div><strong>FILES</strong><small>ARCHIVOS · DOCS</small></div>
-<div class="node notes" data-target="notes"><div class="icon">▤</div><strong>NOTES</strong><small>IDEAS · REGISTROS</small></div>
-<div class="node system" data-target="system"><div class="icon">⚙</div><strong>SYSTEM</strong><small>ESTADO · RED</small></div>
-</div></div>
-<form class="command" id="commandForm"><span>›</span><input id="commandInput" autocomplete="off" placeholder="Escribe un comando..."></form>
-<div class="help"><b>COMANDOS:</b> home · files · images · notes · system · help</div>
+
+<div class="core">
+<span>AURORA</span>
 </div>
-<div class="panel" id="panel"><div class="panelBox"><h2 id="panelTitle"></h2><div id="panelContent"></div><div class="close" onclick="home()">[ volver a AURORA ]</div></div></div>
+
+<div class="node images" data-target="images">
+<div class="icon">▧</div>
+<strong>IMAGES</strong>
+<small>FOTOS · GALERÍA</small>
+</div>
+
+<div class="node files" data-target="files">
+<div class="icon">□</div>
+<strong>FILES</strong>
+<small>ARCHIVOS · DOCS</small>
+</div>
+
+<div class="node notes" data-target="notes">
+<div class="icon">▤</div>
+<strong>NOTES</strong>
+<small>IDEAS · REGISTROS</small>
+</div>
+
+<div class="node system" data-target="system">
+<div class="icon">⚙</div>
+<strong>SYSTEM</strong>
+<small>ESTADO · RED</small>
+</div>
+
+</div>
+</div>
+
+<form class="command" id="commandForm">
+<span>›</span>
+<input id="commandInput" autocomplete="off" placeholder="Escribe un comando...">
+</form>
+
+<div class="help">
+<b>COMANDOS:</b> home · files · images · notes · system · help
+</div>
+
+</div>
+
+<div class="panel" id="panel">
+<div class="panelBox">
+<h2 id="panelTitle"></h2>
+<div id="panelContent"></div>
+<div class="close" onclick="home()">[ volver a AURORA ]</div>
+</div>
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     AURORA ADMIN
+     ===================================================== -->
+
+<div id="adminOverlay">
+
+<div class="adminAurora a1"></div>
+<div class="adminAurora a2"></div>
+<div class="adminAurora a3"></div>
+<div class="adminParticles"></div>
+
+
+<!-- LOGIN ADMIN -->
+
+<div id="adminLogin">
+
+<h2>ADMIN ACCESS</h2>
+
+<p>
+AURORA ADMINISTRATOR PROTOCOL
+</p>
+
+<input
+id="adminPassword"
+type="password"
+placeholder="ENTER ADMIN PASSWORD"
+autocomplete="off"
+>
+
+<button class="adminAccess" onclick="authenticateAdmin()">
+AUTHENTICATE
+</button>
+
+<p id="adminError" class="adminError">
+ACCESS DENIED
+</p>
+
+<div class="adminCancel" onclick="closeAdmin()">
+[ CANCEL ]
+</div>
+
+</div>
+
+
+<!-- MENU ADMIN -->
+
+<div id="adminMenu" class="adminCore" style="display:none">
+
+<div class="adminHeader">
+A U R O R A
+</div>
+
+<div class="adminSub">
+ADMIN CONTROL SYSTEM · ACCESS GRANTED
+</div>
+
+<div class="adminGrid">
+
+<div class="adminButton" onclick="adminAction('SYSTEM')">
+<span>⚙</span>
+SYSTEM
+</div>
+
+<div class="adminButton" onclick="adminAction('FILES')">
+<span>□</span>
+FILE MANAGER
+</div>
+
+<div class="adminButton" onclick="adminAction('NOTES')">
+<span>▤</span>
+NOTES
+</div>
+
+<div class="adminButton" onclick="adminAction('IMAGES')">
+<span>▧</span>
+IMAGES
+</div>
+
+<div class="adminButton" onclick="adminAction('ACTIVITY')">
+<span>◈</span>
+ACTIVITY LOG
+</div>
+
+<div class="adminButton" onclick="adminAction('SETTINGS')">
+<span>⚙</span>
+SETTINGS
+</div>
+
+</div>
+
+<div class="adminExit" onclick="closeAdmin()">
+[ EXIT ADMIN MODE ]
+</div>
+
+</div>
+
+</div>
+
+
 <script>
-function entrar(){const p=document.getElementById('password').value;if(p==='SAMARITAN'){document.getElementById('login').style.display='none';const t=document.getElementById('terminal');t.style.display='flex';let s=`> INITIALIZING AURORA...
+
+function entrar(){
+
+const p=document.getElementById('password').value;
+
+if(p==='SAMARITAN'){
+
+document.getElementById('login').style.display='none';
+
+const t=document.getElementById('terminal');
+
+t.style.display='flex';
+
+let s=`> INITIALIZING AURORA...
 > CONNECTING TO SYSTEM...
 > CHECKING SECURITY...
 > ACCESS GRANTED
 > WELCOME, ADMIN
-> SYSTEM ONLINE`;let i=0;const out=document.getElementById('terminalText');const timer=setInterval(()=>{out.textContent=s.substring(0,i++);if(i>s.length){clearInterval(timer);setTimeout(()=>{t.style.display='none';document.getElementById('app').style.display='block'},800)}},28)}else document.getElementById('error').style.display='block'}
+> SYSTEM ONLINE`;
+
+let i=0;
+
+const out=document.getElementById('terminalText');
+
+const timer=setInterval(()=>{
+
+out.textContent=s.substring(0,i++);
+
+if(i>s.length){
+
+clearInterval(timer);
+
+setTimeout(()=>{
+
+t.style.display='none';
+
+document.getElementById('app').style.display='block';
+
+},800);
+
+}
+
+},28);
+
+}else{
+
+document.getElementById('error').style.display='block';
+
+}
+
+}
+
 
 const nodes=[...document.querySelectorAll('.node')];
 const world=document.getElementById('world');
 const msg=document.getElementById('message');
 
+
 /* AURORA se conecta al repositorio público donde está alojada. */
+
 function getRepoInfo(){
-  const host=location.hostname;
-  if(!host.endsWith('.github.io')) return null;
-  const owner=host.split('.')[0];
-  const parts=location.pathname.split('/').filter(Boolean);
-  const repo=parts.length ? parts[0] : owner+'.github.io';
-  return {owner,repo};
+
+const host=location.hostname;
+
+if(!host.endsWith('.github.io')) return null;
+
+const owner=host.split('.')[0];
+
+const parts=location.pathname.split('/').filter(Boolean);
+
+const repo=parts.length ? parts[0] : owner+'.github.io';
+
+return {owner,repo};
+
 }
+
 
 function apiUrl(folder){
-  const r=getRepoInfo();
-  return r ? `https://api.github.com/repos/${r.owner}/${r.repo}/contents/${folder}` : null;
+
+const r=getRepoInfo();
+
+return r ? `https://api.github.com/repos/${r.owner}/${r.repo}/contents/${folder}` : null;
+
 }
+
 
 function esc(v){
-  return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+
+return String(v).replace(/[&<>"']/g,m=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#039;'
+}[m]));
+
 }
+
 
 async function getFolder(folder){
-  const url=apiUrl(folder);
-  if(!url) throw new Error('REPO_NOT_DETECTED');
-  const res=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
-  if(res.status===404) return [];
-  if(!res.ok) throw new Error('GITHUB_'+res.status);
-  const data=await res.json();
-  return Array.isArray(data) ? data : [];
+
+const url=apiUrl(folder);
+
+if(!url) throw new Error('REPO_NOT_DETECTED');
+
+const res=await fetch(url,{
+headers:{Accept:'application/vnd.github+json'}
+});
+
+if(res.status===404) return [];
+
+if(!res.ok) throw new Error('GITHUB_'+res.status);
+
+const data=await res.json();
+
+return Array.isArray(data) ? data : [];
+
 }
+
 
 function formatSize(bytes){
-  if(bytes<1024)return bytes+' B';
-  if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';
-  return (bytes/1024/1024).toFixed(1)+' MB';
+
+if(bytes<1024)return bytes+' B';
+
+if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';
+
+return (bytes/1024/1024).toFixed(1)+' MB';
+
 }
+
 
 function showLoading(title){
-  document.getElementById('panelTitle').textContent=title;
-  document.getElementById('panelContent').innerHTML='<div class="loading">> CONNECTING TO AURORA STORAGE...</div>';
-  document.getElementById('panel').style.display='flex';
+
+document.getElementById('panelTitle').textContent=title;
+
+document.getElementById('panelContent').innerHTML=
+'<div class="loading">> CONNECTING TO AURORA STORAGE...</div>';
+
+document.getElementById('panel').style.display='flex';
+
 }
+
 
 async function renderImages(){
-  showLoading('IMAGES');
-  try{
-    const items=await getFolder('images');
-    const imgs=items.filter(x=>x.type==='file' && /\.(png|jpe?g|gif|webp|svg|bmp|avif)$/i.test(x.name));
-    if(!imgs.length){
-      document.getElementById('panelContent').innerHTML='<div class="empty">> NO IMAGES FOUND<br><br>Sube tus fotos a la carpeta <b>images</b> del repositorio.</div>';
-      return;
-    }
-    document.getElementById('panelContent').innerHTML='<div class="dataGrid">'+imgs.map(x=>`
-      <a class="dataCard" href="${esc(x.download_url||x.html_url)}" target="_blank" rel="noopener">
-        <img src="${esc(x.download_url)}" alt="${esc(x.name)}">
-        <div class="fileName">${esc(x.name)}</div>
-        <div class="fileMeta">ABRIR · ${formatSize(x.size||0)}</div>
-      </a>`).join('')+'</div>';
-  }catch(e){showError(e);}
+
+showLoading('IMAGES');
+
+try{
+
+const items=await getFolder('images');
+
+const imgs=items.filter(x=>
+x.type==='file' &&
+/\.(png|jpe?g|gif|webp|svg|bmp|avif)$/i.test(x.name)
+);
+
+if(!imgs.length){
+
+document.getElementById('panelContent').innerHTML=
+'<div class="empty">> NO IMAGES FOUND<br><br>Sube tus fotos a la carpeta <b>images</b> del repositorio.</div>';
+
+return;
+
 }
+
+document.getElementById('panelContent').innerHTML=
+'<div class="dataGrid">'+
+
+imgs.map(x=>`
+
+<a class="dataCard"
+href="${esc(x.download_url||x.html_url)}"
+target="_blank"
+rel="noopener">
+
+<img src="${esc(x.download_url)}" alt="${esc(x.name)}">
+
+<div class="fileName">${esc(x.name)}</div>
+
+<div class="fileMeta">
+ABRIR · ${formatSize(x.size||0)}
+</div>
+
+</a>
+
+`).join('')+
+
+'</div>';
+
+}catch(e){
+
+showError(e);
+
+}
+
+}
+
 
 async function renderFiles(){
-  showLoading('FILES');
-  try{
-    const items=await getFolder('files');
-    const files=items.filter(x=>x.type==='file');
-    if(!files.length){
-      document.getElementById('panelContent').innerHTML='<div class="empty">> NO FILES FOUND<br><br>Sube tus archivos a la carpeta <b>files</b> del repositorio.</div>';
-      return;
-    }
-    document.getElementById('panelContent').innerHTML='<div class="dataGrid">'+files.map(x=>`
-      <a class="dataCard" href="${esc(x.download_url||x.html_url)}" target="_blank" rel="noopener">
-        <div class="fileIcon">${fileIcon(x.name)}</div>
-        <div class="fileName">${esc(x.name)}</div>
-        <div class="fileMeta">${ext(x.name)} · ${formatSize(x.size||0)} · ABRIR</div>
-      </a>`).join('')+'</div>';
-  }catch(e){showError(e);}
-}
 
-async function renderNotes(){
-  showLoading('NOTES');
-  try{
-    const items=await getFolder('notes');
-    const notes=items.filter(x=>x.type==='file' && /\.(txt|md|markdown|json)$/i.test(x.name));
-    if(!notes.length){
-      document.getElementById('panelContent').innerHTML='<div class="empty">> NO NOTES FOUND<br><br>Sube .txt, .md o .json a la carpeta <b>notes</b>.</div>';
-      return;
-    }
-    document.getElementById('panelContent').innerHTML='<div class="dataGrid">'+notes.map(x=>`
-      <a class="dataCard" href="${esc(x.download_url||x.html_url)}" target="_blank" rel="noopener">
-        <div class="fileIcon">▤</div>
-        <div class="fileName">${esc(x.name)}</div>
-        <div class="fileMeta">NOTA · ABRIR</div>
-      </a>`).join('')+'</div>';
-  }catch(e){showError(e);}
-}
+showLoading('FILES');
 
-function ext(name){
-  const p=name.split('.');
-  return p.length>1?p.pop().toUpperCase():'FILE';
-}
+try{
 
-function fileIcon(name){
-  const e=ext(name);
-  if(['PDF'].includes(e))return '▣';
-  if(['DOC','DOCX','TXT','MD'].includes(e))return '▤';
-  if(['ZIP','RAR','7Z'].includes(e))return '▦';
-  if(['MP3','WAV','OGG'].includes(e))return '♫';
-  if(['MP4','MOV','WEBM'].includes(e))return '▶';
-  return '□';
-}
+const items=await getFolder('files');
 
-function showError(e){
-  const c=document.getElementById('panelContent');
-  if(e.message==='REPO_NOT_DETECTED'){
-    c.innerHTML='<div class="empty">> REPOSITORY NOT DETECTED<br><br>Abre AURORA desde GitHub Pages para conectar el almacenamiento.</div>';
-  }else{
-    c.innerHTML='<div class="empty">> STORAGE CONNECTION ERROR<br><br>Revisa que el repositorio sea público y que las carpetas existan.</div>';
-  }
-}
-
-function systemInfo(){
-  const r=getRepoInfo();
-  const now=new Date();
-  const online=navigator.onLine;
-  showPanel('SYSTEM',[]);
-  document.getElementById('panelContent').innerHTML=`
-    <div class="systemGrid">
-      <div class="systemRow"><span>STATUS</span><b>${online?'ONLINE':'OFFLINE'}</b></div>
-      <div class="systemRow"><span>AURORA</span><b>ACTIVE</b></div>
-      <div class="systemRow"><span>STORAGE</span><b>${r?esc(r.owner+'/'+r.repo):'NOT DETECTED'}</b></div>
-      <div class="systemRow"><span>TIME</span><b>${esc(now.toLocaleString())}</b></div>
-      <div class="systemRow"><span>PLATFORM</span><b>${esc(navigator.platform||'UNKNOWN')}</b></div>
-      <div class="systemRow"><span>LANGUAGE</span><b>${esc(navigator.language||'UNKNOWN')}</b></div>
-    </div>`;
-}
-
-function navigate(cmd){
-  cmd=cmd.toLowerCase().trim();
-  if(!cmd)return;
-  if(cmd==='help'){
-    showPanel('COMMANDS',[
-      'home — regresar al núcleo',
-      'files — archivos reales de /files',
-      'images — fotos reales de /images',
-      'notes — notas reales de /notes',
-      'system — estado del sistema',
-      'clear — cerrar panel'
-    ]);
-    return;
-  }
-  if(cmd==='home'||cmd==='clear'){home();return}
-  if(cmd==='files'){focus('files');setTimeout(renderFiles,700);return}
-  if(cmd==='images'){focus('images');setTimeout(renderImages,700);return}
-  if(cmd==='notes'){focus('notes');setTimeout(renderNotes,700);return}
-  if(cmd==='system'){focus('system');setTimeout(systemInfo,700);return}
-  showPanel('UNKNOWN COMMAND',['Comando no reconocido.','Escribe: help']);
-}
-
-function focus(name){
-  nodes.forEach(n=>n.classList.toggle('focus',n.dataset.target===name));
-  nodes.forEach(n=>n.classList.toggle('dim',n.dataset.target!==name));
-  const transforms={
-    files:'translateX(-24%) scale(1.45)',
-    images:'translateX(24%) scale(1.45)',
-    notes:'translate(25%,-22%) scale(1.45)',
-    system:'translate(-25%,-22%) scale(1.45)'
-  };
-  world.style.transform=transforms[name];
-  msg.textContent='NAVIGATING → '+name.toUpperCase();
-  msg.classList.add('show');
-  setTimeout(()=>msg.classList.remove('show'),1600);
-}
-
-function showPanel(title,items){
-  document.getElementById('panelTitle').textContent=title;
-  document.getElementById('panelContent').innerHTML=(items||[]).map(x=>'<a href="#">'+x+'</a>').join('');
-  document.getElementById('panel').style.display='flex';
-}
-
-function home(){
-  document.getElementById('panel').style.display='none';
-  nodes.forEach(n=>n.classList.remove('focus','dim'));
-  world.style.transform='none';
-  msg.classList.remove('show');
-}
-
-document.getElementById('commandForm').addEventListener('submit',e=>{
-  e.preventDefault();
-  navigate(document.getElementById('commandInput').value);
-  document.getElementById('commandInput').value='';
-});
-document.getElementById('commandInput').addEventListener('keydown',e=>{if(e.key==='Escape')home()});
-nodes.forEach(n=>n.addEventListener('click',()=>navigate(n.dataset.target)));
-
-</script>
-</body></html>
+const files=i
