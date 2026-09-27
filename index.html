@@ -16,6 +16,17 @@ svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.flow{fill
 .node{position:absolute;width:112px;height:112px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#03111cbb;border:1px solid currentColor;box-shadow:0 0 25px currentColor;z-index:3;transition:1s}.node strong{font-size:12px;letter-spacing:3px}.node small{font-size:9px;margin-top:7px;opacity:.65;letter-spacing:1px}.images{left:19%;top:22%;color:#22f0dd}.files{right:19%;top:22%;color:#4d9dff}.notes{left:17%;bottom:20%;color:#bd64ff}.system{right:17%;bottom:20%;color:#38ffa4}.node.focus{transform:scale(1.35);box-shadow:0 0 35px currentColor,0 0 90px currentColor}.node.dim{opacity:.12;filter:blur(2px)}
 .icon{font-size:25px;margin-bottom:5px}.command{position:absolute;left:50%;bottom:42px;transform:translateX(-50%);width:min(760px,82vw);height:58px;border:1px solid #20e9d6;border-radius:35px;background:#020b14d9;box-shadow:0 0 35px #00e0d522;display:flex;align-items:center;padding:0 20px;z-index:10}.command span{color:#23f2df;font-size:24px;margin-right:12px}.command input{flex:1;background:none;border:0;outline:0;color:#dff;font-size:16px;font-family:monospace}.command input::placeholder{color:#58717f}.help{position:absolute;bottom:12px;left:30px;color:#547887;font:11px monospace;letter-spacing:1px}.help b{color:#1ce8d4}.message{position:absolute;top:100px;left:50%;transform:translateX(-50%);color:#76a8b4;font:11px monospace;letter-spacing:3px;opacity:0;transition:.4s}.message.show{opacity:1}
 .panel{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#010812e8;z-index:15}.panelBox{width:min(650px,88vw);padding:30px;border:1px solid #20e9d6;background:#06131eeF;box-shadow:0 0 50px #00e0d533}.panelBox h2{letter-spacing:5px;color:#4fffe9}.panelBox a{display:block;color:#dff;text-decoration:none;padding:13px;border-bottom:1px solid #17313b}.close{margin-top:20px;color:#1ff0dd;cursor:pointer;font-family:monospace}
+.dataGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;max-height:48vh;overflow:auto;margin-top:15px}
+.dataCard{display:block!important;border:1px solid #17313b!important;padding:10px!important;background:#030b14;text-decoration:none}
+.dataCard:hover{border-color:#20e9d6!important;box-shadow:0 0 18px #00e0d522}
+.dataCard img{width:100%;height:115px;object-fit:cover;display:block;margin-bottom:8px}
+.fileIcon{font-size:28px;margin-bottom:8px}
+.fileName{font-size:11px;word-break:break-word;color:#dff}
+.fileMeta{font-size:9px;color:#6f909c;margin-top:5px}
+.empty{color:#6f909c;font:12px monospace;padding:20px 0}
+.loading{color:#4fffe9;font:12px monospace;padding:20px 0}
+.systemGrid{display:grid;gap:8px;margin-top:15px}.systemRow{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid #17313b;padding:10px 0;font:11px monospace}.systemRow b{color:#4fffe9;font-weight:normal}
+
 @media(max-width:700px){.top{left:15px;right:15px;top:15px}.brand{font-size:16px}.core{width:125px;height:125px}.core span{font-size:17px}.node{width:86px;height:86px}.node strong{font-size:9px}.node small{display:none}.images{left:5%;top:23%}.files{right:5%;top:23%}.notes{left:5%;bottom:23%}.system{right:5%;bottom:23%}.command{bottom:30px;width:92vw}.help{display:none}}
 </style>
 </head>
@@ -45,13 +56,209 @@ svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.flow{fill
 </div>
 <div class="panel" id="panel"><div class="panelBox"><h2 id="panelTitle"></h2><div id="panelContent"></div><div class="close" onclick="home()">[ volver a AURORA ]</div></div></div>
 <script>
-function entrar(){const p=document.getElementById('password').value;if(p==='SAMARITAN'){document.getElementById('login').style.display='none';const t=document.getElementById('terminal');t.style.display='flex';let s='> INITIALIZING AURORA...\n> CONNECTING TO SYSTEM...\n> CHECKING SECURITY...\n> ACCESS GRANTED\n> WELCOME, ADMIN\n> SYSTEM ONLINE';let i=0;const out=document.getElementById('terminalText');const timer=setInterval(()=>{out.textContent=s.substring(0,i++);if(i>s.length){clearInterval(timer);setTimeout(()=>{t.style.display='none';document.getElementById('app').style.display='block'},800)}},28)}else document.getElementById('error').style.display='block'}
-const nodes=[...document.querySelectorAll('.node')];const world=document.getElementById('world');const msg=document.getElementById('message');
-function navigate(cmd){cmd=cmd.toLowerCase().trim();if(!cmd)return;if(cmd==='help'){showPanel('COMMANDS',['home — regresar al núcleo','files — archivos','images — fotografías','notes — notas','system — estado del sistema']);return}if(cmd==='home'){home();return}if(['files','images','notes','system'].includes(cmd)){focus(cmd);return}showPanel('UNKNOWN COMMAND',['Comando no reconocido.','Escribe: help']);}
-function focus(name){nodes.forEach(n=>n.classList.toggle('focus',n.dataset.target===name));nodes.forEach(n=>n.classList.toggle('dim',n.dataset.target!==name));const transforms={files:'translateX(-24%) scale(1.45)',images:'translateX(24%) scale(1.45)',notes:'translate(25%,-22%) scale(1.45)',system:'translate(-25%,-22%) scale(1.45)'};world.style.transform=transforms[name];msg.textContent='NAVIGATING → '+name.toUpperCase();msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),1600);setTimeout(()=>showPanel(name.toUpperCase(),content(name)),900)}
-function content(name){if(name==='images')return ['FOTOGRAFÍAS','Galería visual · dNzkoOn.png'];if(name==='files')return ['ARCHIVOS','Documentos · carpetas · descargas'];if(name==='notes')return ['NOTAS','Ideas · registros · apuntes'];return ['SYSTEM','Estado: ONLINE · Aurora activa'];}
-function showPanel(title,items){document.getElementById('panelTitle').textContent=title;document.getElementById('panelContent').innerHTML=items.map(x=>'<a href="#">'+x+'</a>').join('');document.getElementById('panel').style.display='flex'}
-function home(){document.getElementById('panel').style.display='none';nodes.forEach(n=>n.classList.remove('focus','dim'));world.style.transform='none';msg.classList.remove('show')}
-document.getElementById('commandForm').addEventListener('submit',e=>{e.preventDefault();navigate(document.getElementById('commandInput').value);document.getElementById('commandInput').value=''});document.getElementById('commandInput').addEventListener('keydown',e=>{if(e.key==='Escape')home()});nodes.forEach(n=>n.addEventListener('click',()=>navigate(n.dataset.target)));
+function entrar(){const p=document.getElementById('password').value;if(p==='SAMARITAN'){document.getElementById('login').style.display='none';const t=document.getElementById('terminal');t.style.display='flex';let s='> INITIALIZING AURORA...
+> CONNECTING TO SYSTEM...
+> CHECKING SECURITY...
+> ACCESS GRANTED
+> WELCOME, ADMIN
+> SYSTEM ONLINE';let i=0;const out=document.getElementById('terminalText');const timer=setInterval(()=>{out.textContent=s.substring(0,i++);if(i>s.length){clearInterval(timer);setTimeout(()=>{t.style.display='none';document.getElementById('app').style.display='block'},800)}},28)}else document.getElementById('error').style.display='block'}
+
+const nodes=[...document.querySelectorAll('.node')];
+const world=document.getElementById('world');
+const msg=document.getElementById('message');
+
+/* AURORA se conecta al repositorio público donde está alojada. */
+function getRepoInfo(){
+  const host=location.hostname;
+  if(!host.endsWith('.github.io')) return null;
+  const owner=host.split('.')[0];
+  const parts=location.pathname.split('/').filter(Boolean);
+  const repo=parts.length ? parts[0] : owner+'.github.io';
+  return {owner,repo};
+}
+
+function apiUrl(folder){
+  const r=getRepoInfo();
+  return r ? `https://api.github.com/repos/${r.owner}/${r.repo}/contents/${folder}` : null;
+}
+
+function esc(v){
+  return String(v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+async function getFolder(folder){
+  const url=apiUrl(folder);
+  if(!url) throw new Error('REPO_NOT_DETECTED');
+  const res=await fetch(url,{headers:{Accept:'application/vnd.github+json'}});
+  if(res.status===404) return [];
+  if(!res.ok) throw new Error('GITHUB_'+res.status);
+  const data=await res.json();
+  return Array.isArray(data) ? data : [];
+}
+
+function formatSize(bytes){
+  if(bytes<1024)return bytes+' B';
+  if(bytes<1024*1024)return (bytes/1024).toFixed(1)+' KB';
+  return (bytes/1024/1024).toFixed(1)+' MB';
+}
+
+function showLoading(title){
+  document.getElementById('panelTitle').textContent=title;
+  document.getElementById('panelContent').innerHTML='<div class="loading">> CONNECTING TO AURORA STORAGE...</div>';
+  document.getElementById('panel').style.display='flex';
+}
+
+async function renderImages(){
+  showLoading('IMAGES');
+  try{
+    const items=await getFolder('images');
+    const imgs=items.filter(x=>x.type==='file' && /\.(png|jpe?g|gif|webp|svg|bmp|avif)$/i.test(x.name));
+    if(!imgs.length){
+      document.getElementById('panelContent').innerHTML='<div class="empty">> NO IMAGES FOUND<br><br>Sube tus fotos a la carpeta <b>images</b> del repositorio.</div>';
+      return;
+    }
+    document.getElementById('panelContent').innerHTML='<div class="dataGrid">'+imgs.map(x=>`
+      <a class="dataCard" href="${esc(x.download_url||x.html_url)}" target="_blank" rel="noopener">
+        <img src="${esc(x.download_url)}" alt="${esc(x.name)}">
+        <div class="fileName">${esc(x.name)}</div>
+        <div class="fileMeta">ABRIR · ${formatSize(x.size||0)}</div>
+      </a>`).join('')+'</div>';
+  }catch(e){showError(e);}
+}
+
+async function renderFiles(){
+  showLoading('FILES');
+  try{
+    const items=await getFolder('files');
+    const files=items.filter(x=>x.type==='file');
+    if(!files.length){
+      document.getElementById('panelContent').innerHTML='<div class="empty">> NO FILES FOUND<br><br>Sube tus archivos a la carpeta <b>files</b> del repositorio.</div>';
+      return;
+    }
+    document.getElementById('panelContent').innerHTML='<div class="dataGrid">'+files.map(x=>`
+      <a class="dataCard" href="${esc(x.download_url||x.html_url)}" target="_blank" rel="noopener">
+        <div class="fileIcon">${fileIcon(x.name)}</div>
+        <div class="fileName">${esc(x.name)}</div>
+        <div class="fileMeta">${ext(x.name)} · ${formatSize(x.size||0)} · ABRIR</div>
+      </a>`).join('')+'</div>';
+  }catch(e){showError(e);}
+}
+
+async function renderNotes(){
+  showLoading('NOTES');
+  try{
+    const items=await getFolder('notes');
+    const notes=items.filter(x=>x.type==='file' && /\.(txt|md|markdown|json)$/i.test(x.name));
+    if(!notes.length){
+      document.getElementById('panelContent').innerHTML='<div class="empty">> NO NOTES FOUND<br><br>Sube .txt, .md o .json a la carpeta <b>notes</b>.</div>';
+      return;
+    }
+    document.getElementById('panelContent').innerHTML='<div class="dataGrid">'+notes.map(x=>`
+      <a class="dataCard" href="${esc(x.download_url||x.html_url)}" target="_blank" rel="noopener">
+        <div class="fileIcon">▤</div>
+        <div class="fileName">${esc(x.name)}</div>
+        <div class="fileMeta">NOTA · ABRIR</div>
+      </a>`).join('')+'</div>';
+  }catch(e){showError(e);}
+}
+
+function ext(name){
+  const p=name.split('.');
+  return p.length>1?p.pop().toUpperCase():'FILE';
+}
+
+function fileIcon(name){
+  const e=ext(name);
+  if(['PDF'].includes(e))return '▣';
+  if(['DOC','DOCX','TXT','MD'].includes(e))return '▤';
+  if(['ZIP','RAR','7Z'].includes(e))return '▦';
+  if(['MP3','WAV','OGG'].includes(e))return '♫';
+  if(['MP4','MOV','WEBM'].includes(e))return '▶';
+  return '□';
+}
+
+function showError(e){
+  const c=document.getElementById('panelContent');
+  if(e.message==='REPO_NOT_DETECTED'){
+    c.innerHTML='<div class="empty">> REPOSITORY NOT DETECTED<br><br>Abre AURORA desde GitHub Pages para conectar el almacenamiento.</div>';
+  }else{
+    c.innerHTML='<div class="empty">> STORAGE CONNECTION ERROR<br><br>Revisa que el repositorio sea público y que las carpetas existan.</div>';
+  }
+}
+
+function systemInfo(){
+  const r=getRepoInfo();
+  const now=new Date();
+  const online=navigator.onLine;
+  showPanel('SYSTEM',[]);
+  document.getElementById('panelContent').innerHTML=`
+    <div class="systemGrid">
+      <div class="systemRow"><span>STATUS</span><b>${online?'ONLINE':'OFFLINE'}</b></div>
+      <div class="systemRow"><span>AURORA</span><b>ACTIVE</b></div>
+      <div class="systemRow"><span>STORAGE</span><b>${r?esc(r.owner+'/'+r.repo):'NOT DETECTED'}</b></div>
+      <div class="systemRow"><span>TIME</span><b>${esc(now.toLocaleString())}</b></div>
+      <div class="systemRow"><span>PLATFORM</span><b>${esc(navigator.platform||'UNKNOWN')}</b></div>
+      <div class="systemRow"><span>LANGUAGE</span><b>${esc(navigator.language||'UNKNOWN')}</b></div>
+    </div>`;
+}
+
+function navigate(cmd){
+  cmd=cmd.toLowerCase().trim();
+  if(!cmd)return;
+  if(cmd==='help'){
+    showPanel('COMMANDS',[
+      'home — regresar al núcleo',
+      'files — archivos reales de /files',
+      'images — fotos reales de /images',
+      'notes — notas reales de /notes',
+      'system — estado del sistema',
+      'clear — cerrar panel'
+    ]);
+    return;
+  }
+  if(cmd==='home'||cmd==='clear'){home();return}
+  if(cmd==='files'){focus('files');setTimeout(renderFiles,700);return}
+  if(cmd==='images'){focus('images');setTimeout(renderImages,700);return}
+  if(cmd==='notes'){focus('notes');setTimeout(renderNotes,700);return}
+  if(cmd==='system'){focus('system');setTimeout(systemInfo,700);return}
+  showPanel('UNKNOWN COMMAND',['Comando no reconocido.','Escribe: help']);
+}
+
+function focus(name){
+  nodes.forEach(n=>n.classList.toggle('focus',n.dataset.target===name));
+  nodes.forEach(n=>n.classList.toggle('dim',n.dataset.target!==name));
+  const transforms={
+    files:'translateX(-24%) scale(1.45)',
+    images:'translateX(24%) scale(1.45)',
+    notes:'translate(25%,-22%) scale(1.45)',
+    system:'translate(-25%,-22%) scale(1.45)'
+  };
+  world.style.transform=transforms[name];
+  msg.textContent='NAVIGATING → '+name.toUpperCase();
+  msg.classList.add('show');
+  setTimeout(()=>msg.classList.remove('show'),1600);
+}
+
+function showPanel(title,items){
+  document.getElementById('panelTitle').textContent=title;
+  document.getElementById('panelContent').innerHTML=(items||[]).map(x=>'<a href="#">'+x+'</a>').join('');
+  document.getElementById('panel').style.display='flex';
+}
+
+function home(){
+  document.getElementById('panel').style.display='none';
+  nodes.forEach(n=>n.classList.remove('focus','dim'));
+  world.style.transform='none';
+  msg.classList.remove('show');
+}
+
+document.getElementById('commandForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  navigate(document.getElementById('commandInput').value);
+  document.getElementById('commandInput').value='';
+});
+document.getElementById('commandInput').addEventListener('keydown',e=>{if(e.key==='Escape')home()});
+nodes.forEach(n=>n.addEventListener('click',()=>navigate(n.dataset.target)));
+
 </script>
 </body></html>
