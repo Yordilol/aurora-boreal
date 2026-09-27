@@ -2740,5 +2740,1257 @@ n.addEventListener(
 })();
 
 </script>
+<!-- =========================================================
+     AURORA NOTES
+     PEGA TODO ESTE BLOQUE JUSTO ANTES DE </body>
+     ========================================================= -->
+
+<style>
+
+#auroraNotesMenu{
+  position:fixed;
+  inset:0;
+  z-index:110;
+  display:none;
+  overflow:hidden;
+  background:#010711;
+  color:#dff;
+  font-family:monospace;
+}
+
+/* AURORA DE FONDO */
+
+#auroraNotesMenu::before,
+#auroraNotesMenu::after{
+  content:"";
+  position:absolute;
+  width:75vw;
+  height:75vh;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:.22;
+  pointer-events:none;
+}
+
+#auroraNotesMenu::before{
+  background:#00ffb7;
+  left:-25%;
+  top:-30%;
+  animation:notesAurora1 8s ease-in-out infinite alternate;
+}
+
+#auroraNotesMenu::after{
+  background:#176cff;
+  right:-25%;
+  bottom:-30%;
+  animation:notesAurora2 9s ease-in-out infinite alternate;
+}
+
+@keyframes notesAurora1{
+  to{
+    transform:translate(35vw,25vh) scale(1.3);
+  }
+}
+
+@keyframes notesAurora2{
+  to{
+    transform:translate(-30vw,-25vh) scale(1.3);
+  }
+}
+
+
+/* =========================
+   LOGIN DE NOTES
+   ========================= */
+
+#notesLock{
+  position:absolute;
+  inset:0;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#010711e8;
+}
+
+#notesLoginBox{
+  width:min(520px,88vw);
+  border:1px solid #28ead8;
+  background:#020b14e8;
+  box-shadow:
+    0 0 35px #00e0d522,
+    inset 0 0 25px #00e0d511;
+  padding:35px;
+}
+
+#notesLoginTitle{
+  color:#4fffe9;
+  font-size:18px;
+  letter-spacing:6px;
+  margin-bottom:28px;
+}
+
+#notesTerminal{
+  color:#6a949d;
+  font-size:12px;
+  line-height:2;
+  margin-bottom:20px;
+}
+
+#notesTerminal b{
+  color:#25f5dc;
+}
+
+#notesPasswordForm{
+  display:flex;
+  align-items:center;
+  border:1px solid #246d73;
+  padding:12px 15px;
+  background:#010711;
+}
+
+#notesPasswordForm span{
+  color:#29f5df;
+  font-size:20px;
+  margin-right:10px;
+}
+
+#notesPassword{
+  flex:1;
+  background:none;
+  border:0;
+  outline:none;
+  color:#dff;
+  font:14px monospace;
+}
+
+#notesPassword::placeholder{
+  color:#486770;
+}
+
+#notesLoginMessage{
+  margin-top:15px;
+  min-height:15px;
+  color:#526f78;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+#notesLoginMessage.success{
+  color:#26ffb5;
+}
+
+#notesLoginMessage.error{
+  color:#ff405f;
+}
+
+
+/* =========================
+   PANEL PRINCIPAL
+   ========================= */
+
+#notesMain{
+  position:absolute;
+  inset:0;
+  display:none;
+  z-index:10;
+}
+
+#notesHeader{
+  position:absolute;
+  top:25px;
+  left:35px;
+  right:35px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+#notesTitle{
+  color:#4fffe9;
+  font-size:18px;
+  letter-spacing:7px;
+}
+
+#notesHeaderStatus{
+  color:#24ffb0;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+
+/* CONTENEDOR */
+
+#notesContent{
+  position:absolute;
+  left:50%;
+  top:53%;
+  transform:translate(-50%,-50%);
+  width:min(950px,90vw);
+  height:65vh;
+  border:1px solid #145c66;
+  background:#020b14d9;
+  box-shadow:
+    0 0 40px #00e0d511,
+    inset 0 0 30px #00e0d511;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+}
+
+
+/* BARRA */
+
+#notesToolbar{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+}
+
+#notesSearch{
+  flex:1;
+  background:#010711;
+  border:1px solid #195963;
+  outline:none;
+  color:#dff;
+  padding:12px;
+  font:12px monospace;
+}
+
+#notesSearch:focus{
+  border-color:#29ead8;
+  box-shadow:0 0 12px #00e0d522;
+}
+
+.notesButton{
+  border:1px solid #24e9d7;
+  background:#02131b;
+  color:#35f5df;
+  padding:0 18px;
+  cursor:pointer;
+  font:11px monospace;
+  letter-spacing:1px;
+}
+
+.notesButton:hover{
+  background:#06303a;
+  box-shadow:0 0 15px #00e0d533;
+}
+
+
+/* LISTA */
+
+#notesList{
+  flex:1;
+  overflow-y:auto;
+  padding-right:5px;
+}
+
+#notesList::-webkit-scrollbar{
+  width:5px;
+}
+
+#notesList::-webkit-scrollbar-thumb{
+  background:#17606a;
+}
+
+
+/* TARJETA */
+
+.notesCard{
+  position:relative;
+  border:1px solid #164b55;
+  background:#020b13;
+  padding:18px;
+  margin-bottom:12px;
+  transition:.2s;
+}
+
+.notesCard:hover{
+  border-color:#25e9d7;
+  box-shadow:0 0 18px #00e0d522;
+}
+
+.notesCard.pinned{
+  border-color:#25e9d7;
+  box-shadow:inset 3px 0 #25e9d7;
+}
+
+.notesCardTitle{
+  color:#4fffe9;
+  font-size:14px;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+
+.notesCardText{
+  color:#91adb3;
+  font-size:12px;
+  line-height:1.6;
+  white-space:pre-wrap;
+  word-break:break-word;
+}
+
+.notesCardDate{
+  color:#42636b;
+  font-size:9px;
+  margin-top:12px;
+}
+
+.notesCardActions{
+  display:flex;
+  gap:7px;
+  margin-top:12px;
+}
+
+.notesSmallButton{
+  background:#03131b;
+  border:1px solid #174d57;
+  color:#5ddfd2;
+  padding:6px 9px;
+  cursor:pointer;
+  font:9px monospace;
+}
+
+.notesSmallButton:hover{
+  border-color:#29ead8;
+}
+
+
+/* VACÍO */
+
+#notesEmpty{
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#385861;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+
+/* =========================
+   EDITOR
+   ========================= */
+
+#notesEditor{
+  position:absolute;
+  inset:0;
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:#010711ed;
+}
+
+#notesEditorBox{
+  width:min(650px,88vw);
+  border:1px solid #25ead8;
+  background:#020b14;
+  box-shadow:0 0 40px #00e0d533;
+  padding:25px;
+}
+
+#notesEditorTitle{
+  color:#4fffe9;
+  font-size:14px;
+  letter-spacing:4px;
+  margin-bottom:20px;
+}
+
+#notesTitleInput,
+#notesTextInput{
+  width:100%;
+  box-sizing:border-box;
+  background:#010711;
+  border:1px solid #195963;
+  outline:none;
+  color:#dff;
+  padding:12px;
+  font:12px monospace;
+  margin-bottom:12px;
+}
+
+#notesTextInput{
+  height:180px;
+  resize:none;
+}
+
+#notesTitleInput:focus,
+#notesTextInput:focus{
+  border-color:#29ead8;
+}
+
+#notesEditorButtons{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+
+/* =========================
+   ABAJO
+   ========================= */
+
+#notesBottom{
+  position:absolute;
+  left:35px;
+  right:35px;
+  bottom:15px;
+  display:flex;
+  justify-content:space-between;
+  color:#385a63;
+  font-size:9px;
+  letter-spacing:1px;
+}
+
+#notesExit{
+  color:#3debd9;
+  cursor:pointer;
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  #notesHeader{
+    top:18px;
+    left:18px;
+    right:18px;
+  }
+
+  #notesTitle{
+    font-size:13px;
+    letter-spacing:5px;
+  }
+
+  #notesHeaderStatus{
+    font-size:8px;
+  }
+
+  #notesContent{
+    top:52%;
+    width:90vw;
+    height:67vh;
+    padding:15px;
+  }
+
+  #notesToolbar{
+    flex-direction:column;
+  }
+
+  .notesButton{
+    height:40px;
+  }
+
+  #notesBottom{
+    left:18px;
+    right:18px;
+  }
+
+}
+
+</style>
+
+
+<!-- =========================
+     AURORA NOTES
+     ========================= -->
+
+<div id="auroraNotesMenu">
+
+
+  <!-- LOGIN -->
+
+  <div id="notesLock">
+
+    <div id="notesLoginBox">
+
+      <div id="notesLoginTitle">
+        A U R O R A · N O T E S
+      </div>
+
+      <div id="notesTerminal">
+
+        &gt; NOTES SECURITY SYSTEM<br>
+        &gt; AUTHENTICATION REQUIRED<br>
+        &gt; ACCESS LEVEL: <b>PRIVATE</b><br>
+        &gt;<br>
+        &gt; ENTER PASSWORD:
+
+      </div>
+
+      <form id="notesPasswordForm">
+
+        <span>&gt;</span>
+
+        <input
+          id="notesPassword"
+          type="password"
+          autocomplete="off"
+          placeholder="********"
+        >
+
+      </form>
+
+      <div id="notesLoginMessage"></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PANEL PRINCIPAL -->
+
+  <div id="notesMain">
+
+    <div id="notesHeader">
+
+      <div id="notesTitle">
+        A U R O R A · N O T E S
+      </div>
+
+      <div id="notesHeaderStatus">
+        ● <b>SECURE</b>
+      </div>
+
+    </div>
+
+
+    <div id="notesContent">
+
+      <div id="notesToolbar">
+
+        <input
+          id="notesSearch"
+          type="text"
+          autocomplete="off"
+          placeholder="> SEARCH NOTES..."
+        >
+
+        <button
+          class="notesButton"
+          id="notesNewButton"
+        >
+          + NEW NOTE
+        </button>
+
+      </div>
+
+
+      <div id="notesList"></div>
+
+    </div>
+
+
+    <div id="notesBottom">
+
+      <div>
+        NOTES DATABASE · LOCAL STORAGE
+      </div>
+
+      <div id="notesExit">
+        [ EXIT NOTES ]
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- EDITOR -->
+
+  <div id="notesEditor">
+
+    <div id="notesEditorBox">
+
+      <div id="notesEditorTitle">
+        NEW AURORA NOTE
+      </div>
+
+      <input
+        id="notesTitleInput"
+        autocomplete="off"
+        placeholder="NOTE TITLE..."
+      >
+
+      <textarea
+        id="notesTextInput"
+        placeholder="WRITE YOUR NOTE..."
+      ></textarea>
+
+      <div id="notesEditorButtons">
+
+        <button
+          class="notesButton"
+          id="notesCancelButton"
+          type="button"
+        >
+          CANCEL
+        </button>
+
+        <button
+          class="notesButton"
+          id="notesSaveButton"
+          type="button"
+        >
+          SAVE NOTE
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+<script>
+
+(() => {
+
+  const NOTES_PASSWORD = 'SAMARITAN';
+
+  const notesMenu =
+    document.getElementById('auroraNotesMenu');
+
+  const notesLock =
+    document.getElementById('notesLock');
+
+  const notesMain =
+    document.getElementById('notesMain');
+
+  const passwordForm =
+    document.getElementById('notesPasswordForm');
+
+  const passwordInput =
+    document.getElementById('notesPassword');
+
+  const loginMessage =
+    document.getElementById('notesLoginMessage');
+
+  const notesList =
+    document.getElementById('notesList');
+
+  const searchInput =
+    document.getElementById('notesSearch');
+
+  const newButton =
+    document.getElementById('notesNewButton');
+
+  const editor =
+    document.getElementById('notesEditor');
+
+  const titleInput =
+    document.getElementById('notesTitleInput');
+
+  const textInput =
+    document.getElementById('notesTextInput');
+
+  const saveButton =
+    document.getElementById('notesSaveButton');
+
+  const cancelButton =
+    document.getElementById('notesCancelButton');
+
+  const exitButton =
+    document.getElementById('notesExit');
+
+
+  let notes = [];
+
+  let editingId = null;
+
+
+  /* =========================
+     CARGAR NOTAS
+     ========================= */
+
+  function loadNotes(){
+
+    try{
+
+      const saved =
+        localStorage.getItem('aurora_notes');
+
+      notes =
+        saved ? JSON.parse(saved) : [];
+
+    }catch{
+
+      notes=[];
+
+    }
+
+  }
+
+
+  /* =========================
+     GUARDAR NOTAS
+     ========================= */
+
+  function saveNotes(){
+
+    localStorage.setItem(
+      'aurora_notes',
+      JSON.stringify(notes)
+    );
+
+  }
+
+
+  /* =========================
+     ESCAPAR HTML
+     ========================= */
+
+  function escapeNotes(value){
+
+    return String(value)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;')
+      .replace(/'/g,'&#039;');
+
+  }
+
+
+  /* =========================
+     MOSTRAR NOTAS
+     ========================= */
+
+  function renderNotes(){
+
+    const search =
+      searchInput.value
+      .toLowerCase()
+      .trim();
+
+    const filtered =
+      notes
+      .filter(note =>
+        note.title.toLowerCase().includes(search) ||
+        note.text.toLowerCase().includes(search)
+      )
+      .sort((a,b) =>
+        Number(b.pinned) -
+        Number(a.pinned)
+      );
+
+
+    if(filtered.length===0){
+
+      notesList.innerHTML=`
+        <div id="notesEmpty">
+          &gt; NO NOTES FOUND
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    notesList.innerHTML =
+      filtered.map(note => `
+
+        <div
+          class="notesCard ${note.pinned ? 'pinned' : ''}"
+          data-id="${note.id}"
+        >
+
+          <div class="notesCardTitle">
+
+            ${note.pinned ? '📌 ' : ''}
+            ${escapeNotes(note.title)}
+
+          </div>
+
+          <div class="notesCardText">
+            ${escapeNotes(note.text)}
+          </div>
+
+          <div class="notesCardDate">
+            CREATED: ${escapeNotes(note.date)}
+          </div>
+
+          <div class="notesCardActions">
+
+            <button
+              class="notesSmallButton"
+              data-action="edit"
+              data-id="${note.id}"
+            >
+              EDIT
+            </button>
+
+            <button
+              class="notesSmallButton"
+              data-action="pin"
+              data-id="${note.id}"
+            >
+              ${note.pinned ? 'UNPIN' : 'PIN'}
+            </button>
+
+            <button
+              class="notesSmallButton"
+              data-action="delete"
+              data-id="${note.id}"
+            >
+              DELETE
+            </button>
+
+          </div>
+
+        </div>
+
+      `).join('');
+
+  }
+
+
+  /* =========================
+     ABRIR NOTES
+     ========================= */
+
+  function openNotes(){
+
+    document.getElementById('panel').style.display='none';
+
+    document.getElementById('app').style.display='none';
+
+    notesMenu.style.display='block';
+
+    notesLock.style.display='flex';
+
+    notesMain.style.display='none';
+
+    passwordInput.value='';
+
+    loginMessage.textContent='';
+
+    loginMessage.className='';
+
+    setTimeout(() => {
+      passwordInput.focus();
+    },100);
+
+  }
+
+
+  /* =========================
+     ENTRAR
+     ========================= */
+
+  function unlockNotes(){
+
+    const password =
+      passwordInput.value;
+
+    if(password===NOTES_PASSWORD){
+
+      loginMessage.textContent=
+        '> AUTHENTICATING...';
+
+      loginMessage.className='success';
+
+
+      setTimeout(() => {
+
+        loginMessage.textContent=
+          '> ACCESS GRANTED';
+
+      },400);
+
+
+      setTimeout(() => {
+
+        notesLock.style.display='none';
+
+        notesMain.style.display='block';
+
+        loadNotes();
+
+        renderNotes();
+
+      },900);
+
+
+    }else{
+
+      loginMessage.textContent=
+        '> AUTHENTICATION FAILED · ACCESS DENIED';
+
+      loginMessage.className='error';
+
+      passwordInput.value='';
+
+      passwordInput.focus();
+
+    }
+
+  }
+
+
+  /* =========================
+     EDITOR
+     ========================= */
+
+  function openEditor(note=null){
+
+    editingId =
+      note ? note.id : null;
+
+    titleInput.value =
+      note ? note.title : '';
+
+    textInput.value =
+      note ? note.text : '';
+
+    document.getElementById(
+      'notesEditorTitle'
+    ).textContent =
+      note
+      ? 'EDIT AURORA NOTE'
+      : 'NEW AURORA NOTE';
+
+    editor.style.display='flex';
+
+    setTimeout(() => {
+      titleInput.focus();
+    },100);
+
+  }
+
+
+  function closeEditor(){
+
+    editor.style.display='none';
+
+    titleInput.value='';
+
+    textInput.value='';
+
+    editingId=null;
+
+  }
+
+
+  /* =========================
+     GUARDAR
+     ========================= */
+
+  function saveCurrentNote(){
+
+    const title =
+      titleInput.value.trim();
+
+    const text =
+      textInput.value.trim();
+
+
+    if(!title && !text)
+      return;
+
+
+    if(editingId){
+
+      const note =
+        notes.find(
+          n => n.id===editingId
+        );
+
+      if(note){
+
+        note.title =
+          title || 'UNTITLED';
+
+        note.text =
+          text || 'EMPTY NOTE';
+
+        note.updated =
+          new Date().toLocaleString();
+
+      }
+
+    }else{
+
+      notes.push({
+
+        id:
+          Date.now().toString(),
+
+        title:
+          title || 'UNTITLED',
+
+        text:
+          text || 'EMPTY NOTE',
+
+        date:
+          new Date().toLocaleString(),
+
+        pinned:false
+
+      });
+
+    }
+
+
+    saveNotes();
+
+    renderNotes();
+
+    closeEditor();
+
+  }
+
+
+  /* =========================
+     NUEVA NOTA
+     ========================= */
+
+  newButton.addEventListener(
+    'click',
+    () => {
+
+      openEditor();
+
+    }
+  );
+
+
+  /* =========================
+     GUARDAR
+     ========================= */
+
+  saveButton.addEventListener(
+    'click',
+    saveCurrentNote
+  );
+
+
+  /* =========================
+     CANCELAR
+     ========================= */
+
+  cancelButton.addEventListener(
+    'click',
+    closeEditor
+  );
+
+
+  /* =========================
+     BUSCAR
+     ========================= */
+
+  searchInput.addEventListener(
+    'input',
+    renderNotes
+  );
+
+
+  /* =========================
+     ACCIONES
+     ========================= */
+
+  notesList.addEventListener(
+    'click',
+    e => {
+
+      const button =
+        e.target.closest(
+          '.notesSmallButton'
+        );
+
+      if(!button)
+        return;
+
+
+      const id =
+        button.dataset.id;
+
+      const action =
+        button.dataset.action;
+
+      const note =
+        notes.find(
+          n => n.id===id
+        );
+
+      if(!note)
+        return;
+
+
+      if(action==='edit'){
+
+        openEditor(note);
+
+      }
+
+
+      if(action==='pin'){
+
+        note.pinned =
+          !note.pinned;
+
+        saveNotes();
+
+        renderNotes();
+
+      }
+
+
+      if(action==='delete'){
+
+        const confirmed =
+          confirm(
+            'DELETE THIS NOTE?'
+          );
+
+        if(!confirmed)
+          return;
+
+        notes =
+          notes.filter(
+            n => n.id!==id
+          );
+
+        saveNotes();
+
+        renderNotes();
+
+      }
+
+    }
+  );
+
+
+  /* =========================
+     CONTRASEÑA
+     ========================= */
+
+  passwordForm.addEventListener(
+    'submit',
+    e => {
+
+      e.preventDefault();
+
+      unlockNotes();
+
+    }
+  );
+
+
+  /* =========================
+     SALIR
+     ========================= */
+
+  function closeNotes(){
+
+    notesMenu.style.display='none';
+
+    notesLock.style.display='flex';
+
+    notesMain.style.display='none';
+
+    closeEditor();
+
+    document.getElementById('app')
+      .style.display='block';
+
+    if(typeof home==='function'){
+      home();
+    }
+
+  }
+
+
+  exitButton.addEventListener(
+    'click',
+    closeNotes
+  );
+
+
+  /* =========================
+     ESC
+     ========================= */
+
+  document.addEventListener(
+    'keydown',
+    e => {
+
+      if(
+        e.key==='Escape' &&
+        notesMenu.style.display==='block'
+      ){
+
+        if(
+          editor.style.display==='flex'
+        ){
+
+          closeEditor();
+
+        }else{
+
+          closeNotes();
+
+        }
+
+      }
+
+    }
+  );
+
+
+  /* =========================
+     INTERCEPTAR "notes"
+     ========================= */
+
+  const originalForm =
+    document.getElementById('commandForm');
+
+  if(originalForm){
+
+    originalForm.addEventListener(
+      'submit',
+      e => {
+
+        const value =
+          document.getElementById('commandInput')
+          .value
+          .toLowerCase()
+          .trim();
+
+        if(
+          value==='notes' ||
+          value==='note'
+        ){
+
+          e.preventDefault();
+
+          e.stopImmediatePropagation();
+
+          document.getElementById(
+            'commandInput'
+          ).value='';
+
+          openNotes();
+
+        }
+
+      },
+      true
+    );
+
+  }
+
+
+})();
+
+</script>     
 </body>
   </html>
