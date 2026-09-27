@@ -56,12 +56,12 @@ svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}.flow{fill
 </div>
 <div class="panel" id="panel"><div class="panelBox"><h2 id="panelTitle"></h2><div id="panelContent"></div><div class="close" onclick="home()">[ volver a AURORA ]</div></div></div>
 <script>
-function entrar(){const p=document.getElementById('password').value;if(p==='SAMARITAN'){document.getElementById('login').style.display='none';const t=document.getElementById('terminal');t.style.display='flex';let s='> INITIALIZING AURORA...
+function entrar(){const p=document.getElementById('password').value;if(p==='SAMARITAN'){document.getElementById('login').style.display='none';const t=document.getElementById('terminal');t.style.display='flex';let s=`> INITIALIZING AURORA...
 > CONNECTING TO SYSTEM...
 > CHECKING SECURITY...
 > ACCESS GRANTED
 > WELCOME, ADMIN
-> SYSTEM ONLINE';let i=0;const out=document.getElementById('terminalText');const timer=setInterval(()=>{out.textContent=s.substring(0,i++);if(i>s.length){clearInterval(timer);setTimeout(()=>{t.style.display='none';document.getElementById('app').style.display='block'},800)}},28)}else document.getElementById('error').style.display='block'}
+> SYSTEM ONLINE`;let i=0;const out=document.getElementById('terminalText');const timer=setInterval(()=>{out.textContent=s.substring(0,i++);if(i>s.length){clearInterval(timer);setTimeout(()=>{t.style.display='none';document.getElementById('app').style.display='block'},800)}},28)}else document.getElementById('error').style.display='block'}
 
 const nodes=[...document.querySelectorAll('.node')];
 const world=document.getElementById('world');
