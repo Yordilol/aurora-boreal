@@ -1610,6 +1610,1135 @@ n.addEventListener(
 );
 
 </script>
+<!-- =========================================================
+     AURORA EYE
+     PEGA TODO ESTE BLOQUE JUSTO ANTES DE </body>
+     ========================================================= -->
 
+<style>
+
+#auroraEyeMenu{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  overflow:hidden;
+  background:#010711;
+  font-family:monospace;
+}
+
+/* AURORA DE FONDO */
+
+#auroraEyeMenu::before,
+#auroraEyeMenu::after{
+  content:"";
+  position:absolute;
+  width:75vw;
+  height:75vh;
+  border-radius:50%;
+  filter:blur(90px);
+  opacity:.25;
+  pointer-events:none;
+}
+
+#auroraEyeMenu::before{
+  background:#00ffb7;
+  left:-25%;
+  top:-30%;
+  animation:eyeAurora1 7s ease-in-out infinite alternate;
+}
+
+#auroraEyeMenu::after{
+  background:#176cff;
+  right:-25%;
+  bottom:-30%;
+  animation:eyeAurora2 8s ease-in-out infinite alternate;
+}
+
+@keyframes eyeAurora1{
+  to{
+    transform:translate(35vw,25vh) scale(1.35);
+  }
+}
+
+@keyframes eyeAurora2{
+  to{
+    transform:translate(-30vw,-25vh) scale(1.35);
+  }
+}
+
+
+/* ESTRELLAS / PARTÍCULAS */
+
+.eyeParticle{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:#6ffff0;
+  box-shadow:0 0 8px #00e5ff;
+  opacity:.6;
+  animation:eyeParticleMove linear infinite;
+}
+
+@keyframes eyeParticleMove{
+  from{
+    transform:translateY(100vh);
+    opacity:0;
+  }
+
+  20%{
+    opacity:.7;
+  }
+
+  80%{
+    opacity:.7;
+  }
+
+  to{
+    transform:translateY(-20vh);
+    opacity:0;
+  }
+}
+
+
+/* CABECERA */
+
+#eyeHeader{
+  position:absolute;
+  top:28px;
+  left:35px;
+  right:35px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:5;
+}
+
+#eyeTitle{
+  color:#52fff0;
+  font-size:18px;
+  letter-spacing:7px;
+}
+
+#eyeStatus{
+  color:#55a9a7;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+#eyeStatus b{
+  color:#21ffb0;
+}
+
+
+/* ZONA DEL OJO */
+
+#eyeStage{
+  position:absolute;
+  left:50%;
+  top:45%;
+  width:420px;
+  height:300px;
+  transform:translate(-50%,-50%);
+}
+
+
+/* AROS */
+
+.eyeRing{
+  position:absolute;
+  left:50%;
+  top:50%;
+  border:1px solid #27eee0;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  opacity:.25;
+}
+
+.eyeRing.r1{
+  width:270px;
+  height:270px;
+  animation:eyeRotate 9s linear infinite;
+}
+
+.eyeRing.r2{
+  width:340px;
+  height:210px;
+  border-color:#368cff;
+  animation:eyeRotateReverse 13s linear infinite;
+}
+
+.eyeRing.r3{
+  width:400px;
+  height:250px;
+  border-style:dashed;
+  border-color:#1b6f76;
+  animation:eyeRotate 18s linear infinite;
+}
+
+@keyframes eyeRotate{
+  to{
+    transform:translate(-50%,-50%) rotate(360deg);
+  }
+}
+
+@keyframes eyeRotateReverse{
+  to{
+    transform:translate(-50%,-50%) rotate(-360deg);
+  }
+}
+
+
+/* OJO */
+
+#eye{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:280px;
+  height:150px;
+  transform:translate(-50%,-50%);
+  overflow:hidden;
+}
+
+
+/* FORMA DEL OJO */
+
+.eyeShape{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:250px;
+  height:115px;
+  transform:translate(-50%,-50%);
+  border:2px solid #48fff0;
+  border-radius:75% 10% 75% 10%;
+  transform-origin:center;
+  rotate:0deg;
+  box-shadow:
+    0 0 18px #00e5d566,
+    inset 0 0 25px #00e5d522;
+  background:radial-gradient(
+    ellipse,
+    #06333a 0%,
+    #03161f 45%,
+    #010711 75%
+  );
+}
+
+
+/* PUPILA */
+
+.eyePupil{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:65px;
+  height:65px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:
+    radial-gradient(
+      circle,
+      #bffff7 0%,
+      #27ffe7 12%,
+      #079c9d 30%,
+      #03151d 65%
+    );
+  border:2px solid #5cfff3;
+  box-shadow:
+    0 0 15px #00fff0,
+    0 0 50px #00e5ff99;
+  transition:transform .25s ease;
+}
+
+
+/* PUNTO CENTRAL */
+
+.eyePupil::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:18px;
+  height:18px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:#000;
+  box-shadow:0 0 8px #000;
+}
+
+
+/* BRILLO */
+
+.eyeGlow{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:100px;
+  height:100px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:#00fff033;
+  filter:blur(25px);
+  animation:eyeGlowPulse 1.5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+@keyframes eyeGlowPulse{
+  0%,100%{
+    opacity:.35;
+    transform:translate(-50%,-50%) scale(.85);
+  }
+
+  50%{
+    opacity:.8;
+    transform:translate(-50%,-50%) scale(1.2);
+  }
+}
+
+
+/* LÍNEAS DE ESCANEO */
+
+.eyeScanLine{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:2px;
+  height:100%;
+  background:#36fff0;
+  box-shadow:0 0 15px #00fff0;
+  opacity:0;
+  transform:translateX(-50%);
+}
+
+#eyeStage.scanning .eyeScanLine{
+  opacity:1;
+  animation:scanEye 1.2s linear infinite;
+}
+
+@keyframes scanEye{
+  from{
+    transform:translateX(-50%) scaleY(0);
+  }
+
+  50%{
+    transform:translateX(-50%) scaleY(1);
+  }
+
+  to{
+    transform:translateX(-50%) scaleY(0);
+  }
+}
+
+
+/* ESTADO */
+
+#eyeState{
+  position:absolute;
+  left:50%;
+  top:calc(50% + 150px);
+  transform:translateX(-50%);
+  color:#5b8d97;
+  font-size:10px;
+  letter-spacing:4px;
+  white-space:nowrap;
+}
+
+#eyeState b{
+  color:#42ffe7;
+}
+
+
+/* COMANDO DEL OJO */
+
+#eyeCommand{
+  position:absolute;
+  left:50%;
+  bottom:38px;
+  transform:translateX(-50%);
+  width:min(700px,88vw);
+  height:56px;
+  border:1px solid #24e9d7;
+  border-radius:30px;
+  background:#020b14e8;
+  box-shadow:
+    0 0 30px #00e0d522,
+    inset 0 0 20px #00e0d511;
+  display:flex;
+  align-items:center;
+  padding:0 20px;
+  z-index:10;
+}
+
+#eyeCommand span{
+  color:#27f5df;
+  font-size:24px;
+  margin-right:12px;
+}
+
+#eyeCommandInput{
+  flex:1;
+  background:none;
+  border:0;
+  outline:none;
+  color:#dff;
+  font-size:15px;
+  font-family:monospace;
+}
+
+#eyeCommandInput::placeholder{
+  color:#58717f;
+}
+
+
+/* AYUDA */
+
+#eyeHelp{
+  position:absolute;
+  left:30px;
+  bottom:16px;
+  color:#456f7b;
+  font-size:10px;
+  letter-spacing:1px;
+}
+
+#eyeHelp b{
+  color:#28ead8;
+}
+
+
+/* BOTÓN SALIR */
+
+#eyeClose{
+  position:absolute;
+  right:30px;
+  bottom:16px;
+  color:#43eadd;
+  font:10px monospace;
+  letter-spacing:2px;
+  cursor:pointer;
+}
+
+
+/* ALERTA */
+
+#auroraEyeMenu.eyeAlert .eyeShape{
+  border-color:#ff405f;
+  box-shadow:
+    0 0 25px #ff204f,
+    inset 0 0 30px #ff204f33;
+}
+
+#auroraEyeMenu.eyeAlert .eyePupil{
+  background:
+    radial-gradient(
+      circle,
+      #fff 0%,
+      #ff405f 15%,
+      #9c1029 35%,
+      #16030a 70%
+    );
+  border-color:#ff506b;
+  box-shadow:
+    0 0 20px #ff204f,
+    0 0 60px #ff204f99;
+}
+
+#auroraEyeMenu.eyeAlert #eyeState b{
+  color:#ff405f;
+}
+
+
+/* PARPADEO */
+
+#auroraEyeMenu.eyeBlink .eyeShape{
+  animation:eyeBlinkAnimation .35s ease;
+}
+
+@keyframes eyeBlinkAnimation{
+  0%{
+    transform:translate(-50%,-50%) scaleY(1);
+  }
+
+  45%{
+    transform:translate(-50%,-50%) scaleY(.08);
+  }
+
+  100%{
+    transform:translate(-50%,-50%) scaleY(1);
+  }
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  #eyeHeader{
+    top:18px;
+    left:18px;
+    right:18px;
+  }
+
+  #eyeTitle{
+    font-size:13px;
+    letter-spacing:5px;
+  }
+
+  #eyeStage{
+    width:330px;
+    height:260px;
+    top:43%;
+  }
+
+  .eyeRing.r1{
+    width:210px;
+    height:210px;
+  }
+
+  .eyeRing.r2{
+    width:270px;
+    height:170px;
+  }
+
+  .eyeRing.r3{
+    width:315px;
+    height:200px;
+  }
+
+  .eyeShape{
+    width:210px;
+    height:95px;
+  }
+
+  .eyePupil{
+    width:55px;
+    height:55px;
+  }
+
+  #eyeState{
+    top:calc(50% + 125px);
+  }
+
+  #eyeCommand{
+    width:92vw;
+    bottom:35px;
+  }
+
+  #eyeHelp{
+    display:none;
+  }
+
+  #eyeClose{
+    right:18px;
+    bottom:12px;
+  }
+
+}
+
+
+/* ==============================
+   BOTÓN DE APERTURA
+   ============================== */
+
+#eyeOpenButton{
+  position:absolute;
+  top:62px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#4fffe9;
+  font:10px monospace;
+  letter-spacing:3px;
+  opacity:.6;
+}
+
+</style>
+
+
+<!-- AURORA EYE -->
+
+<div id="auroraEyeMenu">
+
+  <div id="eyeHeader">
+
+    <div id="eyeTitle">
+      A U R O R A · E Y E
+    </div>
+
+    <div id="eyeStatus">
+      ● <b>OBSERVATION ACTIVE</b>
+    </div>
+
+  </div>
+
+
+  <!-- PARTÍCULAS -->
+
+  <div class="eyeParticle"
+       style="left:8%;animation-duration:6s"></div>
+
+  <div class="eyeParticle"
+       style="left:17%;animation-duration:8s;animation-delay:1s"></div>
+
+  <div class="eyeParticle"
+       style="left:29%;animation-duration:5s;animation-delay:2s"></div>
+
+  <div class="eyeParticle"
+       style="left:44%;animation-duration:9s;animation-delay:3s"></div>
+
+  <div class="eyeParticle"
+       style="left:61%;animation-duration:7s;animation-delay:1s"></div>
+
+  <div class="eyeParticle"
+       style="left:73%;animation-duration:6s;animation-delay:4s"></div>
+
+  <div class="eyeParticle"
+       style="left:88%;animation-duration:8s;animation-delay:2s"></div>
+
+
+  <!-- OJO -->
+
+  <div id="eyeStage">
+
+    <div class="eyeRing r1"></div>
+    <div class="eyeRing r2"></div>
+    <div class="eyeRing r3"></div>
+
+    <div id="eye">
+
+      <div class="eyeGlow"></div>
+
+      <div class="eyeShape"></div>
+
+      <div class="eyePupil" id="eyePupil"></div>
+
+      <div class="eyeScanLine"></div>
+
+    </div>
+
+  </div>
+
+
+  <div id="eyeState">
+    STATUS → <b id="eyeStateText">CALM</b>
+  </div>
+
+
+  <!-- COMANDOS -->
+
+  <form id="eyeCommand">
+
+    <span>›</span>
+
+    <input
+      id="eyeCommandInput"
+      autocomplete="off"
+      placeholder="Escribe un comando para el ojo..."
+    >
+
+  </form>
+
+
+  <div id="eyeHelp">
+    <b>COMMANDS:</b>
+    blink · look left · look right · focus · scan · alert · calm · status · help
+  </div>
+
+
+  <div id="eyeClose">
+    [ ESC · CLOSE ]
+  </div>
+
+</div>
+
+
+<script>
+
+(() => {
+
+  const eyeMenu =
+    document.getElementById('auroraEyeMenu');
+
+  const eyeStage =
+    document.getElementById('eyeStage');
+
+  const pupil =
+    document.getElementById('eyePupil');
+
+  const stateText =
+    document.getElementById('eyeStateText');
+
+  const eyeForm =
+    document.getElementById('eyeCommand');
+
+  const eyeInput =
+    document.getElementById('eyeCommandInput');
+
+  const eyeClose =
+    document.getElementById('eyeClose');
+
+
+  /* ABRIR EYE */
+
+  function openEye(){
+
+    document.getElementById('panel').style.display='none';
+
+    eyeMenu.style.display='block';
+
+    document.getElementById('app').style.display='none';
+
+    setTimeout(() => {
+      eyeInput.focus();
+    },100);
+
+  }
+
+
+  /* CERRAR EYE */
+
+  function closeEye(){
+
+    eyeMenu.style.display='none';
+
+    document.getElementById('app').style.display='block';
+
+    if(typeof home==='function'){
+      home();
+    }
+
+  }
+
+
+  /* PARPADEAR */
+
+  function blinkEye(){
+
+    eyeMenu.classList.remove('eyeBlink');
+
+    void eyeMenu.offsetWidth;
+
+    eyeMenu.classList.add('eyeBlink');
+
+    setTimeout(() => {
+      eyeMenu.classList.remove('eyeBlink');
+    },400);
+
+  }
+
+
+  /* MIRAR */
+
+  function look(direction){
+
+    let x=0;
+
+    if(direction==='left'){
+      x=-28;
+    }
+
+    if(direction==='right'){
+      x=28;
+    }
+
+    pupil.style.transform=
+      `translate(calc(-50% + ${x}px),-50%)`;
+
+    stateText.textContent=
+      direction.toUpperCase();
+
+  }
+
+
+  /* CENTRAR */
+
+  function focusEye(){
+
+    pupil.style.transform=
+      'translate(-50%,-50%)';
+
+    stateText.textContent='FOCUS';
+
+    pupil.style.boxShadow=
+      '0 0 25px #00fff0, 0 0 80px #00e5ff';
+
+    setTimeout(() => {
+
+      pupil.style.boxShadow=
+        '0 0 15px #00fff0, 0 0 50px #00e5ff99';
+
+    },1500);
+
+  }
+
+
+  /* SCAN */
+
+  function scanEye(){
+
+    eyeStage.classList.remove('scanning');
+
+    void eyeStage.offsetWidth;
+
+    eyeStage.classList.add('scanning');
+
+    stateText.textContent='SCANNING';
+
+    setTimeout(() => {
+
+      eyeStage.classList.remove('scanning');
+
+      stateText.textContent='SCAN COMPLETE';
+
+    },1800);
+
+  }
+
+
+  /* ALERT */
+
+  function alertEye(){
+
+    eyeMenu.classList.add('eyeAlert');
+
+    stateText.textContent='ALERT';
+
+  }
+
+
+  /* CALM */
+
+  function calmEye(){
+
+    eyeMenu.classList.remove('eyeAlert');
+
+    pupil.style.transform=
+      'translate(-50%,-50%)';
+
+    stateText.textContent='CALM';
+
+  }
+
+
+  /* STATUS */
+
+  function statusEye(){
+
+    const online=
+      navigator.onLine;
+
+    stateText.textContent=
+      online ? 'ONLINE' : 'OFFLINE';
+
+  }
+
+
+  /* HELP */
+
+  function helpEye(){
+
+    stateText.textContent='COMMANDS';
+
+    alert(
+      'AURORA EYE COMMANDS\\n\\n' +
+      'blink\\n' +
+      'look left\\n' +
+      'look right\\n' +
+      'focus\\n' +
+      'scan\\n' +
+      'alert\\n' +
+      'calm\\n' +
+      'status\\n' +
+      'close'
+    );
+
+  }
+
+
+  /* EJECUTAR COMANDO */
+
+  function executeEyeCommand(command){
+
+    command=
+      command
+      .toLowerCase()
+      .trim();
+
+
+    if(!command)
+      return;
+
+
+    if(command==='blink'){
+      blinkEye();
+      return;
+    }
+
+
+    if(command==='look left'){
+      look('left');
+      return;
+    }
+
+
+    if(command==='look right'){
+      look('right');
+      return;
+    }
+
+
+    if(
+      command==='focus' ||
+      command==='center'
+    ){
+      focusEye();
+      return;
+    }
+
+
+    if(command==='scan'){
+      scanEye();
+      return;
+    }
+
+
+    if(command==='alert'){
+      alertEye();
+      return;
+    }
+
+
+    if(
+      command==='calm' ||
+      command==='normal'
+    ){
+      calmEye();
+      return;
+    }
+
+
+    if(command==='status'){
+      statusEye();
+      return;
+    }
+
+
+    if(command==='help'){
+      helpEye();
+      return;
+    }
+
+
+    if(
+      command==='close' ||
+      command==='exit' ||
+      command==='home'
+    ){
+      closeEye();
+      return;
+    }
+
+
+    stateText.textContent=
+      'UNKNOWN COMMAND';
+
+  }
+
+
+  /*
+   * IMPORTANTE:
+   * Este listener está en CAPTURE para interceptar
+   * "eye" antes del formulario original de AURORA.
+   */
+
+  const originalForm =
+    document.getElementById('commandForm');
+
+  if(originalForm){
+
+    originalForm.addEventListener(
+      'submit',
+      e => {
+
+        const value =
+          document.getElementById('commandInput')
+          .value
+          .toLowerCase()
+          .trim();
+
+        if(value==='eye'){
+
+          e.preventDefault();
+          e.stopImmediatePropagation();
+
+          document.getElementById('commandInput')
+            .value='';
+
+          openEye();
+
+        }
+
+      },
+      true
+    );
+
+  }
+
+
+  /* COMANDOS DEL OJO */
+
+  eyeForm.addEventListener(
+    'submit',
+    e => {
+
+      e.preventDefault();
+
+      executeEyeCommand(
+        eyeInput.value
+      );
+
+      eyeInput.value='';
+
+    }
+  );
+
+
+  /* ESC */
+
+  document.addEventListener(
+    'keydown',
+    e => {
+
+      if(
+        e.key==='Escape' &&
+        eyeMenu.style.display==='block'
+      ){
+
+        closeEye();
+
+      }
+
+    }
+  );
+
+
+  /* BOTÓN CLOSE */
+
+  eyeClose.addEventListener(
+    'click',
+    closeEye
+  );
+
+
+  /* OJO SIGUE EL CURSOR */
+
+  document.addEventListener(
+    'mousemove',
+    e => {
+
+      if(
+        eyeMenu.style.display!=='block'
+      )
+        return;
+
+
+      const rect =
+        eyeStage.getBoundingClientRect();
+
+      const centerX =
+        rect.left + rect.width/2;
+
+      const centerY =
+        rect.top + rect.height/2;
+
+      let dx =
+        (e.clientX-centerX) /
+        (rect.width/2);
+
+      let dy =
+        (e.clientY-centerY) /
+        (rect.height/2);
+
+
+      dx=Math.max(-1,Math.min(1,dx));
+      dy=Math.max(-1,Math.min(1,dy));
+
+
+      const x=dx*25;
+      const y=dy*18;
+
+
+      pupil.style.transform=
+        `translate(calc(-50% + ${x}px),calc(-50% + ${y}px))`;
+
+    }
+  );
+
+
+  /* TOQUE EN CELULAR */
+
+  document.addEventListener(
+    'touchmove',
+    e => {
+
+      if(
+        eyeMenu.style.display!=='block'
+      )
+        return;
+
+
+      const touch=e.touches[0];
+
+      const rect=
+        eyeStage.getBoundingClientRect();
+
+      const centerX=
+        rect.left+rect.width/2;
+
+      const centerY=
+        rect.top+rect.height/2;
+
+      let dx=
+        (touch.clientX-centerX)/
+        (rect.width/2);
+
+      let dy=
+        (touch.clientY-centerY)/
+        (rect.height/2);
+
+      dx=Math.max(-1,Math.min(1,dx));
+      dy=Math.max(-1,Math.min(1,dy));
+
+      const x=dx*25;
+      const y=dy*18;
+
+      pupil.style.transform=
+        `translate(calc(-50% + ${x}px),calc(-50% + ${y}px))`;
+
+    },
+    {passive:true}
+  );
+
+
+  /* PARPADEO AUTOMÁTICO */
+
+  setInterval(() => {
+
+    if(
+      eyeMenu.style.display==='block'
+    ){
+
+      blinkEye();
+
+    }
+
+  },5000);
+
+
+})();
+
+</script>
 </body>
   </html>
