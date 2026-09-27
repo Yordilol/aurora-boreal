@@ -422,6 +422,46 @@ transition:.4s
 
 .message.show{opacity:1}
 
+/* AURORA SYSTEM LOG */
+
+#systemLog{
+position:absolute;
+right:30px;
+top:105px;
+width:270px;
+height:225px;
+padding:14px;
+border:1px solid #174854;
+background:#020b14d9;
+box-shadow:0 0 25px #00e0d522;
+font:10px monospace;
+color:#6fffe9;
+overflow:hidden;
+z-index:8;
+pointer-events:none
+}
+
+#systemLogTitle{
+color:#4fffe9;
+letter-spacing:2px;
+border-bottom:1px solid #17313b;
+padding-bottom:8px;
+margin-bottom:8px
+}
+
+#systemLogText{
+line-height:1.7
+}
+
+#systemLogText div{
+opacity:0;
+animation:logAppear .3s forwards
+}
+
+@keyframes logAppear{
+to{opacity:1}
+}
+
 /* PANEL */
 
 .panel{
@@ -601,6 +641,14 @@ width:92vw
 
 .help{display:none}
 
+#systemLog{
+right:10px;
+top:90px;
+width:190px;
+height:150px;
+font-size:9px
+}
+
 }
 </style>
 </head>
@@ -667,6 +715,21 @@ A U R O R A
 <div class="message" id="message"></div>
 
 
+<!-- SYSTEM LOG -->
+
+<div id="systemLog">
+
+<div id="systemLogTitle">
+[ AURORA SYSTEM LOG ]
+</div>
+
+<div id="systemLogText">
+<div>> SYSTEM ONLINE</div>
+</div>
+
+</div>
+
+
 <div class="scene">
 
 <div class="world" id="world">
@@ -689,7 +752,7 @@ class="orbit"
 cx="500"
 cy="350"
 rx="220"
-ry="300"
+cy="300"
 transform="rotate(55 500 350)"
 />
 
@@ -931,6 +994,37 @@ const nodes=[
 const world=document.getElementById('world');
 
 const msg=document.getElementById('message');
+
+const logText=document.getElementById('systemLogText');
+
+
+/* SYSTEM LOG */
+
+function runLog(lines){
+
+logText.innerHTML='';
+
+let i=0;
+
+const timer=setInterval(()=>{
+
+if(i>=lines.length){
+
+clearInterval(timer);
+
+return;
+
+}
+
+const line=document.createElement('div');
+
+line.textContent='> '+lines[i++];
+
+logText.appendChild(line);
+
+},350);
+
+}
 
 
 /* REPOSITORIO */
@@ -1522,6 +1616,53 @@ setTimeout(
 1600
 );
 
+
+/* LOGS */
+
+const logs={
+
+files:[
+'CONNECTING TO FILE SYSTEM...',
+'AUTHENTICATING USER...',
+'ACCESSING /FILES',
+'SCANNING DIRECTORY...',
+'FILES ONLINE',
+'CONNECTION STABLE',
+'READY'
+],
+
+images:[
+'ACCESSING IMAGE MODULE...',
+'CONNECTING TO /IMAGES',
+'SCANNING GALLERY...',
+'IMAGE DATABASE ONLINE',
+'CONNECTION STABLE',
+'MODULE READY'
+],
+
+notes:[
+'ACCESSING NOTES MODULE...',
+'CONNECTING TO /NOTES',
+'READING INDEX...',
+'NOTES DATABASE ONLINE',
+'CONNECTION STABLE',
+'MODULE READY'
+],
+
+system:[
+'ACCESSING SYSTEM MODULE...',
+'CHECKING CONNECTION...',
+'CHECKING STORAGE...',
+'CHECKING NETWORK...',
+'SYSTEM ONLINE',
+'ALL SYSTEMS STABLE',
+'READY'
+]
+
+};
+
+runLog(logs[name]||[]);
+
 }
 
 
@@ -1534,82 +1675,4 @@ document.getElementById('panelTitle')
 
 document.getElementById('panelContent')
 .innerHTML=
-(items||[])
-.map(
-x=>'<a href="#">'+x+'</a>'
-)
-.join('');
-
-document.getElementById('panel')
-.style.display='flex';
-
-}
-
-
-/* HOME */
-
-function home(){
-
-document.getElementById('panel')
-.style.display='none';
-
-nodes.forEach(
-n=>
-n.classList.remove('focus','dim')
-);
-
-world.style.transform='none';
-
-msg.classList.remove('show');
-
-}
-
-
-/* FORMULARIO */
-
-document.getElementById('commandForm')
-.addEventListener(
-'submit',
-e=>{
-
-e.preventDefault();
-
-navigate(
-document.getElementById('commandInput').value
-);
-
-document.getElementById('commandInput')
-.value='';
-
-}
-);
-
-
-/* ESCAPE */
-
-document.getElementById('commandInput')
-.addEventListener(
-'keydown',
-e=>{
-
-if(e.key==='Escape')
-home();
-
-}
-);
-
-
-/* NODOS */
-
-nodes.forEach(
-n=>
-n.addEventListener(
-'click',
-()=>navigate(n.dataset.target)
-)
-);
-
-</script>
-
-</body>
-  </html>
+  
