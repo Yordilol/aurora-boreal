@@ -5175,6 +5175,1235 @@ n.addEventListener(
       <button
         type="button"
         class="ap-button"
-        id="apUpdatePerso     
+        id="apUpdatePerso    
+<!-- =========================================================
+     AURORA DATABASE
+     MÓDULO INDEPENDIENTE
+     ========================================================= -->
+
+<style>
+#auroraDatabaseNew{
+  position:fixed;
+  inset:0;
+  z-index:1000000;
+  display:none;
+  overflow-y:auto;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(0,255,190,.13),transparent 35%),
+    radial-gradient(circle at 10% 90%,rgba(0,100,255,.12),transparent 35%),
+    #020607;
+  color:#baffea;
+  font-family:monospace;
+}
+
+#auroraDatabaseNew *{
+  box-sizing:border-box;
+}
+
+.adn-wrap{
+  width:min(900px,92%);
+  margin:45px auto;
+}
+
+.adn-header{
+  padding:18px 0;
+  border-bottom:1px solid rgba(0,255,180,.4);
+  color:#00ffae;
+  font-size:20px;
+  letter-spacing:6px;
+  text-shadow:0 0 15px rgba(0,255,174,.8);
+}
+
+.adn-subtitle{
+  margin-top:8px;
+  color:#55c7ff;
+  font-size:12px;
+  letter-spacing:3px;
+}
+
+.adn-terminal{
+  margin-top:25px;
+  padding:22px;
+  min-height:400px;
+  border:1px solid rgba(0,255,180,.28);
+  background:rgba(0,12,15,.82);
+  box-shadow:
+    0 0 35px rgba(0,255,180,.08),
+    inset 0 0 30px rgba(0,255,180,.03);
+}
+
+.adn-line{
+  margin:9px 0;
+  opacity:0;
+  animation:adnLine .3s forwards;
+}
+
+@keyframes adnLine{
+  from{
+    opacity:0;
+    transform:translateX(-10px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+.adn-green{
+  color:#00ffae;
+  text-shadow:0 0 10px rgba(0,255,174,.7);
+}
+
+.adn-blue{
+  color:#55c7ff;
+  text-shadow:0 0 10px rgba(85,199,255,.5);
+}
+
+.adn-red{
+  color:#ff526b;
+}
+
+.adn-search{
+  display:flex;
+  gap:10px;
+  margin-top:25px;
+}
+
+.adn-search input{
+  flex:1;
+  min-width:0;
+  padding:14px;
+  background:#01090b;
+  color:#baffea;
+  border:1px solid rgba(0,255,174,.35);
+  outline:none;
+  font-family:monospace;
+}
+
+.adn-search input:focus{
+  border-color:#00ffae;
+  box-shadow:0 0 15px rgba(0,255,174,.18);
+}
+
+.adn-button{
+  padding:12px 18px;
+  background:transparent;
+  border:1px solid #00ffae;
+  color:#00ffae;
+  font-family:monospace;
+  cursor:pointer;
+}
+
+.adn-button:hover{
+  background:rgba(0,255,174,.1);
+  box-shadow:0 0 15px rgba(0,255,174,.25);
+}
+
+.adn-profile{
+  margin-top:25px;
+  padding:25px;
+  border:1px solid rgba(0,255,174,.4);
+  background:rgba(0,10,13,.9);
+  animation:adnProfile .9s ease forwards;
+}
+
+@keyframes adnProfile{
+  from{
+    opacity:0;
+    transform:scale(.93);
+    filter:blur(12px);
+  }
+  60%{
+    opacity:.8;
+    filter:blur(2px);
+  }
+  to{
+    opacity:1;
+    transform:scale(1);
+    filter:blur(0);
+  }
+}
+
+.adn-profile-title{
+  color:#00ffae;
+  font-size:24px;
+  letter-spacing:4px;
+  margin-bottom:20px;
+  text-shadow:0 0 15px rgba(0,255,174,.8);
+}
+
+.adn-field{
+  display:flex;
+  gap:15px;
+  padding:12px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.adn-label{
+  width:130px;
+  min-width:130px;
+  color:#55c7ff;
+}
+
+.adn-value{
+  color:#e0fff7;
+  word-break:break-word;
+}
+
+.adn-scan{
+  height:2px;
+  width:100%;
+  margin:25px 0;
+  background:#00ffae;
+  box-shadow:0 0 18px #00ffae;
+  animation:adnScan 1s linear infinite;
+}
+
+@keyframes adnScan{
+  0%{
+    opacity:.2;
+    transform:translateY(-8px);
+  }
+  50%{
+    opacity:1;
+  }
+  100%{
+    opacity:.2;
+    transform:translateY(8px);
+  }
+}
+
+.adn-person{
+  padding:14px;
+  margin:8px 0;
+  border-left:2px solid #00ffae;
+  background:rgba(0,255,174,.035);
+  cursor:pointer;
+}
+
+.adn-person:hover{
+  background:rgba(0,255,174,.1);
+}
+
+.adn-close{
+  position:fixed;
+  right:20px;
+  top:16px;
+  color:#00ffae;
+  cursor:pointer;
+  z-index:5;
+}
+
+.adn-close:hover{
+  color:white;
+}
+
+.adn-admin{
+  margin-top:25px;
+  padding:20px;
+  border:1px solid rgba(85,199,255,.3);
+}
+
+.adn-input{
+  width:100%;
+  padding:13px;
+  margin:7px 0;
+  background:#01090b;
+  border:1px solid rgba(0,255,174,.3);
+  outline:none;
+  color:#baffea;
+  font-family:monospace;
+}
+
+.adn-input:focus{
+  border-color:#00ffae;
+}
+
+@media(max-width:600px){
+
+  .adn-wrap{
+    width:94%;
+    margin:50px auto;
+  }
+
+  .adn-search{
+    flex-direction:column;
+  }
+
+  .adn-field{
+    display:block;
+  }
+
+  .adn-label{
+    width:auto;
+    min-width:0;
+    margin-bottom:5px;
+  }
+}
+</style>
+
+
+<div id="auroraDatabaseNew">
+
+  <div class="adn-close" id="adnClose">
+    [ ESC / CLOSE ]
+  </div>
+
+  <div class="adn-wrap">
+
+    <div class="adn-header">
+      A U R O R A · D A T A B A S E
+    </div>
+
+    <div class="adn-subtitle">
+      PERSON INFORMATION SYSTEM
+    </div>
+
+    <div class="adn-terminal" id="adnScreen">
+
+      <div class="adn-line adn-green">
+        [ AURORA DATABASE ]
+      </div>
+
+      <div class="adn-line adn-blue">
+        &gt; DATABASE ONLINE
+      </div>
+
+      <div class="adn-search">
+
+        <input
+          id="adnSearch"
+          type="text"
+          autocomplete="off"
+          placeholder="SEARCH PERSON..."
+        >
+
+        <button
+          class="adn-button"
+          id="adnSearchButton"
+          type="button"
+        >
+          SEARCH
+        </button>
+
+      </div>
+
+      <div style="margin-top:20px">
+
+        <button
+          class="adn-button"
+          id="adnListButton"
+          type="button"
+        >
+          LIST
+        </button>
+
+        <button
+          class="adn-button"
+          id="adnAdminButton"
+          type="button"
+        >
+          ADMIN
+        </button>
+
+      </div>
+
+      <div id="adnResults"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+(function(){
+
+  "use strict";
+
+  /* =====================================================
+     CONFIGURACIÓN
+     ===================================================== */
+
+  const ADN_STORAGE =
+    "AURORA_DATABASE_PERSONS_V1";
+
+  const ADN_ADMIN_PASSWORD =
+    "SAMARITAN";
+
+
+  let adnAdminUnlocked = false;
+
+
+  /* =====================================================
+     ELEMENTOS
+     ===================================================== */
+
+  const adnMenu =
+    document.getElementById(
+      "auroraDatabaseNew"
+    );
+
+  const adnResults =
+    document.getElementById(
+      "adnResults"
+    );
+
+  const adnSearch =
+    document.getElementById(
+      "adnSearch"
+    );
+
+
+  /* =====================================================
+     BASE DE DATOS
+     ===================================================== */
+
+  function adnGetData(){
+
+    try{
+
+      const data =
+        localStorage.getItem(
+          ADN_STORAGE
+        );
+
+      if(!data){
+        return {};
+      }
+
+      return JSON.parse(data);
+
+    }catch(e){
+
+      return {};
+    }
+  }
+
+
+  function adnSaveData(data){
+
+    localStorage.setItem(
+      ADN_STORAGE,
+      JSON.stringify(data)
+    );
+  }
+
+
+  function adnKey(name){
+
+    return String(name)
+      .trim()
+      .toLowerCase();
+  }
+
+
+  function adnEscape(text){
+
+    return String(text ?? "")
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
+
+  /* =====================================================
+     ABRIR / CERRAR
+     ===================================================== */
+
+  function adnOpen(){
+
+    adnMenu.style.display =
+      "block";
+
+    adnSearch.focus();
+  }
+
+
+  function adnClose(){
+
+    adnMenu.style.display =
+      "none";
+
+    adnAdminUnlocked = false;
+
+    adnResults.innerHTML = "";
+
+  }
+
+
+  document
+    .getElementById("adnClose")
+    .addEventListener(
+      "click",
+      adnClose
+    );
+
+
+  /* =====================================================
+     BUSCAR
+     ===================================================== */
+
+  async function adnSearchPerson(){
+
+    const name =
+      adnSearch.value.trim();
+
+
+    if(!name){
+
+      adnResults.innerHTML = `
+        <div class="adn-line adn-red">
+          &gt; ENTER PERSON NAME
+        </div>
+      `;
+
+      return;
+    }
+
+
+    const data =
+      adnGetData();
+
+    const person =
+      data[adnKey(name)];
+
+
+    adnResults.innerHTML = `
+
+      <div class="adn-line adn-green">
+        [ AURORA DATABASE ]
+      </div>
+
+      <div class="adn-line adn-blue">
+        &gt; INITIALIZING SEARCH...
+      </div>
+    `;
+
+
+    await adnWait(450);
+
+
+    adnResults.innerHTML += `
+
+      <div class="adn-line adn-blue">
+        &gt; SCANNING DATABASE...
+      </div>
+
+      <div class="adn-scan"></div>
+    `;
+
+
+    await adnWait(650);
+
+
+    if(!person){
+
+      adnResults.innerHTML += `
+
+        <div class="adn-line adn-red">
+          &gt; NO MATCH FOUND
+        </div>
+
+        <div class="adn-line adn-red">
+          &gt; PROFILE DOES NOT EXIST
+        </div>
+      `;
+
+      return;
+    }
+
+
+    adnResults.innerHTML += `
+
+      <div class="adn-line adn-green">
+        &gt; MATCH FOUND:
+        ${adnEscape(
+          person.name
+        ).toUpperCase()}
+      </div>
+    `;
+
+
+    await adnWait(450);
+
+
+    adnResults.innerHTML += `
+
+      <div class="adn-line adn-blue">
+        &gt; VERIFYING RECORD...
+      </div>
+    `;
+
+
+    await adnWait(450);
+
+
+    adnResults.innerHTML += `
+
+      <div class="adn-line adn-blue">
+        &gt; LOADING PROFILE...
+      </div>
+    `;
+
+
+    await adnWait(550);
+
+
+    adnResults.innerHTML += `
+
+      <div class="adn-line adn-green">
+        &gt; ACCESS GRANTED
+      </div>
+    `;
+
+
+    await adnWait(350);
+
+
+    /* PERFIL */
+
+    const profile =
+      document.createElement(
+        "div"
+      );
+
+    profile.className =
+      "adn-profile";
+
+
+    profile.innerHTML = `
+
+      <div class="adn-profile-title">
+        AURORA · PROFILE
+      </div>
+
+      <div class="adn-field">
+        <div class="adn-label">
+          NAME
+        </div>
+
+        <div class="adn-value">
+          ${adnEscape(person.name)}
+        </div>
+      </div>
+
+      <div class="adn-field">
+        <div class="adn-label">
+          AGE
+        </div>
+
+        <div class="adn-value">
+          ${adnEscape(
+            person.age || "—"
+          )}
+        </div>
+      </div>
+
+      <div class="adn-field">
+        <div class="adn-label">
+          DESCRIPTION
+        </div>
+
+        <div class="adn-value">
+          ${adnEscape(
+            person.description || "—"
+          )}
+        </div>
+      </div>
+
+      <div class="adn-field">
+        <div class="adn-label">
+          INTERESTS
+        </div>
+
+        <div class="adn-value">
+          ${adnEscape(
+            person.interests || "—"
+          )}
+        </div>
+      </div>
+
+      <div class="adn-field">
+        <div class="adn-label">
+          ADDITIONAL
+        </div>
+
+        <div class="adn-value">
+          ${adnEscape(
+            person.additional || "—"
+          )}
+        </div>
+      </div>
+    `;
+
+
+    adnResults.appendChild(
+      profile
+    );
+  }
+
+
+  function adnWait(ms){
+
+    return new Promise(
+      resolve =>
+        setTimeout(
+          resolve,
+          ms
+        )
+    );
+  }
+
+
+  /* =====================================================
+     LISTA
+     ===================================================== */
+
+  function adnShowList(){
+
+    const data =
+      adnGetData();
+
+    const people =
+      Object.values(data);
+
+
+    adnResults.innerHTML = `
+
+      <div class="adn-line adn-green">
+        [ DATABASE DIRECTORY ]
+      </div>
+
+      <div class="adn-line adn-blue">
+        &gt; RECORDS FOUND:
+        ${people.length}
+      </div>
+    `;
+
+
+    if(people.length === 0){
+
+      adnResults.innerHTML += `
+
+        <div class="adn-line adn-blue">
+          &gt; DATABASE EMPTY
+        </div>
+      `;
+
+      return;
+    }
+
+
+    people
+      .sort(function(a,b){
+
+        return a.name.localeCompare(
+          b.name
+        );
+
+      })
+      .forEach(function(person){
+
+        const item =
+          document.createElement(
+            "div"
+          );
+
+        item.className =
+          "adn-person";
+
+        item.textContent =
+          "▸ " + person.name;
+
+
+        item.addEventListener(
+          "click",
+          function(){
+
+            adnSearch.value =
+              person.name;
+
+            adnSearchPerson();
+          }
+        );
+
+
+        adnResults.appendChild(
+          item
+        );
+
+      });
+  }
+
+
+  /* =====================================================
+     ADMIN
+     ===================================================== */
+
+  function adnAdmin(){
+
+    if(adnAdminUnlocked){
+
+      adnAdminPanel();
+
+      return;
+    }
+
+
+    adnResults.innerHTML = `
+
+      <div class="adn-admin">
+
+        <div class="adn-profile-title">
+          ADMIN ACCESS
+        </div>
+
+        <div class="adn-line adn-blue">
+          &gt; ENTER ADMIN PASSWORD:
+        </div>
+
+        <input
+          id="adnAdminPass"
+          class="adn-input"
+          type="password"
+          placeholder="********"
+        >
+
+        <button
+          id="adnAdminLogin"
+          class="adn-button"
+          type="button"
+        >
+          AUTHENTICATE
+        </button>
+
+        <div id="adnAdminMessage"></div>
+
+      </div>
+    `;
+
+
+    const pass =
+      document.getElementById(
+        "adnAdminPass"
+      );
+
+    const login =
+      document.getElementById(
+        "adnAdminLogin"
+      );
+
+    const message =
+      document.getElementById(
+        "adnAdminMessage"
+      );
+
+
+    function authenticate(){
+
+      if(
+        pass.value ===
+        ADN_ADMIN_PASSWORD
+      ){
+
+        adnAdminUnlocked =
+          true;
+
+        message.innerHTML = `
+
+          <div class="adn-line adn-green">
+            &gt; AUTHENTICATION SUCCESSFUL
+          </div>
+
+          <div class="adn-line adn-green">
+            &gt; ADMIN ACCESS GRANTED
+          </div>
+        `;
+
+
+        setTimeout(
+          adnAdminPanel,
+          500
+        );
+
+      }else{
+
+        message.innerHTML = `
+
+          <div class="adn-line adn-red">
+            &gt; AUTHENTICATION FAILED
+          </div>
+        `;
+
+        pass.value = "";
+        pass.focus();
+      }
+    }
+
+
+    login.addEventListener(
+      "click",
+      authenticate
+    );
+
+
+    pass.addEventListener(
+      "keydown",
+      function(e){
+
+        if(e.key === "Enter"){
+
+          e.preventDefault();
+
+          authenticate();
+        }
+      }
+    );
+
+
+    pass.focus();
+  }
+
+
+  /* =====================================================
+     PANEL ADMIN
+     ===================================================== */
+
+  function adnAdminPanel(){
+
+    if(!adnAdminUnlocked){
+
+      adnAdmin();
+
+      return;
+    }
+
+
+    adnResults.innerHTML = `
+
+      <div class="adn-admin">
+
+        <div class="adn-profile-title">
+          AURORA · ADMIN
+        </div>
+
+        <div class="adn-line adn-green">
+          &gt; ADMIN ACCESS ACTIVE
+        </div>
+
+        <button
+          id="adnAddButton"
+          class="adn-button"
+          type="button"
+        >
+          + ADD PERSON
+        </button>
+
+      </div>
+    `;
+
+
+    document
+      .getElementById(
+        "adnAddButton"
+      )
+      .addEventListener(
+        "click",
+        adnAddForm
+      );
+  }
+
+
+  /* =====================================================
+     AGREGAR PERSONA
+     ===================================================== */
+
+  function adnAddForm(){
+
+    adnResults.innerHTML = `
+
+      <div class="adn-profile">
+
+        <div class="adn-profile-title">
+          NEW PROFILE
+        </div>
+
+        <input
+          id="adnName"
+          class="adn-input"
+          placeholder="NAME"
+        >
+
+        <input
+          id="adnAge"
+          class="adn-input"
+          placeholder="AGE"
+        >
+
+        <input
+          id="adnDescription"
+          class="adn-input"
+          placeholder="DESCRIPTION"
+        >
+
+        <input
+          id="adnInterests"
+          class="adn-input"
+          placeholder="INTERESTS"
+        >
+
+        <input
+          id="adnAdditional"
+          class="adn-input"
+          placeholder="ADDITIONAL"
+        >
+
+        <button
+          id="adnSave"
+          class="adn-button"
+          type="button"
+        >
+          SAVE
+        </button>
+
+      </div>
+    `;
+
+
+    document
+      .getElementById("adnSave")
+      .addEventListener(
+        "click",
+        function(){
+
+          const name =
+            document
+              .getElementById(
+                "adnName"
+              )
+              .value.trim();
+
+
+          if(!name){
+
+            alert(
+              "ENTER A NAME"
+            );
+
+            return;
+          }
+
+
+          const data =
+            adnGetData();
+
+          const key =
+            adnKey(name);
+
+
+          if(data[key]){
+
+            alert(
+              "PERSON ALREADY EXISTS"
+            );
+
+            return;
+          }
+
+
+          data[key] = {
+
+            name:name,
+
+            age:
+              document
+                .getElementById(
+                  "adnAge"
+                )
+                .value.trim(),
+
+            description:
+              document
+                .getElementById(
+                  "adnDescription"
+                )
+                .value.trim(),
+
+            interests:
+              document
+                .getElementById(
+                  "adnInterests"
+                )
+                .value.trim(),
+
+            additional:
+              document
+                .getElementById(
+                  "adnAdditional"
+                )
+                .value.trim()
+          };
+
+
+          adnSaveData(data);
+
+
+          adnResults.innerHTML = `
+
+            <div class="adn-line adn-green">
+              &gt; SAVING RECORD...
+            </div>
+          `;
+
+
+          setTimeout(
+            function(){
+
+              adnResults.innerHTML += `
+
+                <div class="adn-line adn-green">
+                  &gt; RECORD SAVED
+                </div>
+
+                <div class="adn-line adn-blue">
+                  &gt; DATABASE UPDATED
+                </div>
+              `;
+
+            },
+            500
+          );
+
+        }
+      );
+  }
+
+
+  /* =====================================================
+     BOTONES
+     ===================================================== */
+
+  document
+    .getElementById(
+      "adnSearchButton"
+    )
+    .addEventListener(
+      "click",
+      adnSearchPerson
+    );
+
+
+  document
+    .getElementById(
+      "adnListButton"
+    )
+    .addEventListener(
+      "click",
+      adnShowList
+    );
+
+
+  document
+    .getElementById(
+      "adnAdminButton"
+    )
+    .addEventListener(
+      "click",
+      adnAdmin
+    );
+
+
+  adnSearch.addEventListener(
+    "keydown",
+    function(e){
+
+      if(e.key === "Enter"){
+
+        e.preventDefault();
+
+        adnSearchPerson();
+      }
+    }
+  );
+
+
+  /* =====================================================
+     COMANDO PRINCIPAL: database
+     
+     No modifica navigate().
+     No modifica commandForm.
+     ===================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(e){
+
+      if(e.key !== "Enter"){
+        return;
+      }
+
+
+      const target =
+        e.target;
+
+
+      if(
+        !target ||
+        typeof target.value !== "string"
+      ){
+        return;
+      }
+
+
+      const command =
+        target.value.trim()
+          .toLowerCase();
+
+
+      if(command !== "database"){
+        return;
+      }
+
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+
+      target.value = "";
+
+
+      adnOpen();
+
+    },
+    true
+  );
+
+
+  /* =====================================================
+     ESC
+     ===================================================== */
+
+  document.addEventListener(
+    "keydown",
+    function(e){
+
+      if(
+        e.key === "Escape" &&
+        adnMenu.style.display === "block"
+      ){
+
+        adnClose();
+      }
+
+    }
+  );
+
+})();
+</script>        
 </body>
   </html>
