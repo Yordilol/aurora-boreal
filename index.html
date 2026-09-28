@@ -6466,6 +6466,35 @@ n.addEventListener(
   db.style.overflow = "auto";
 
 })();
+</script>
+<script>
+document.addEventListener("keydown", function(e){
+  if(e.key === "Enter"){
+    const input = document.getElementById("commandInput");
+    if(input && input.value.trim().toLowerCase() === "database"){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      document.body.innerHTML = `
+        <div style="
+          position:fixed;
+          inset:0;
+          background:#020608;
+          color:#00ff9c;
+          font-family:monospace;
+          padding:40px;
+          box-sizing:border-box;
+        ">
+          <h1>AURORA DATABASE</h1>
+          <p>> DATABASE ONLINE</p>
+          <p>> SYSTEM READY</p>
+        </div>
+      `;
+
+      return false;
+    }
+  }
+}, true);
 </script>     
 </body>
   </html>
