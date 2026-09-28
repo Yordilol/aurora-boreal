@@ -6404,6 +6404,46 @@ n.addEventListener(
   );
 
 })();
-</script>        
+</script>
+<script>
+(function(){
+
+  document.addEventListener("keydown", function(e){
+
+    if(e.key !== "Enter") return;
+
+    const input = document.getElementById("commandInput");
+    if(!input) return;
+
+    const cmd = input.value.trim().toLowerCase();
+
+    if(cmd === "database" || cmd === "db"){
+
+      // Detiene al sistema original
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      const app = document.getElementById("app");
+      const database = document.getElementById("auroraDatabaseNew");
+
+      if(app) app.style.display = "none";
+
+      if(database){
+        database.style.display = "flex";
+        database.style.opacity = "1";
+
+        const search = document.getElementById("adnSearch");
+        if(search) setTimeout(() => search.focus(), 100);
+      }
+
+      input.value = "";
+
+      return false;
+    }
+
+  }, true);
+
+})();
+</script>     
 </body>
   </html>
