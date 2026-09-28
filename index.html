@@ -3991,72 +3991,66 @@ n.addEventListener(
 
 })();
 
-</script>  
+</script>
 <!-- =========================================================
      AURORA PEOPLE DATABASE
-     Pegar este bloque antes de </body>
-========================================================= -->
+     VERSION ESTABLE
+     ========================================================= -->
 
 <style>
-#auroraPeople{
+/* ---------- CONTENEDOR ---------- */
+
+#auroraPeopleDB{
   position:fixed;
   inset:0;
-  z-index:99999;
+  z-index:999999;
   display:none;
   overflow:auto;
   background:
-    radial-gradient(circle at 50% 35%,rgba(0,255,180,.10),transparent 35%),
-    radial-gradient(circle at 20% 80%,rgba(0,120,255,.10),transparent 35%),
+    radial-gradient(circle at 50% 35%,rgba(0,255,180,.12),transparent 35%),
+    radial-gradient(circle at 15% 85%,rgba(0,120,255,.10),transparent 35%),
     #020607;
-  color:#b8ffe9;
+  color:#baffea;
   font-family:monospace;
 }
 
-#auroraPeople::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,
-    transparent 0px,
-    transparent 3px,
-    rgba(0,255,180,.025) 4px
-  );
+#auroraPeopleDB *{
+  box-sizing:border-box;
 }
 
-.ap-container{
-  width:min(900px,92%);
-  margin:50px auto;
-  position:relative;
+#auroraPeopleDB .ap-wrap{
+  width:min(850px,92%);
+  margin:55px auto;
 }
 
-.ap-header{
-  border-bottom:1px solid rgba(0,255,180,.35);
+#auroraPeopleDB .ap-header{
   padding:15px 0;
+  border-bottom:1px solid rgba(0,255,180,.35);
+  color:#7fffd4;
   letter-spacing:5px;
-  color:#8affdc;
-  text-shadow:0 0 15px #00ffae;
+  text-shadow:0 0 15px rgba(0,255,180,.8);
 }
 
-.ap-terminal{
+#auroraPeopleDB .ap-terminal{
   margin-top:25px;
+  padding:25px;
   min-height:300px;
   border:1px solid rgba(0,255,180,.25);
-  background:rgba(0,20,20,.55);
+  background:rgba(0,15,17,.75);
   box-shadow:
-    0 0 35px rgba(0,255,180,.08),
+    0 0 30px rgba(0,255,180,.08),
     inset 0 0 30px rgba(0,255,180,.03);
-  padding:25px;
 }
 
-.ap-line{
+/* ---------- TERMINAL ---------- */
+
+#auroraPeopleDB .ap-line{
   margin:10px 0;
   opacity:0;
-  animation:apLine .25s forwards;
+  animation:apLineIn .25s forwards;
 }
 
-@keyframes apLine{
+@keyframes apLineIn{
   from{
     opacity:0;
     transform:translateX(-12px);
@@ -4067,39 +4061,68 @@ n.addEventListener(
   }
 }
 
-.ap-green{
-  color:#00ff9d;
-  text-shadow:0 0 10px #00ff9d;
+#auroraPeopleDB .ap-green{
+  color:#00ffae;
+  text-shadow:0 0 10px rgba(0,255,174,.7);
 }
 
-.ap-blue{
-  color:#5ac8ff;
-  text-shadow:0 0 10px #168cff;
+#auroraPeopleDB .ap-blue{
+  color:#55c7ff;
+  text-shadow:0 0 10px rgba(40,150,255,.5);
 }
 
-.ap-red{
-  color:#ff4d6d;
+#auroraPeopleDB .ap-red{
+  color:#ff5470;
 }
 
-.ap-profile{
+/* ---------- SCAN ---------- */
+
+#auroraPeopleDB .ap-scan{
+  width:100%;
+  height:2px;
+  margin:25px 0;
+  background:#00ffae;
+  box-shadow:0 0 15px #00ffae;
+  animation:apScan 1s linear infinite;
+}
+
+@keyframes apScan{
+  0%{
+    opacity:.15;
+    transform:translateY(-10px);
+  }
+  50%{
+    opacity:1;
+  }
+  100%{
+    opacity:.15;
+    transform:translateY(10px);
+  }
+}
+
+/* ---------- PROFILE ---------- */
+
+#auroraPeopleDB .ap-profile{
   margin-top:25px;
   padding:25px;
   border:1px solid rgba(0,255,180,.45);
-  background:rgba(0,12,15,.8);
-  box-shadow:0 0 30px rgba(0,255,180,.12);
-  animation:profileIn .7s ease forwards;
+  background:rgba(0,12,15,.9);
+  box-shadow:0 0 35px rgba(0,255,180,.10);
+  animation:apProfileIn .8s ease forwards;
 }
 
-@keyframes profileIn{
+@keyframes apProfileIn{
   0%{
     opacity:0;
     transform:scale(.94);
-    filter:blur(8px);
+    filter:blur(10px);
   }
+
   60%{
-    opacity:.8;
-    filter:blur(1px);
+    opacity:.75;
+    filter:blur(2px);
   }
+
   100%{
     opacity:1;
     transform:scale(1);
@@ -4107,907 +4130,1051 @@ n.addEventListener(
   }
 }
 
-.ap-profile-title{
-  font-size:25px;
+#auroraPeopleDB .ap-title{
+  margin-bottom:22px;
+  color:#00ffae;
+  font-size:24px;
   letter-spacing:4px;
-  color:#00ffb3;
-  text-shadow:0 0 15px #00ffb3;
-  margin-bottom:25px;
+  text-shadow:0 0 15px rgba(0,255,174,.8);
 }
 
-.ap-field{
+#auroraPeopleDB .ap-field{
   display:flex;
   gap:15px;
-  padding:10px 0;
+  padding:11px 0;
   border-bottom:1px solid rgba(255,255,255,.06);
+  word-break:break-word;
 }
 
-.ap-label{
+#auroraPeopleDB .ap-label{
+  width:120px;
   min-width:120px;
-  color:#58bfff;
+  color:#55c7ff;
 }
 
-.ap-value{
-  color:#d7fff5;
+#auroraPeopleDB .ap-value{
+  color:#ddfff6;
 }
 
-.ap-input{
-  width:100%;
-  box-sizing:border-box;
-  padding:13px;
-  margin:7px 0;
-  background:#020b0d;
-  border:1px solid rgba(0,255,180,.35);
-  outline:none;
-  color:#aaffdf;
-  font-family:monospace;
-}
+/* ---------- BUTTONS ---------- */
 
-.ap-input:focus{
-  border-color:#00ffae;
-  box-shadow:0 0 12px rgba(0,255,180,.2);
-}
-
-.ap-button{
-  padding:11px 18px;
-  margin:8px 5px 0 0;
-  background:transparent;
+#auroraPeopleDB .ap-button{
+  padding:12px 18px;
+  margin:8px 6px 0 0;
   border:1px solid #00ffae;
+  background:transparent;
   color:#00ffae;
   font-family:monospace;
   cursor:pointer;
 }
 
-.ap-button:hover{
-  background:rgba(0,255,174,.12);
+#auroraPeopleDB .ap-button:hover{
+  background:rgba(0,255,174,.10);
   box-shadow:0 0 15px rgba(0,255,174,.25);
 }
 
-.ap-scan{
-  height:2px;
+/* ---------- INPUTS ---------- */
+
+#auroraPeopleDB .ap-input{
+  display:block;
   width:100%;
-  margin:25px 0;
-  background:#00ffae;
-  box-shadow:0 0 15px #00ffae;
-  animation:scanMove 1.1s linear infinite;
-}
-
-@keyframes scanMove{
-  0%{opacity:.15;transform:translateY(-8px)}
-  50%{opacity:1}
-  100%{opacity:.15;transform:translateY(8px)}
-}
-
-.ap-close{
-  position:fixed;
-  right:20px;
-  top:15px;
-  color:#78ffd9;
-  cursor:pointer;
-  font-size:14px;
-  z-index:5;
-}
-
-.ap-close:hover{
-  color:white;
-}
-
-.ap-list-item{
+  margin:9px 0;
   padding:13px;
+  border:1px solid rgba(0,255,180,.35);
+  outline:none;
+  background:#020b0d;
+  color:#baffea;
+  font-family:monospace;
+  font-size:15px;
+}
+
+#auroraPeopleDB .ap-input:focus{
+  border-color:#00ffae;
+  box-shadow:0 0 12px rgba(0,255,180,.20);
+}
+
+/* ---------- LIST ---------- */
+
+#auroraPeopleDB .ap-person{
+  padding:14px;
   margin:8px 0;
   border-left:2px solid #00ffae;
   background:rgba(0,255,174,.035);
+}
+
+#auroraPeopleDB .ap-person:hover{
+  background:rgba(0,255,174,.09);
+}
+
+/* ---------- CLOSE ---------- */
+
+#auroraPeopleDB .ap-close{
+  position:fixed;
+  top:16px;
+  right:20px;
+  z-index:2;
+  color:#79ffda;
   cursor:pointer;
 }
 
-.ap-list-item:hover{
-  background:rgba(0,255,174,.10);
+#auroraPeopleDB .ap-close:hover{
+  color:white;
 }
 
-.ap-admin{
-  border:1px solid rgba(90,200,255,.3);
-  padding:20px;
-  margin-top:20px;
-}
+/* ---------- MOBILE ---------- */
 
-.ap-cursor{
-  animation:blinkCursor .7s infinite;
-}
+@media(max-width:600px){
 
-@keyframes blinkCursor{
-  50%{opacity:0}
+  #auroraPeopleDB .ap-wrap{
+    width:94%;
+    margin:50px auto;
+  }
+
+  #auroraPeopleDB .ap-terminal{
+    padding:17px;
+  }
+
+  #auroraPeopleDB .ap-field{
+    display:block;
+  }
+
+  #auroraPeopleDB .ap-label{
+    display:block;
+    width:auto;
+    min-width:0;
+    margin-bottom:5px;
+  }
+
+  #auroraPeopleDB .ap-title{
+    font-size:19px;
+  }
 }
 </style>
 
-<div id="auroraPeople">
 
-  <div class="ap-close" onclick="AP_close()">
+<div id="auroraPeopleDB">
+
+  <div class="ap-close" id="apClose">
     [ ESC / CLOSE ]
   </div>
 
-  <div class="ap-container">
+  <div class="ap-wrap">
 
     <div class="ap-header">
       A U R O R A &nbsp; · &nbsp; D A T A B A S E
     </div>
 
-    <div id="apScreen" class="ap-terminal"></div>
+    <div class="ap-terminal" id="apScreen"></div>
 
   </div>
+
 </div>
+
 
 <script>
 (function(){
 
-  const AP_KEY = "aurora_people_database";
-  const AP_ADMIN_PASSWORD = "SAMARITAN";
+  "use strict";
 
-  let adminMode = false;
+  /* =========================================================
+     CONFIGURACIÓN
+     ========================================================= */
 
-  function getPeople(){
-    try{
-      return JSON.parse(localStorage.getItem(AP_KEY)) || {};
-    }catch(e){
-      return {};
-    }
-  }
+  const ADMIN_PASSWORD = "SAMARITAN";
+  const STORAGE_KEY = "AURORA_PEOPLE_DATABASE";
 
-  function savePeople(data){
-    localStorage.setItem(AP_KEY,JSON.stringify(data));
-  }
+  let adminUnlocked = false;
 
-  function normalize(name){
-    return String(name || "").trim().toLowerCase();
-  }
 
-  function escAP(value){
+  /* =========================================================
+     ELEMENTOS
+     ========================================================= */
+
+  const db = document.getElementById("auroraPeopleDB");
+  const screen = document.getElementById("apScreen");
+  const closeButton = document.getElementById("apClose");
+  const commandInput = document.getElementById("commandInput");
+
+
+  /* =========================================================
+     SEGURIDAD BÁSICA DE TEXTO
+     ========================================================= */
+
+  function escapeHTML(value){
+
     return String(value ?? "")
       .replace(/&/g,"&amp;")
       .replace(/</g,"&lt;")
       .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;");
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
   }
 
-  function showAP(){
-    document.getElementById("auroraPeople").style.display="block";
 
-    const app=document.getElementById("app");
-    if(app) app.style.display="none";
-  }
+  /* =========================================================
+     BASE DE DATOS LOCAL
+     ========================================================= */
 
-  window.AP_close=function(){
-    document.getElementById("auroraPeople").style.display="none";
+  function getPeople(){
 
-    const app=document.getElementById("app");
-    if(app) app.style.display="";
+    try{
 
-    adminMode=false;
+      const data = localStorage.getItem(STORAGE_KEY);
 
-    if(typeof home==="function"){
-      try{ home(); }catch(e){}
+      if(!data){
+        return {};
+      }
+
+      const parsed = JSON.parse(data);
+
+      if(!parsed || typeof parsed !== "object"){
+        return {};
+      }
+
+      return parsed;
+
+    }catch(error){
+
+      return {};
     }
-  };
-
-  function screen(){
-    return document.getElementById("apScreen");
   }
+
+
+  function savePeople(people){
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(people)
+    );
+  }
+
+
+  function personKey(name){
+
+    return String(name)
+      .trim()
+      .toLowerCase();
+  }
+
+
+  /* =========================================================
+     ABRIR / CERRAR
+     ========================================================= */
+
+  function openDatabase(){
+
+    db.style.display = "block";
+
+    const app = document.getElementById("app");
+
+    if(app){
+      app.style.display = "none";
+    }
+  }
+
+
+  function closeDatabase(){
+
+    db.style.display = "none";
+
+    adminUnlocked = false;
+
+    const app = document.getElementById("app");
+
+    if(app){
+      app.style.display = "";
+    }
+
+    /*
+      Volvemos a HOME si existe la función original.
+    */
+
+    if(typeof window.home === "function"){
+
+      try{
+        window.home();
+      }catch(error){}
+    }
+  }
+
+
+  closeButton.addEventListener("click",closeDatabase);
+
+
+  /* =========================================================
+     TERMINAL
+     ========================================================= */
 
   function clearScreen(){
-    screen().innerHTML="";
+
+    screen.innerHTML = "";
   }
 
-  function line(text,cls=""){
-    const div=document.createElement("div");
-    div.className="ap-line "+cls;
-    div.innerHTML=text;
-    screen().appendChild(div);
+
+  function addLine(text,className){
+
+    const line = document.createElement("div");
+
+    line.className =
+      "ap-line " +
+      (className || "");
+
+    line.innerHTML = text;
+
+    screen.appendChild(line);
   }
 
-  function wait(ms){
-    return new Promise(resolve=>setTimeout(resolve,ms));
+
+  function delay(ms){
+
+    return new Promise(function(resolve){
+
+      setTimeout(resolve,ms);
+
+    });
   }
 
-  async function info(name){
 
-    const people=getPeople();
-    const key=normalize(name);
-    const person=people[key];
+  /* =========================================================
+     ANIMACIÓN DE /INFO
+     ========================================================= */
 
-    showAP();
+  async function showInfo(name){
+
+    const people = getPeople();
+    const key = personKey(name);
+    const person = people[key];
+
+    openDatabase();
     clearScreen();
 
     if(!name){
-      line("> ERROR: PROFILE NAME REQUIRED","ap-red");
-      line("> USE: /info Nicolás");
+
+      addLine(
+        "> PROFILE NAME REQUIRED",
+        "ap-red"
+      );
+
+      addLine(
+        "> USE: /info NOMBRE",
+        "ap-blue"
+      );
+
       return;
     }
 
-    line("[ AURORA DATABASE ]","ap-green");
 
-    await wait(300);
-    line("> INITIALIZING SEARCH...","ap-blue");
+    /* ---------- INICIO ---------- */
 
-    await wait(450);
-    line("> SCANNING DATABASE...","ap-blue");
+    addLine(
+      "[ AURORA DATABASE ]",
+      "ap-green"
+    );
 
-    await wait(500);
+    await delay(300);
+
+    addLine(
+      "> INITIALIZING SEARCH...",
+      "ap-blue"
+    );
+
+    await delay(450);
+
+    addLine(
+      "> SCANNING DATABASE...",
+      "ap-blue"
+    );
+
+    const scan = document.createElement("div");
+
+    scan.className = "ap-scan";
+
+    screen.appendChild(scan);
+
+    await delay(650);
+
+    scan.remove();
+
+
+    /* ---------- BUSCAR ---------- */
 
     if(!person){
-      line("> NO MATCH FOUND","ap-red");
-      await wait(300);
-      line("> PROFILE DOES NOT EXIST","ap-red");
+
+      addLine(
+        "> SEARCH: " +
+        escapeHTML(name).toUpperCase(),
+        "ap-blue"
+      );
+
+      await delay(450);
+
+      addLine(
+        "> NO MATCH FOUND",
+        "ap-red"
+      );
+
+      await delay(300);
+
+      addLine(
+        "> PROFILE DOES NOT EXIST",
+        "ap-red"
+      );
+
       return;
     }
 
-    line("> MATCH FOUND: "+escAP(person.name).toUpperCase(),"ap-green");
 
-    await wait(450);
-    line("> VERIFYING RECORD...","ap-blue");
+    /* ---------- ENCONTRADO ---------- */
 
-    await wait(450);
-    line("> LOADING PROFILE...","ap-blue");
+    addLine(
+      "> MATCH FOUND: " +
+      escapeHTML(person.name).toUpperCase(),
+      "ap-green"
+    );
 
-    await wait(500);
-    line("> ACCESS GRANTED","ap-green");
+    await delay(450);
 
-    await wait(350);
+    addLine(
+      "> VERIFYING RECORD...",
+      "ap-blue"
+    );
 
-    const profile=document.createElement("div");
-    profile.className="ap-profile";
+    await delay(450);
 
-    profile.innerHTML=`
-      <div class="ap-profile-title">
+    addLine(
+      "> LOADING PROFILE...",
+      "ap-blue"
+    );
+
+    await delay(550);
+
+    addLine(
+      "> ACCESS GRANTED",
+      "ap-green"
+    );
+
+    await delay(350);
+
+
+    /* ---------- PERFIL ---------- */
+
+    const profile = document.createElement("div");
+
+    profile.className = "ap-profile";
+
+    profile.innerHTML = `
+      <div class="ap-title">
         AURORA · PROFILE
       </div>
 
       <div class="ap-field">
         <div class="ap-label">NAME</div>
-        <div class="ap-value">${escAP(person.name)}</div>
+        <div class="ap-value">
+          ${escapeHTML(person.name)}
+        </div>
       </div>
 
       <div class="ap-field">
         <div class="ap-label">AGE</div>
-        <div class="ap-value">${escAP(person.age || "—")}</div>
+        <div class="ap-value">
+          ${escapeHTML(person.age || "—")}
+        </div>
       </div>
 
       <div class="ap-field">
         <div class="ap-label">DESCRIPTION</div>
-        <div class="ap-value">${escAP(person.description || "—")}</div>
+        <div class="ap-value">
+          ${escapeHTML(person.description || "—")}
+        </div>
       </div>
 
       <div class="ap-field">
         <div class="ap-label">INTERESTS</div>
-        <div class="ap-value">${escAP(person.interests || "—")}</div>
+        <div class="ap-value">
+          ${escapeHTML(person.interests || "—")}
+        </div>
       </div>
 
       <div class="ap-field">
         <div class="ap-label">ADDITIONAL</div>
-        <div class="ap-value">${escAP(person.additional || "—")}</div>
+        <div class="ap-value">
+          ${escapeHTML(person.additional || "—")}
+        </div>
       </div>
     `;
 
-    screen().appendChild(profile);
+    screen.appendChild(profile);
   }
 
-  function list(){
 
-    const people=getPeople();
+  /* =========================================================
+     LISTA
+     ========================================================= */
 
-    showAP();
+  function showList(){
+
+    const people = getPeople();
+    const names = Object.values(people);
+
+    openDatabase();
     clearScreen();
 
-    line("[ AURORA DATABASE / DIRECTORY ]","ap-green");
-    line("> SCANNING RECORDS...","ap-blue");
+    addLine(
+      "[ AURORA DATABASE / DIRECTORY ]",
+      "ap-green"
+    );
 
-    const names=Object.values(people);
+    addLine(
+      "> SCANNING RECORDS...",
+      "ap-blue"
+    );
 
-    if(!names.length){
-      line("> DATABASE EMPTY","ap-red");
+
+    if(names.length === 0){
+
+      addLine(
+        "> DATABASE EMPTY",
+        "ap-blue"
+      );
+
+      addLine(
+        "> USE /ADMIN TO ADD A PROFILE",
+        "ap-blue"
+      );
+
       return;
     }
 
-    names.sort((a,b)=>
-      String(a.name).localeCompare(String(b.name))
-    );
 
-    names.forEach((person,index)=>{
+    names.sort(function(a,b){
 
-      const div=document.createElement("div");
-      div.className="ap-list-item";
+      return String(a.name)
+        .localeCompare(String(b.name));
+    });
 
-      div.innerHTML=
-        String(index+1).padStart(2,"0")+
-        " · "+
-        escAP(person.name);
 
-      div.onclick=()=>{
-        info(person.name);
-      };
+    names.forEach(function(person,index){
 
-      screen().appendChild(div);
+      const item = document.createElement("div");
+
+      item.className = "ap-person";
+
+      item.textContent =
+        String(index + 1).padStart(2,"0") +
+        " · " +
+        person.name;
+
+      screen.appendChild(item);
     });
   }
 
-  function admin(){
 
-    showAP();
+  /* =========================================================
+     LOGIN ADMIN
+     ========================================================= */
+
+  function showAdminLogin(){
+
+    openDatabase();
     clearScreen();
 
-    line("[ AURORA ADMINISTRATION ]","ap-green");
-    line("> ADMINISTRATIVE ACCESS REQUIRED","ap-blue");
+    addLine(
+      "[ AURORA ADMINISTRATION ]",
+      "ap-green"
+    );
 
-    const box=document.createElement("div");
-    box.className="ap-admin";
+    addLine(
+      "> ADMINISTRATIVE ACCESS REQUIRED",
+      "ap-blue"
+    );
 
-    box.innerHTML=`
-      <div>> ENTER ADMIN PASSWORD:</div>
+
+    const box = document.createElement("div");
+
+    box.className = "ap-profile";
+
+    box.innerHTML = `
+      <div class="ap-title">
+        ADMIN ACCESS
+      </div>
+
+      <div style="margin-bottom:10px">
+        > ENTER ADMIN PASSWORD:
+      </div>
 
       <input
-        id="apAdminPassword"
+        id="apPassword"
         class="ap-input"
         type="password"
         autocomplete="off"
         placeholder="********"
       >
 
-      <button class="ap-button" id="apAdminButton">
+      <button
+        type="button"
+        class="ap-button"
+        id="apLoginButton"
+      >
         AUTHENTICATE
       </button>
 
-      <div id="apAdminResult"></div>
+      <div id="apLoginResult"></div>
     `;
 
-    screen().appendChild(box);
+    screen.appendChild(box);
 
-    const input=document.getElementById("apAdminPassword");
-    const button=document.getElementById("apAdminButton");
 
-    button.onclick=()=>{
-      if(input.value===AP_ADMIN_PASSWORD){
+    const input =
+      document.getElementById("apPassword");
 
-        adminMode=true;
+    const button =
+      document.getElementById("apLoginButton");
 
-        document.getElementById("apAdminResult").innerHTML=
-          `<div class="ap-line ap-green">
-             > ADMIN ACCESS GRANTED
-           </div>`;
+    const result =
+      document.getElementById("apLoginResult");
 
-        setTimeout(adminPanel,500);
+
+    function authenticate(){
+
+      if(input.value === ADMIN_PASSWORD){
+
+        adminUnlocked = true;
+
+        result.innerHTML =
+          '<div class="ap-line ap-green">' +
+          '> ADMIN ACCESS GRANTED' +
+          '</div>';
+
+        setTimeout(
+          showAdminPanel,
+          550
+        );
 
       }else{
 
-        document.getElementById("apAdminResult").innerHTML=
-          `<div class="ap-line ap-red">
-             > AUTHENTICATION FAILED
-           </div>`;
-      }
-    };
+        result.innerHTML =
+          '<div class="ap-line ap-red">' +
+          '> AUTHENTICATION FAILED' +
+          '</div>';
 
-    input.addEventListener("keydown",e=>{
-      if(e.key==="Enter") button.click();
-    });
+        input.value = "";
+        input.focus();
+      }
+    }
+
+
+    button.addEventListener(
+      "click",
+      authenticate
+    );
+
+
+    input.addEventListener(
+      "keydown",
+      function(event){
+
+        if(event.key === "Enter"){
+
+          event.preventDefault();
+
+          authenticate();
+        }
+      }
+    );
+
 
     input.focus();
   }
 
-  function adminPanel(){
 
-    if(!adminMode){
-      admin();
+  /* =========================================================
+     PANEL ADMIN
+     ========================================================= */
+
+  function showAdminPanel(){
+
+    if(!adminUnlocked){
+
+      showAdminLogin();
+
       return;
     }
 
+    openDatabase();
     clearScreen();
 
-    line("[ AURORA ADMIN ]","ap-green");
-    line("> ACCESS LEVEL: ADMIN","ap-green");
-    line("> DATABASE MANAGEMENT ONLINE","ap-blue");
+    addLine(
+      "[ AURORA ADMIN ]",
+      "ap-green"
+    );
 
-    const people=getPeople();
+    addLine(
+      "> ACCESS LEVEL: ADMIN",
+      "ap-green"
+    );
 
-    const names=Object.values(people);
+    addLine(
+      "> DATABASE MANAGEMENT ONLINE",
+      "ap-blue"
+    );
 
-    if(!names.length){
-      line("> NO PROFILES REGISTERED","ap-blue");
-    }else{
 
-      names.sort((a,b)=>
-        String(a.name).localeCompare(String(b.name))
+    const people = getPeople();
+    const names = Object.values(people);
+
+
+    /* ---------- BOTÓN ADD ---------- */
+
+    const addButton =
+      document.createElement("button");
+
+    addButton.type = "button";
+    addButton.className = "ap-button";
+    addButton.textContent =
+      "+ ADD PERSON";
+
+    addButton.addEventListener(
+      "click",
+      showAddForm
+    );
+
+    screen.appendChild(addButton);
+
+
+    /* ---------- PERSONAS ---------- */
+
+    if(names.length === 0){
+
+      addLine(
+        "> NO PROFILES REGISTERED",
+        "ap-blue"
       );
 
-      names.forEach(person=>{
-
-        const div=document.createElement("div");
-        div.className="ap-list-item";
-
-        div.innerHTML=`
-          ${escAP(person.name)}
-          <span style="float:right;color:#58bfff">
-            EDIT
-          </span>
-        `;
-
-        div.onclick=()=>{
-          editPerson(person.name);
-        };
-
-        screen().appendChild(div);
-      });
-    }
-
-    const add=document.createElement("button");
-    add.className="ap-button";
-    add.textContent="+ ADD PERSON";
-
-    add.onclick=()=>{
-      addPerson();
-    };
-
-    screen().appendChild(add);
-  }
-
-  function addPerson(){
-
-    if(!adminMode){
-      admin();
       return;
     }
 
-    showAP();
+
+    names.sort(function(a,b){
+
+      return String(a.name)
+        .localeCompare(String(b.name));
+    });
+
+
+    names.forEach(function(person){
+
+      const item =
+        document.createElement("div");
+
+      item.className = "ap-person";
+
+      item.innerHTML =
+        "<strong>" +
+        escapeHTML(person.name) +
+        "</strong>" +
+        '<span style="float:right;color:#55c7ff">' +
+        "EDIT" +
+        "</span>";
+
+      item.addEventListener(
+        "click",
+        function(){
+          showEditForm(person.name);
+        }
+      );
+
+      screen.appendChild(item);
+    });
+  }
+
+
+  /* =========================================================
+     AGREGAR PERSONA
+     ========================================================= */
+
+  function showAddForm(){
+
+    if(!adminUnlocked){
+
+      showAdminLogin();
+
+      return;
+    }
+
     clearScreen();
 
-    line("[ AURORA ADMIN / NEW RECORD ]","ap-green");
-    line("> CREATING NEW PROFILE...","ap-blue");
+    addLine(
+      "[ AURORA ADMIN / NEW PROFILE ]",
+      "ap-green"
+    );
 
-    const form=document.createElement("div");
-    form.className="ap-profile";
+    addLine(
+      "> CREATE NEW RECORD",
+      "ap-blue"
+    );
 
-    form.innerHTML=`
-      <div class="ap-profile-title">NEW PROFILE</div>
 
-      <input id="apName"
+    const form =
+      document.createElement("div");
+
+    form.className = "ap-profile";
+
+    form.innerHTML = `
+      <div class="ap-title">
+        NEW PROFILE
+      </div>
+
+      <input
+        id="apAddName"
         class="ap-input"
         placeholder="NAME"
       >
 
-      <input id="apAge"
+      <input
+        id="apAddAge"
         class="ap-input"
         placeholder="AGE"
       >
 
-      <input id="apDescription"
+      <input
+        id="apAddDescription"
         class="ap-input"
         placeholder="DESCRIPTION"
       >
 
-      <input id="apInterests"
+      <input
+        id="apAddInterests"
         class="ap-input"
         placeholder="INTERESTS"
       >
 
-      <input id="apAdditional"
+      <input
+        id="apAddAdditional"
         class="ap-input"
         placeholder="ADDITIONAL"
       >
 
-      <button class="ap-button" id="apSave">
+      <button
+        type="button"
+        class="ap-button"
+        id="apSavePerson"
+      >
         SAVE RECORD
       </button>
 
-      <button class="ap-button" id="apCancel">
+      <button
+        type="button"
+        class="ap-button"
+        id="apCancelAdd"
+      >
         CANCEL
       </button>
     `;
 
-    screen().appendChild(form);
+    screen.appendChild(form);
 
-    document.getElementById("apSave").onclick=()=>{
 
-      const name=document.getElementById("apName").value.trim();
+    document
+      .getElementById("apSavePerson")
+      .addEventListener(
+        "click",
+        saveNewPerson
+      );
 
-      if(!name){
-        alert("NAME REQUIRED");
-        return;
-      }
 
-      const people=getPeople();
-      const key=normalize(name);
+    document
+      .getElementById("apCancelAdd")
+      .addEventListener(
+        "click",
+        showAdminPanel
+      );
 
-      people[key]={
-        name:name,
-        age:document.getElementById("apAge").value.trim(),
-        description:document.getElementById("apDescription").value.trim(),
-        interests:document.getElementById("apInterests").value.trim(),
-        additional:document.getElementById("apAdditional").value.trim()
-      };
 
-      savePeople(people);
-
-      line("> RECORD SAVED","ap-green");
-
-      setTimeout(adminPanel,600);
-    };
-
-    document.getElementById("apCancel").onclick=adminPanel;
-
-    document.getElementById("apName").focus();
+    document
+      .getElementById("apAddName")
+      .focus();
   }
 
-  function editPerson(name){
 
-    if(!adminMode){
-      admin();
-      return;
-    }
+  function saveNewPerson(){
 
-    const people=getPeople();
-    const key=normalize(name);
-    const person=people[key];
+    const name =
+      document
+        .getElementById("apAddName")
+        .value
+        .trim();
 
-    if(!person){
-      info(name);
-      return;
-    }
-
-    showAP();
-    clearScreen();
-
-    line("[ AURORA ADMIN / EDIT RECORD ]","ap-green");
-    line("> EDITING: "+escAP(person.name).toUpperCase(),"ap-blue");
-
-    const form=document.createElement("div");
-    form.className="ap-profile";
-
-    form.innerHTML=`
-      <div class="ap-profile-title">
-        EDIT · ${escAP(person.name)}
-      </div>
-
-      <input id="apEditName"
-        class="ap-input"
-        value="${escAP(person.name)}"
-        placeholder="NAME"
-      >
-
-      <input id="apEditAge"
-        class="ap-input"
-        value="${escAP(person.age || "")}"
-        placeholder="AGE"
-      >
-
-      <input id="apEditDescription"
-        class="ap-input"
-        value="${escAP(person.description || "")}"
-        placeholder="DESCRIPTION"
-      >
-
-      <input id="apEditInterests"
-        class="ap-input"
-        value="${escAP(person.interests || "")}"
-        placeholder="INTERESTS"
-      >
-
-      <input id="apEditAdditional"
-        class="ap-input"
-        value="${escAP(person.additional || "")}"
-        placeholder="ADDITIONAL"
-      >
-
-      <button class="ap-button" id="apUpdate">
-        UPDATE RECORD
-      </button>
-
-      <button class="ap-button" id="apDelete">
-        DELETE RECORD
-      </button>
-
-      <button class="ap-button" id="apBack">
-        CANCEL
-      </button>
-    `;
-
-    screen().appendChild(form);
-
-    document.getElementById("apUpdate").onclick=()=>{
-
-      const newName=document.getElementById("apEditName").value.trim();
-
-      if(!newName){
-        alert("NAME REQUIRED");
-        return;
-      }
-
-      const newKey=normalize(newName);
-
-      if(newKey!==key && people[newKey]){
-        alert("THAT NAME ALREADY EXISTS");
-        return;
-      }
-
-      delete people[key];
-
-      people[newKey]={
-        name:newName,
-        age:document.getElementById("apEditAge").value.trim(),
-        description:document.getElementById("apEditDescription").value.trim(),
-        interests:document.getElementById("apEditInterests").value.trim(),
-        additional:document.getElementById("apEditAdditional").value.trim()
-      };
-
-      savePeople(people);
-
-      clearScreen();
-
-      line("> UPDATING DATABASE...","ap-blue");
-
-      setTimeout(()=>{
-        line("> RECORD UPDATED SUCCESSFULLY","ap-green");
-      },500);
-
-      setTimeout(adminPanel,1100);
-    };
-
-    document.getElementById("apDelete").onclick=()=>{
-
-      if(confirm("DELETE "+person.name+"?")){
-
-        delete people[key];
-
-        savePeople(people);
-
-        clearScreen();
-
-        line("> DELETING RECORD...","ap-blue");
-
-        setTimeout(()=>{
-          line("> RECORD DELETED","ap-green");
-        },500);
-
-        setTimeout(adminPanel,1000);
-      }
-    };
-
-    document.getElementById("apBack").onclick=adminPanel;
-  }
-
-  function deletePerson(name){
-
-    if(!adminMode){
-      admin();
-      return;
-    }
-
-    const people=getPeople();
-    const key=normalize(name);
-
-    if(!people[key]){
-      showAP();
-      clearScreen();
-      line("> PROFILE NOT FOUND","ap-red");
-      return;
-    }
-
-    if(confirm("DELETE "+people[key].name+"?")){
-
-      delete people[key];
-      savePeople(people);
-
-      showAP();
-      clearScreen();
-
-      line("> DELETING RECORD...","ap-blue");
-
-      setTimeout(()=>{
-        line("> RECORD DELETED SUCCESSFULLY","ap-green");
-      },500);
-    }
-  }
-
-  function command(cmd){
-
-    const original=cmd.trim();
-
-    if(!original) return;
-
-    const lower=original.toLowerCase();
-
-    /* /info Nicolás */
-    if(lower.startsWith("/info ")){
-
-      const name=original.substring(6).trim();
-      info(name);
-      return;
-    }
-
-    /* /list */
-    if(lower==="/list"){
-      list();
-      return;
-    }
-
-    /* /admin */
-    if(lower==="/admin"){
-      admin();
-      return;
-    }
-
-    /* /add Nicolás */
-    if(lower.startsWith("/add ")){
-
-      if(!adminMode){
-        admin();
-        return;
-      }
-
-      const name=original.substring(5).trim();
-
-      addPersonWithName(name);
-      return;
-    }
-
-    /* /edit Nicolás */
-    if(lower.startsWith("/edit ")){
-
-      if(!adminMode){
-        admin();
-        return;
-      }
-
-      const name=original.substring(6).trim();
-
-      editPerson(name);
-      return;
-    }
-
-    /* /delete Nicolás */
-    if(lower.startsWith("/delete ")){
-
-      if(!adminMode){
-        admin();
-        return;
-      }
-
-      const name=original.substring(8).trim();
-
-      deletePerson(name);
-      return;
-    }
-  }
-
-  function addPersonWithName(name){
 
     if(!name){
-      addPerson();
+
+      alert("NAME REQUIRED");
+
       return;
     }
 
-    const people=getPeople();
-    const key=normalize(name);
+
+    const people = getPeople();
+    const key = personKey(name);
+
 
     if(people[key]){
 
-      showAP();
-      clearScreen();
-
-      line("> PROFILE ALREADY EXISTS","ap-red");
-      line("> USE /edit "+escAP(name),"ap-blue");
+      alert("THAT PROFILE ALREADY EXISTS");
 
       return;
     }
 
-    showAP();
+
+    people[key] = {
+
+      name:name,
+
+      age:
+        document
+          .getElementById("apAddAge")
+          .value
+          .trim(),
+
+      description:
+        document
+          .getElementById("apAddDescription")
+          .value
+          .trim(),
+
+      interests:
+        document
+          .getElementById("apAddInterests")
+          .value
+          .trim(),
+
+      additional:
+        document
+          .getElementById("apAddAdditional")
+          .value
+          .trim()
+    };
+
+
+    savePeople(people);
+
+
     clearScreen();
 
-    line("[ AURORA ADMIN / NEW RECORD ]","ap-green");
-    line("> PRELOADED NAME: "+escAP(name).toUpperCase(),"ap-blue");
+    addLine(
+      "> SAVING RECORD...",
+      "ap-blue"
+    );
 
-    const form=document.createElement("div");
-    form.className="ap-profile";
 
-    form.innerHTML=`
-      <div class="ap-profile-title">
-        NEW · ${escAP(name)}
+    setTimeout(function(){
+
+      addLine(
+        "> RECORD SAVED SUCCESSFULLY",
+        "ap-green"
+      );
+
+    },500);
+
+
+    setTimeout(
+      showAdminPanel,
+      1100
+    );
+  }
+
+
+  /* =========================================================
+     EDITAR
+     ========================================================= */
+
+  function showEditForm(name){
+
+    if(!adminUnlocked){
+
+      showAdminLogin();
+
+      return;
+    }
+
+
+    const people = getPeople();
+    const key = personKey(name);
+    const person = people[key];
+
+
+    if(!person){
+
+      addLine(
+        "> PROFILE NOT FOUND",
+        "ap-red"
+      );
+
+      return;
+    }
+
+
+    clearScreen();
+
+    addLine(
+      "[ AURORA ADMIN / EDIT ]",
+      "ap-green"
+    );
+
+    addLine(
+      "> EDITING: " +
+      escapeHTML(person.name).toUpperCase(),
+      "ap-blue"
+    );
+
+
+    const form =
+      document.createElement("div");
+
+    form.className = "ap-profile";
+
+    form.innerHTML = `
+      <div class="ap-title">
+        EDIT PROFILE
       </div>
 
-      <input id="apAddAge"
+      <input
+        id="apEditName"
         class="ap-input"
+        value="${escapeHTML(person.name)}"
+        placeholder="NAME"
+      >
+
+      <input
+        id="apEditAge"
+        class="ap-input"
+        value="${escapeHTML(person.age || "")}"
         placeholder="AGE"
       >
 
-      <input id="apAddDescription"
+      <input
+        id="apEditDescription"
         class="ap-input"
+        value="${escapeHTML(person.description || "")}"
         placeholder="DESCRIPTION"
       >
 
-      <input id="apAddInterests"
+      <input
+        id="apEditInterests"
         class="ap-input"
+        value="${escapeHTML(person.interests || "")}"
         placeholder="INTERESTS"
       >
 
-      <input id="apAddAdditional"
+      <input
+        id="apEditAdditional"
         class="ap-input"
+        value="${escapeHTML(person.additional || "")}"
         placeholder="ADDITIONAL"
       >
 
-      <button class="ap-button" id="apAddSave">
-        SAVE RECORD
-      </button>
-
-      <button class="ap-button" id="apAddCancel">
-        CANCEL
-      </button>
-    `;
-
-    screen().appendChild(form);
-
-    document.getElementById("apAddSave").onclick=()=>{
-
-      people[key]={
-        name:name,
-        age:document.getElementById("apAddAge").value.trim(),
-        description:document.getElementById("apAddDescription").value.trim(),
-        interests:document.getElementById("apAddInterests").value.trim(),
-        additional:document.getElementById("apAddAdditional").value.trim()
-      };
-
-      savePeople(people);
-
-      clearScreen();
-
-      line("> SAVING RECORD...","ap-blue");
-
-      setTimeout(()=>{
-        line("> RECORD SAVED SUCCESSFULLY","ap-green");
-        line("> /info "+escAP(name)+" IS NOW AVAILABLE","ap-green");
-      },500);
-
-      setTimeout(adminPanel,1300);
-    };
-
-    document.getElementById("apAddCancel").onclick=adminPanel;
-
-    document.getElementById("apAddAge").focus();
-  }
-
-  /* =========================================================
-     INTERCEPTAR EL COMMAND BAR ORIGINAL
-     ========================================================= */
-
-  document.addEventListener("submit",function(e){
-
-    const form=e.target;
-
-    if(!form || form.id!=="commandForm") return;
-
-    const input=document.getElementById("commandInput");
-
-    if(!input) return;
-
-    const value=input.value.trim();
-
-    if(
-      /^\/info\s+/i.test(value) ||
-      /^\/list$/i.test(value) ||
-      /^\/admin$/i.test(value) ||
-      /^\/add\s+/i.test(value) ||
-      /^\/edit\s+/i.test(value) ||
-      /^\/delete\s+/i.test(value)
-    ){
-
-      e.preventDefault();
-      e.stopImmediatePropagation();
-
-      command(value);
-
-      input.value="";
-
-    }
-
-  },true);
-
-
-  /* =========================================================
-     ESC
-     ===================     
+      <button
+        type="button"
+        class="ap-button"
+        id="apUpdatePerso     
 </body>
   </html>
