@@ -3992,3 +3992,1366 @@ n.addEventListener(
 })();
 
 </script>
+<!-- =========================================================
+     AURORA DATABASE
+     BLOQUE INDEPENDIENTE
+     ========================================================= -->
+
+<style>
+#auroraDatabase{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:none;
+  overflow:hidden;
+  background:#010711;
+  color:#dffcff;
+  font-family:monospace;
+}
+
+#auroraDatabase::before,
+#auroraDatabase::after{
+  content:"";
+  position:absolute;
+  width:70vw;
+  height:70vh;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:.18;
+  pointer-events:none;
+}
+
+#auroraDatabase::before{
+  background:#00ffb7;
+  left:-25%;
+  top:-30%;
+  animation:adb1 8s ease-in-out infinite alternate;
+}
+
+#auroraDatabase::after{
+  background:#246cff;
+  right:-25%;
+  bottom:-30%;
+  animation:adb2 9s ease-in-out infinite alternate;
+}
+
+@keyframes adb1{
+  to{transform:translate(35vw,25vh) scale(1.3)}
+}
+
+@keyframes adb2{
+  to{transform:translate(-30vw,-25vh) scale(1.3)}
+}
+
+.adbScreen{
+  position:relative;
+  z-index:2;
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:28px;
+}
+
+.adbTop{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #16434d;
+  padding-bottom:18px;
+}
+
+.adbTitle{
+  color:#3ffff0;
+  font-size:22px;
+  letter-spacing:7px;
+}
+
+.adbStatus{
+  color:#28ff9d;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+.adbMain{
+  width:min(850px,94vw);
+  margin:auto;
+  border:1px solid #20e9d6;
+  background:#03101be8;
+  box-shadow:0 0 50px #00e0d52b;
+  padding:25px;
+}
+
+.adbTerminal{
+  color:#27ff94;
+  line-height:1.8;
+  font-size:13px;
+  margin-bottom:18px;
+  min-height:25px;
+}
+
+.adbResult{
+  max-height:48vh;
+  overflow:auto;
+}
+
+.adbInputBox{
+  display:flex;
+  align-items:center;
+  border:1px solid #1b5961;
+  background:#020911;
+  padding:12px 15px;
+  margin-top:18px;
+}
+
+.adbInputBox span{
+  color:#22f0dd;
+  font-size:20px;
+  margin-right:10px;
+}
+
+#adbCommand{
+  flex:1;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#dff;
+  font:14px monospace;
+}
+
+#adbCommand::placeholder{
+  color:#496773;
+}
+
+.adbHelp{
+  margin-top:15px;
+  color:#557783;
+  font-size:10px;
+  line-height:1.8;
+}
+
+.adbHelp b{
+  color:#28e9d6;
+}
+
+.adbClose{
+  position:absolute;
+  right:28px;
+  bottom:22px;
+  color:#26ead7;
+  font-size:11px;
+  cursor:pointer;
+  letter-spacing:1px;
+}
+
+.adbCard{
+  border:1px solid #173a44;
+  background:#020b13;
+  padding:18px;
+  margin-bottom:12px;
+  box-shadow:0 0 15px #00e0d50d;
+}
+
+.adbCard h3{
+  color:#4fffe9;
+  margin:0 0 14px;
+  letter-spacing:3px;
+}
+
+.adbRow{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:8px 0;
+  border-bottom:1px solid #12313a;
+  font-size:12px;
+}
+
+.adbRow:last-child{
+  border-bottom:0;
+}
+
+.adbLabel{
+  color:#6f929d;
+}
+
+.adbValue{
+  color:#dff;
+  text-align:right;
+  word-break:break-word;
+}
+
+.adbEmpty{
+  color:#617e88;
+  padding:15px 0;
+  font-size:12px;
+}
+
+.adbSuccess{
+  color:#28ff9d;
+}
+
+.adbError{
+  color:#ff6378;
+}
+
+.adbAdmin{
+  color:#ffd45c;
+}
+
+.adbListItem{
+  padding:12px;
+  border-bottom:1px solid #16343d;
+  cursor:pointer;
+  color:#dff;
+}
+
+.adbListItem:hover{
+  background:#06202a;
+  color:#4fffe9;
+}
+
+.adbForm{
+  display:grid;
+  gap:10px;
+}
+
+.adbForm input,
+.adbForm textarea{
+  width:100%;
+  border:1px solid #214550;
+  background:#020a11;
+  color:#dff;
+  padding:12px;
+  outline:none;
+  font:12px monospace;
+}
+
+.adbForm textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.adbButton{
+  border:1px solid #20e9d6;
+  background:#062d30;
+  color:#bffff8;
+  padding:12px;
+  cursor:pointer;
+  font:bold 11px monospace;
+}
+
+.adbButton:hover{
+  box-shadow:0 0 18px #20e9d633;
+}
+
+.adbScan{
+  text-align:center;
+  padding:35px 10px;
+  color:#2affae;
+  animation:adbPulse .7s infinite alternate;
+}
+
+@keyframes adbPulse{
+  from{opacity:.35}
+  to{opacity:1}
+}
+
+@media(max-width:700px){
+
+  .adbScreen{
+    padding:15px;
+  }
+
+  .adbTop{
+    gap:10px;
+  }
+
+  .adbTitle{
+    font-size:15px;
+    letter-spacing:4px;
+  }
+
+  .adbStatus{
+    font-size:8px;
+  }
+
+  .adbMain{
+    padding:17px;
+  }
+
+  .adbClose{
+    right:15px;
+    bottom:12px;
+  }
+
+}
+</style>
+
+
+<div id="auroraDatabase">
+
+  <div class="adbScreen">
+
+    <div class="adbTop">
+
+      <div class="adbTitle">
+        A U R O R A · D A T A B A S E
+      </div>
+
+      <div class="adbStatus">
+        ● DATABASE ONLINE
+      </div>
+
+    </div>
+
+
+    <div class="adbMain">
+
+      <div
+        class="adbTerminal"
+        id="adbTerminal"
+      >
+        > DATABASE INITIALIZED...
+      </div>
+
+
+      <div
+        class="adbResult"
+        id="adbResult"
+      >
+        <div class="adbEmpty">
+          > SYSTEM READY<br>
+          > TYPE /help FOR COMMANDS
+        </div>
+      </div>
+
+
+      <form
+        class="adbInputBox"
+        id="adbForm"
+      >
+
+        <span>›</span>
+
+        <input
+          id="adbCommand"
+          autocomplete="off"
+          placeholder="Escribe un comando..."
+        >
+
+      </form>
+
+
+      <div class="adbHelp">
+
+        <b>CONSULTA:</b>
+        /info nombre · /list · /help
+
+        <br>
+
+        <b>ADMIN:</b>
+        /admin
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="adbClose"
+      id="adbClose"
+    >
+      [ SALIR · AURORA ]
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+(function(){
+
+/* =========================================================
+   AURORA DATABASE
+   ========================================================= */
+
+const DB_KEY = 'AURORA_DATABASE_PERSONS_V1';
+
+let adbAdmin = false;
+
+
+/* BASE DE DATOS */
+
+function adbGet(){
+
+  try{
+
+    const data =
+      JSON.parse(
+        localStorage.getItem(DB_KEY) || '{}'
+      );
+
+    if(
+      data &&
+      typeof data === 'object' &&
+      !Array.isArray(data)
+    ){
+
+      return data;
+
+    }
+
+  }catch(e){}
+
+  return {};
+
+}
+
+
+function adbSave(data){
+
+  localStorage.setItem(
+    DB_KEY,
+    JSON.stringify(data)
+  );
+
+}
+
+
+/* ELEMENTOS */
+
+const adbMenu =
+  document.getElementById('auroraDatabase');
+
+const adbInput =
+  document.getElementById('adbCommand');
+
+const adbResult =
+  document.getElementById('adbResult');
+
+const adbTerminal =
+  document.getElementById('adbTerminal');
+
+
+/* MENSAJE */
+
+function adbMessage(text, cls){
+
+  adbTerminal.className='adbTerminal';
+
+  if(cls)
+    adbTerminal.classList.add(cls);
+
+  adbTerminal.textContent='> '+text;
+
+}
+
+
+/* ABRIR */
+
+function adbOpen(){
+
+  adbMenu.style.display='block';
+
+  adbAdmin=false;
+
+  adbMessage(
+    'DATABASE CONNECTION ESTABLISHED',
+    'adbSuccess'
+  );
+
+  adbResult.innerHTML=`
+    <div class="adbEmpty">
+      > DATABASE READY<br>
+      > ACCESS LEVEL: USER<br>
+      > TYPE /help FOR COMMANDS
+    </div>
+  `;
+
+  setTimeout(function(){
+
+    adbInput.focus();
+
+  },100);
+
+}
+
+
+/* CERRAR */
+
+function adbCloseMenu(){
+
+  adbMenu.style.display='none';
+
+  adbAdmin=false;
+
+}
+
+
+/* MOSTRAR AYUDA */
+
+function adbHelp(){
+
+  adbResult.innerHTML=`
+
+    <div class="adbCard">
+
+      <h3>AVAILABLE COMMANDS</h3>
+
+      <div class="adbRow">
+        <span class="adbLabel">/info Nombre</span>
+        <span class="adbValue">VER PERFIL</span>
+      </div>
+
+      <div class="adbRow">
+        <span class="adbLabel">/list</span>
+        <span class="adbValue">LISTAR PERSONAS</span>
+      </div>
+
+      <div class="adbRow">
+        <span class="adbLabel">/admin</span>
+        <span class="adbValue">ADMIN ACCESS</span>
+      </div>
+
+      <div class="adbRow">
+        <span class="adbLabel">/add Nombre</span>
+        <span class="adbValue">AGREGAR</span>
+      </div>
+
+      <div class="adbRow">
+        <span class="adbLabel">/edit Nombre</span>
+        <span class="adbValue">EDITAR</span>
+      </div>
+
+      <div class="adbRow">
+        <span class="adbLabel">/delete Nombre</span>
+        <span class="adbValue">ELIMINAR</span>
+      </div>
+
+      <div class="adbRow">
+        <span class="adbLabel">/logout</span>
+        <span class="adbValue">SALIR DE ADMIN</span>
+      </div>
+
+    </div>
+
+  `;
+
+}
+
+
+/* LISTA */
+
+function adbList(){
+
+  const db=adbGet();
+
+  const names=Object.keys(db);
+
+  if(!names.length){
+
+    adbResult.innerHTML=`
+      <div class="adbEmpty">
+        > DATABASE EMPTY<br><br>
+        No hay personas registradas.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  adbResult.innerHTML=`
+
+    <div class="adbCard">
+
+      <h3>PERSON DATABASE</h3>
+
+      ${
+        names.map(function(name){
+
+          return `
+            <div
+              class="adbListItem"
+              data-person="${encodeURIComponent(name)}"
+            >
+              › ${adbEscape(name)}
+            </div>
+          `;
+
+        }).join('')
+      }
+
+    </div>
+
+  `;
+
+
+  document
+    .querySelectorAll('.adbListItem')
+    .forEach(function(item){
+
+      item.addEventListener(
+        'click',
+        function(){
+
+          adbInfo(
+            decodeURIComponent(
+              item.dataset.person
+            )
+          );
+
+        }
+      );
+
+    });
+
+}
+
+
+/* ESCAPAR HTML */
+
+function adbEscape(value){
+
+  return String(value).replace(
+    /[&<>"']/g,
+    function(m){
+
+      return {
+        '&':'&amp;',
+        '<':'&lt;',
+        '>':'&gt;',
+        '"':'&quot;',
+        "'":'&#039;'
+      }[m];
+
+    }
+  );
+
+}
+
+
+/* INFO */
+
+function adbInfo(name){
+
+  const db=adbGet();
+
+  const person=db[name];
+
+  if(!person){
+
+    adbMessage(
+      'PERSON NOT FOUND',
+      'adbError'
+    );
+
+    adbResult.innerHTML=`
+      <div class="adbEmpty adbError">
+        > PROFILE NOT FOUND<br><br>
+        No existe información para:
+        <b>${adbEscape(name)}</b>
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  adbResult.innerHTML=`
+
+    <div class="adbScan">
+      > ACCESSING PROFILE...
+    </div>
+
+  `;
+
+
+  setTimeout(function(){
+
+    adbResult.innerHTML=`
+
+      <div class="adbCard">
+
+        <h3>${adbEscape(person.name)}</h3>
+
+        <div class="adbRow">
+          <span class="adbLabel">NAME</span>
+          <span class="adbValue">
+            ${adbEscape(person.name)}
+          </span>
+        </div>
+
+        <div class="adbRow">
+          <span class="adbLabel">AGE</span>
+          <span class="adbValue">
+            ${adbEscape(person.age || '—')}
+          </span>
+        </div>
+
+        <div class="adbRow">
+          <span class="adbLabel">DESCRIPTION</span>
+          <span class="adbValue">
+            ${adbEscape(person.description || '—')}
+          </span>
+        </div>
+
+        <div class="adbRow">
+          <span class="adbLabel">INTERESTS</span>
+          <span class="adbValue">
+            ${adbEscape(person.interests || '—')}
+          </span>
+        </div>
+
+        <div class="adbRow">
+          <span class="adbLabel">ADDITIONAL</span>
+          <span class="adbValue">
+            ${adbEscape(person.additional || '—')}
+          </span>
+        </div>
+
+      </div>
+
+    `;
+
+    adbMessage(
+      'PROFILE ACCESS GRANTED',
+      'adbSuccess'
+    );
+
+  },700);
+
+}
+
+
+/* FORMULARIO AGREGAR */
+
+function adbAdd(name, existing){
+
+  if(!adbAdmin){
+
+    adbMessage(
+      'ADMIN ACCESS REQUIRED',
+      'adbError'
+    );
+
+    return;
+
+  }
+
+
+  const db=adbGet();
+
+  const old=
+    existing &&
+    db[name]
+    ?db[name]
+    :{
+      name:name,
+      age:'',
+      description:'',
+      interests:'',
+      additional:''
+    };
+
+
+  adbResult.innerHTML=`
+
+    <div class="adbCard">
+
+      <h3>
+        ${existing?'EDIT':'ADD'} PROFILE
+      </h3>
+
+      <div class="adbForm">
+
+        <input
+          id="adbName"
+          placeholder="NAME"
+          value="${adbEscape(old.name)}"
+        >
+
+        <input
+          id="adbAge"
+          placeholder="AGE"
+          value="${adbEscape(old.age)}"
+        >
+
+        <textarea
+          id="adbDescription"
+          placeholder="DESCRIPTION"
+        >${adbEscape(old.description)}</textarea>
+
+        <textarea
+          id="adbInterests"
+          placeholder="INTERESTS"
+        >${adbEscape(old.interests)}</textarea>
+
+        <textarea
+          id="adbAdditional"
+          placeholder="ADDITIONAL"
+        >${adbEscape(old.additional)}</textarea>
+
+        <button
+          type="button"
+          class="adbButton"
+          id="adbSavePerson"
+        >
+          ${existing?'SAVE CHANGES':'CREATE PROFILE'}
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  document
+    .getElementById('adbSavePerson')
+    .addEventListener(
+      'click',
+      function(){
+
+        const finalName=
+          document.getElementById('adbName')
+            .value.trim();
+
+        if(!finalName){
+
+          adbMessage(
+            'NAME REQUIRED',
+            'adbError'
+          );
+
+          return;
+
+        }
+
+
+        const newPerson={
+
+          name:finalName,
+
+          age:
+            document
+              .getElementById('adbAge')
+              .value.trim(),
+
+          description:
+            document
+              .getElementById('adbDescription')
+              .value.trim(),
+
+          interests:
+            document
+              .getElementById('adbInterests')
+              .value.trim(),
+
+          additional:
+            document
+              .getElementById('adbAdditional')
+              .value.trim()
+
+        };
+
+
+        const data=adbGet();
+
+
+        if(
+          existing &&
+          name!==finalName
+        ){
+
+          delete data[name];
+
+        }
+
+
+        data[finalName]=newPerson;
+
+        adbSave(data);
+
+
+        adbMessage(
+          'PROFILE SAVED',
+          'adbSuccess'
+        );
+
+
+        adbInfo(finalName);
+
+      }
+    );
+
+}
+
+
+/* ADMIN */
+
+function adbAdminLogin(){
+
+  adbResult.innerHTML=`
+
+    <div class="adbCard">
+
+      <h3>ADMIN AUTHENTICATION</h3>
+
+      <div class="adbTerminal">
+        > ENTER ADMIN PASSWORD:
+      </div>
+
+      <div class="adbForm">
+
+        <input
+          id="adbAdminPassword"
+          type="password"
+          placeholder="PASSWORD"
+        >
+
+        <button
+          type="button"
+          class="adbButton"
+          id="adbAdminEnter"
+        >
+          AUTHENTICATE
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  const input=
+    document.getElementById(
+      'adbAdminPassword'
+    );
+
+  const button=
+    document.getElementById(
+      'adbAdminEnter'
+    );
+
+
+  function login(){
+
+    if(input.value==='SAMARITAN'){
+
+      adbAdmin=true;
+
+      adbMessage(
+        'ADMIN ACCESS GRANTED',
+        'adbAdmin'
+      );
+
+      adbResult.innerHTML=`
+
+        <div class="adbCard">
+
+          <h3>ADMIN MODE</h3>
+
+          <div class="adbRow">
+            <span class="adbLabel">
+              ACCESS
+            </span>
+
+            <span class="adbValue adbAdmin">
+              AUTHORIZED
+            </span>
+          </div>
+
+          <div class="adbRow">
+            <span class="adbLabel">
+              COMMANDS
+            </span>
+
+            <span class="adbValue">
+              /add · /edit · /delete
+            </span>
+          </div>
+
+        </div>
+
+      `;
+
+    }else{
+
+      adbMessage(
+        'AUTHENTICATION FAILED',
+        'adbError'
+      );
+
+      input.value='';
+      input.focus();
+
+    }
+
+  }
+
+
+  button.addEventListener(
+    'click',
+    login
+  );
+
+
+  input.addEventListener(
+    'keydown',
+    function(e){
+
+      if(e.key==='Enter')
+        login();
+
+    }
+  );
+
+
+  input.focus();
+
+}
+
+
+/* BORRAR */
+
+function adbDelete(name){
+
+  if(!adbAdmin){
+
+    adbMessage(
+      'ADMIN ACCESS REQUIRED',
+      'adbError'
+    );
+
+    return;
+
+  }
+
+
+  const db=adbGet();
+
+  if(!db[name]){
+
+    adbMessage(
+      'PERSON NOT FOUND',
+      'adbError'
+    );
+
+    return;
+
+  }
+
+
+  delete db[name];
+
+  adbSave(db);
+
+
+  adbMessage(
+    'PROFILE DELETED',
+    'adbSuccess'
+  );
+
+
+  adbList();
+
+}
+
+
+/* COMANDOS INTERNOS */
+
+function adbCommand(raw){
+
+  const cmd=raw.trim();
+
+  if(!cmd)
+    return;
+
+
+  const lower=cmd.toLowerCase();
+
+
+  if(lower==='/help'){
+
+    adbHelp();
+    return;
+
+  }
+
+
+  if(lower==='/list'){
+
+    adbList();
+    return;
+
+  }
+
+
+  if(lower==='/admin'){
+
+    adbAdminLogin();
+    return;
+
+  }
+
+
+  if(lower==='/logout'){
+
+    adbAdmin=false;
+
+    adbMessage(
+      'ADMIN SESSION CLOSED'
+    );
+
+    return;
+
+  }
+
+
+  if(lower.startsWith('/info ')){
+
+    const name=
+      cmd.substring(6).trim();
+
+    if(name)
+      adbInfo(name);
+    else
+      adbMessage(
+        'NAME REQUIRED',
+        'adbError'
+      );
+
+    return;
+
+  }
+
+
+  if(lower.startsWith('/add ')){
+
+    if(!adbAdmin){
+
+      adbMessage(
+        'ADMIN ACCESS REQUIRED',
+        'adbError'
+      );
+
+      return;
+
+    }
+
+
+    const name=
+      cmd.substring(5).trim();
+
+    if(!name){
+
+      adbMessage(
+        'NAME REQUIRED',
+        'adbError'
+      );
+
+      return;
+
+    }
+
+
+    const db=adbGet();
+
+    if(db[name]){
+
+      adbMessage(
+        'PROFILE ALREADY EXISTS',
+        'adbError'
+      );
+
+      return;
+
+    }
+
+
+    adbAdd(name,false);
+
+    return;
+
+  }
+
+
+  if(lower.startsWith('/edit ')){
+
+    if(!adbAdmin){
+
+      adbMessage(
+        'ADMIN ACCESS REQUIRED',
+        'adbError'
+      );
+
+      return;
+
+    }
+
+
+    const name=
+      cmd.substring(6).trim();
+
+    const db=adbGet();
+
+    if(!db[name]){
+
+      adbMessage(
+        'PROFILE NOT FOUND',
+        'adbError'
+      );
+
+      return;
+
+    }
+
+
+    adbAdd(name,true);
+
+    return;
+
+  }
+
+
+  if(lower.startsWith('/delete ')){
+
+    if(!adbAdmin){
+
+      adbMessage(
+        'ADMIN ACCESS REQUIRED',
+        'adbError'
+      );
+
+      return;
+
+    }
+
+
+    const name=
+      cmd.substring(8).trim();
+
+    adbDelete(name);
+
+    return;
+
+  }
+
+
+  if(
+    lower==='close' ||
+    lower==='exit' ||
+    lower==='home'
+  ){
+
+    adbCloseMenu();
+    return;
+
+  }
+
+
+  adbMessage(
+    'UNKNOWN DATABASE COMMAND',
+    'adbError'
+  );
+
+}
+
+
+/* FORMULARIO DATABASE */
+
+document
+  .getElementById('adbForm')
+  .addEventListener(
+    'submit',
+    function(e){
+
+      e.preventDefault();
+
+      adbCommand(adbInput.value);
+
+      adbInput.value='';
+
+    }
+  );
+
+
+/* SALIR */
+
+document
+  .getElementById('adbClose')
+  .addEventListener(
+    'click',
+    adbCloseMenu
+  );
+
+
+/* ESC */
+
+document.addEventListener(
+  'keydown',
+  function(e){
+
+    if(
+      e.key==='Escape' &&
+      adbMenu.style.display==='block'
+    ){
+
+      adbCloseMenu();
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   CONEXIÓN CON LA BARRA PRINCIPAL
+   SOLO INTERCEPTA "database"
+   ========================================================= */
+
+const mainCommandForm =
+  document.getElementById('commandForm');
+
+const mainCommandInput =
+  document.getElementById('commandInput');
+
+
+if(mainCommandForm && mainCommandInput){
+
+  mainCommandForm.addEventListener(
+    'submit',
+    function(e){
+
+      const value=
+        mainCommandInput.value
+          .trim()
+          .toLowerCase();
+
+
+      if(value==='database'){
+
+        e.preventDefault();
+
+        e.stopImmediatePropagation();
+
+        mainCommandInput.value='';
+
+        adbOpen();
+
+      }
+
+    },
+    true
+  );
+
+}
+
+})();
+</script>
