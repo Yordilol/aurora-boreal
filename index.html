@@ -6685,3 +6685,32 @@ if(typeof navigate === "function"){
       cmd === "intelligent" ||
       cmd === "ai" ||
       cmd =
+<script>
+window.addEventListener("load", function () {
+
+  const boton = document.getElementById("auroraIntelligentButton");
+  const ventana = document.getElementById("auroraIntelligent");
+  const cerrar = document.getElementById("aiClose");
+
+  if (boton && ventana) {
+    boton.onclick = function () {
+      ventana.classList.add("active");
+
+      const input = document.getElementById("aiInput");
+
+      if (input) {
+        setTimeout(function () {
+          input.focus();
+        }, 100);
+      }
+    };
+  }
+
+  if (cerrar && ventana) {
+    cerrar.onclick = function () {
+      ventana.classList.remove("active");
+    };
+  }
+
+});
+</script>         
