@@ -5355,3 +5355,35 @@ if(mainCommandForm && mainCommandInput){
 
 })();
 </script>
+/* AURORA DATABASE — CONEXIÓN AL COMANDO */
+
+(function(){
+
+  const form = document.getElementById('commandForm');
+  const input = document.getElementById('commandInput');
+
+  if(!form || !input) return;
+
+  form.addEventListener('submit', function(e){
+
+    const command = input.value.trim().toLowerCase();
+
+    if(command === 'database'){
+
+      e.preventDefault();
+      e.stopImmediatePropagation();
+
+      if(typeof adbOpen === 'function'){
+        adbOpen();
+      }else{
+        alert('AURORA DATABASE: módulo no disponible');
+      }
+
+      input.value = '';
+
+    }
+
+  }, true);
+
+})();
+</script>     
