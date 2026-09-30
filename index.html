@@ -6593,3 +6593,129 @@ BROWSER: ${navigator.onLine?"ONLINE":"OFFLINE"}
     if(
       !nums.length ||
       nums.some(n=>!Nu
+<script>
+/* =====================================================
+   AURORA CODE LAB — CONECTOR /commands
+   NO MODIFICA EL MENU PRINCIPAL
+   ===================================================== */
+
+(function () {
+
+  function conectarCodeLab() {
+
+    const codeLab =
+      document.getElementById("auroraCodeLab");
+
+    if (!codeLab) {
+      console.log("CODE LAB no encontrado.");
+      return;
+    }
+
+    /*
+     * Detectar cualquier formulario que contenga
+     * la barra de comandos de AURORA.
+     */
+    const formularios =
+      document.querySelectorAll("form");
+
+    formularios.forEach(function(formulario) {
+
+      const inputs =
+        formulario.querySelectorAll(
+          "input, textarea"
+        );
+
+      inputs.forEach(function(input) {
+
+        /*
+         * Evitar conectar dos veces el mismo input.
+         */
+        if (input.dataset.auroraCommandsConnected) {
+          return;
+        }
+
+        input.dataset.auroraCommandsConnected = "true";
+
+        formulario.addEventListener(
+          "submit",
+          function(evento) {
+
+            const texto =
+              String(input.value || "")
+                .trim();
+
+            if (
+              texto.toLowerCase() !== "/commands"
+            ) {
+              return;
+            }
+
+            /*
+             * IMPORTANTE:
+             * detenemos solamente /commands.
+             * Los demás comandos continúan funcionando
+             * normalmente.
+             */
+            evento.preventDefault();
+            evento.stopPropagation();
+            evento.stopImmediatePropagation();
+
+            input.value = "";
+
+            /*
+             * Abrir CODE LAB.
+             */
+            codeLab.classList.add("aCL-open");
+
+            /*
+             * Crear automáticamente la primera ventana.
+             */
+            const contenedor =
+              document.getElementById("aCLWindows");
+
+            if (
+              contenedor &&
+              contenedor.children.length === 0 &&
+              window.AURORA_CODE_LAB &&
+              typeof window.AURORA_CODE_LAB.newWindow === "function"
+            ) {
+
+              window.AURORA_CODE_LAB.newWindow();
+
+            }
+
+          },
+          true
+        );
+
+      });
+
+    });
+
+    console.log(
+      "✓ AURORA CODE LAB: /commands conectado"
+    );
+
+  }
+
+
+  /*
+   * Esperar a que AURORA termine de cargar.
+   */
+  if (
+    document.readyState === "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      conectarCodeLab
+    );
+
+  } else {
+
+    conectarCodeLab();
+
+  }
+
+})();
+</script>
