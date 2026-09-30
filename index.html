@@ -6794,3 +6794,580 @@ BROWSER: ${navigator.onLine?"ONLINE":"OFFLINE"}
 
 })();
 </script>
+<script>
+/* =====================================================
+   AURORA CODE LAB — SISTEMA INDEPENDIENTE
+   ===================================================== */
+
+(function () {
+
+  const lab = document.getElementById("auroraCodeLab");
+  const windows = document.getElementById("aCLWindows");
+  const newBtn = document.getElementById("aCLNewWindow");
+  const closeBtn = document.getElementById("aCLClose");
+
+  if (!lab || !windows) return;
+
+  let contador = 0;
+  let z = 99999;
+
+  /* ===============================
+     CREAR VENTANA
+     =============================== */
+
+  function crearVentana() {
+
+    contador++;
+
+    const win = document.createElement("div");
+
+    win.style.cssText = `
+      position:absolute;
+      width:min(620px,90vw);
+      height:500px;
+      left:50%;
+      top:100px;
+      transform:translateX(-50%);
+      background:#02080d;
+      border:1px solid #20e9d6;
+      box-shadow:0 0 35px #00e0d555;
+      z-index:${++z};
+      display:flex;
+      flex-direction:column;
+      color:#dffffb;
+      font-family:monospace;
+    `;
+
+    win.innerHTML = `
+
+      <div class="clHead"
+        style="
+          padding:12px;
+          border-bottom:1px solid #17434a;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          cursor:move;
+        ">
+
+        <span style="color:#26ffe5">
+          WINDOW_${String(contador).padStart(2,"0")}
+          · CODE LAB
+        </span>
+
+        <button class="clX"
+          style="
+            background:none;
+            border:0;
+            color:#ff5570;
+            font-size:22px;
+            cursor:pointer;
+          ">
+          ×
+        </button>
+
+      </div>
+
+      <div style="
+        display:flex;
+        gap:6px;
+        padding:10px;
+        border-bottom:1px solid #12343b;
+      ">
+
+        <input class="clInput"
+          autocomplete="off"
+          placeholder="Escribe un comando..."
+          style="
+            flex:1;
+            background:#010509;
+            border:1px solid #17434a;
+            color:#bffff8;
+            padding:10px;
+            outline:none;
+            font-family:monospace;
+          "
+        >
+
+        <button class="clRun"
+          style="
+            background:#07302f;
+            border:1px solid #20e9d6;
+            color:#8ffff2;
+            padding:0 15px;
+            cursor:pointer;
+          ">
+          RUN
+        </button>
+
+      </div>
+
+      <div class="clTerminal"
+        style="
+          flex:1;
+          overflow:auto;
+          padding:12px;
+          font-size:11px;
+          line-height:1.5;
+        ">
+      </div>
+
+    `;
+
+    windows.appendChild(win);
+
+    const input = win.querySelector(".clInput");
+    const run = win.querySelector(".clRun");
+    const terminal = win.querySelector(".clTerminal");
+    const close = win.querySelector(".clX");
+
+    /* ===============================
+       CERRAR VENTANA
+       =============================== */
+
+    close.onclick = function () {
+      win.remove();
+    };
+
+    /* ===============================
+       EJECUTAR
+       =============================== */
+
+    async function ejecutar() {
+
+      const comando = input.value.trim();
+
+      if (!comando) return;
+
+      input.disabled = true;
+      run.disabled = true;
+
+      terminal.innerHTML = "";
+
+      /* Animación hacker */
+
+      for (let i = 0; i < 180; i++) {
+
+        const linea = document.createElement("div");
+
+        const hex =
+          Math.random()
+            .toString(16)
+            .substring(2,10)
+            .toUpperCase();
+
+        linea.textContent =
+          `0x${hex} :: PROCESS_${i} :: ` +
+          `SYSTEM_${Math.floor(Math.random()*9999)} :: OK`;
+
+        terminal.appendChild(linea);
+
+        terminal.scrollTop =
+          terminal.scrollHeight;
+
+        await new Promise(
+          r => setTimeout(r,8)
+        );
+
+      }
+
+      /* ===============================
+         RESULTADO DEL COMANDO
+         =============================== */
+
+      const resultado =
+        document.createElement("div");
+
+      resultado.style.cssText = `
+        margin-top:20px;
+        padding:15px;
+        border-top:1px solid #20e9d6;
+        color:#8ffff2;
+        white-space:pre-wrap;
+      `;
+
+      resultado.textContent =
+        ejecutarComando(comando);
+
+      terminal.appendChild(resultado);
+
+      input.disabled = false;
+      run.disabled = false;
+      input.focus();
+
+    }
+
+    run.onclick = ejecutar;
+
+    input.addEventListener(
+      "keydown",
+      function(e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          ejecutar();
+        }
+      }
+    );
+
+    /* ===============================
+       ARRASTRAR VENTANA
+       =============================== */
+
+    const head = win.querySelector(".clHead");
+
+    let moviendo = false;
+    let x = 0;
+    let y = 0;
+
+    head.addEventListener("pointerdown", function(e) {
+
+      if (e.target.closest(".clX")) return;
+
+      moviendo = true;
+
+      x = e.clientX - win.offsetLeft;
+      y = e.clientY - win.offsetTop;
+
+      win.style.transform = "none";
+      win.style.zIndex = ++z;
+
+      head.setPointerCapture(e.pointerId);
+
+    });
+
+    head.addEventListener("pointermove", function(e) {
+
+      if (!moviendo) return;
+
+      win.style.left =
+        (e.clientX - x) + "px";
+
+      win.style.top =
+        (e.clientY - y) + "px";
+
+    });
+
+    head.addEventListener("pointerup", function() {
+      moviendo = false;
+    });
+
+    input.focus();
+
+  }
+
+
+  /* ===============================
+     COMANDOS
+     =============================== */
+
+  function ejecutarComando(c) {
+
+    const partes = c.split(/\s+/);
+    const cmd = partes[0].toLowerCase();
+    const args = partes.slice(1);
+
+    if (cmd === "/help" || cmd === "/commands") {
+
+      return `
+CODE LAB COMMANDS
+
+/help
+/commands
+
+/time
+/date
+/status
+/ping
+
+/echo texto
+/upper texto
+/lower texto
+/reverse texto
+/length texto
+
+/calc 25*8
+/sum 10 20 30
+/average 10 20 30
+
+/random 1 100
+/uuid
+/color
+/hex 20
+/binary 32
+/password 16
+
+/browser
+/platform
+/screen
+/language
+/network
+/memory
+`;
+
+    }
+
+    if (cmd === "/time")
+      return new Date().toLocaleTimeString();
+
+    if (cmd === "/date")
+      return new Date().toLocaleDateString();
+
+    if (cmd === "/datetime")
+      return new Date().toLocaleString();
+
+    if (cmd === "/status")
+      return `
+AURORA CODE LAB
+STATUS: ONLINE
+ENGINE: ACTIVE
+COMMANDS: READY
+WINDOWS: ${windows.children.length}
+`;
+
+    if (cmd === "/ping")
+      return "LOCAL CORE RESPONSE: " +
+        Math.floor(Math.random()*30+5) + " ms";
+
+    if (cmd === "/echo")
+      return args.join(" ");
+
+    if (cmd === "/upper")
+      return args.join(" ").toUpperCase();
+
+    if (cmd === "/lower")
+      return args.join(" ").toLowerCase();
+
+    if (cmd === "/reverse")
+      return args.join(" ").split("").reverse().join("");
+
+    if (cmd === "/length")
+      return String(args.join(" ").length);
+
+    if (cmd === "/sum") {
+
+      const nums = args.map(Number);
+
+      if (!nums.length || nums.some(isNaN))
+        return "ERROR: /sum 10 20 30";
+
+      return String(
+        nums.reduce((a,b) => a+b,0)
+      );
+
+    }
+
+    if (cmd === "/average") {
+
+      const nums = args.map(Number);
+
+      if (!nums.length || nums.some(isNaN))
+        return "ERROR: /average 10 20 30";
+
+      return String(
+        nums.reduce((a,b)=>a+b,0) /
+        nums.length
+      );
+
+    }
+
+    if (cmd === "/calc") {
+
+      const expresion =
+        args.join(" ");
+
+      if (!/^[0-9+\-*/().%\s]+$/.test(expresion))
+        return "ERROR: expresión no válida";
+
+      try {
+        return String(
+          Function(
+            '"use strict";return (' +
+            expresion +
+            ')'
+          )()
+        );
+      } catch {
+        return "ERROR: cálculo inválido";
+      }
+
+    }
+
+    if (cmd === "/random") {
+
+      const min = Number(args[0]) || 1;
+      const max = Number(args[1]) || 100;
+
+      return String(
+        Math.floor(
+          Math.random() *
+          (max-min+1)
+        ) + min
+      );
+
+    }
+
+    if (cmd === "/uuid")
+      return crypto.randomUUID();
+
+    if (cmd === "/color")
+      return "#" +
+        Math.floor(
+          Math.random()*16777215
+        ).toString(16).padStart(6,"0");
+
+    if (cmd === "/hex") {
+
+      let out="";
+
+      for(let i=0;i<(Number(args[0])||20);i++)
+        out +=
+          Math.floor(Math.random()*16)
+          .toString(16)
+          .toUpperCase();
+
+      return out;
+
+    }
+
+    if (cmd === "/binary") {
+
+      let out="";
+
+      for(let i=0;i<(Number(args[0])||32);i++)
+        out += Math.random()>0.5?"1":"0";
+
+      return out;
+
+    }
+
+    if (cmd === "/password") {
+
+      const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+        "abcdefghijklmnopqrstuvwxyz" +
+        "0123456789!@#$%^&*";
+
+      const length =
+        Number(args[0]) || 16;
+
+      let out="";
+
+      for(let i=0;i<length;i++)
+        out += chars[
+          Math.floor(
+            Math.random()*chars.length
+          )
+        ];
+
+      return out;
+
+    }
+
+    if (cmd === "/browser")
+      return navigator.userAgent;
+
+    if (cmd === "/platform")
+      return navigator.platform;
+
+    if (cmd === "/screen")
+      return screen.width + " x " + screen.height;
+
+    if (cmd === "/language")
+      return navigator.language;
+
+    if (cmd === "/network")
+      return navigator.onLine
+        ? "ONLINE"
+        : "OFFLINE";
+
+    if (cmd === "/memory")
+      return performance.memory
+        ? "JS MEMORY API AVAILABLE"
+        : "MEMORY API NOT AVAILABLE";
+
+    return `
+ERROR: COMMAND NOT FOUND
+
+Escribe /help
+para ver los comandos disponibles.
+`;
+
+  }
+
+
+  /* ===============================
+     BOTÓN NUEVA VENTANA
+     =============================== */
+
+  if (newBtn) {
+
+    newBtn.onclick = function(e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      lab.classList.add("aCL-open");
+
+      crearVentana();
+
+    };
+
+  }
+
+
+  /* ===============================
+     BOTÓN CERRAR
+     =============================== */
+
+  if (closeBtn) {
+
+    closeBtn.onclick = function(e) {
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      lab.classList.remove("aCL-open");
+
+    };
+
+  }
+
+
+  /* ===============================
+     /commands DESDE AURORA
+     =============================== */
+
+  const form =
+    document.getElementById("commandForm");
+
+  const input =
+    document.getElementById("commandInput");
+
+  if (form && input) {
+
+    form.addEventListener(
+      "submit",
+      function(e) {
+
+        if (
+          input.value.trim().toLowerCase()
+          !== "/commands"
+        ) return;
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+
+        input.value = "";
+
+        lab.classList.add("aCL-open");
+
+        crearVentana();
+
+      },
+      true
+    );
+
+  }
+
+})();
+</script>
