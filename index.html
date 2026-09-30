@@ -6719,3 +6719,78 @@ BROWSER: ${navigator.onLine?"ONLINE":"OFFLINE"}
 
 })();
 </script>
+<script>
+/* =====================================================
+   AURORA — /commands → CODE LAB
+   ===================================================== */
+
+(function () {
+
+  function conectarCommands() {
+
+    const form = document.getElementById("commandForm");
+    const input = document.getElementById("commandInput");
+    const codeLab = document.getElementById("auroraCodeLab");
+    const windows = document.getElementById("aCLWindows");
+
+    if (!form || !input || !codeLab || !windows) {
+      console.log("AURORA: elementos de /commands no encontrados");
+      return;
+    }
+
+    form.addEventListener("submit", function (e) {
+
+      const comando =
+        String(input.value || "").trim().toLowerCase();
+
+      /* Solo interceptar /commands */
+      if (comando !== "/commands") {
+        return;
+      }
+
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+
+      input.value = "";
+
+      /* Abrir CODE LAB */
+      codeLab.classList.add("aCL-open");
+
+      /*
+       * La función aCLOpen está dentro de otro bloque.
+       * Por eso buscamos el botón de nueva ventana
+       * y lo pulsamos automáticamente.
+       */
+      if (windows.children.length === 0) {
+
+        const boton =
+          document.getElementById("aCLNewWindow");
+
+        if (boton) {
+          boton.click();
+        }
+
+      }
+
+    }, true);
+
+    console.log("✓ /commands conectado correctamente");
+
+  }
+
+  if (document.readyState === "loading") {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      conectarCommands
+    );
+
+  } else {
+
+    conectarCommands();
+
+  }
+
+})();
+</script>
