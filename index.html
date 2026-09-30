@@ -5355,3 +5355,1241 @@ if(mainCommandForm && mainCommandInput){
 
 })();
 </script/>
+<!-- =========================================================
+     AURORA CODE LAB
+     NUEVO MODULO INDEPENDIENTE
+     ACCESO: /commands
+     ========================================================= -->
+
+<style>
+/* ================================
+   AURORA CODE LAB
+   ================================ */
+
+#auroraCodeLab{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+  display:none;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(0,255,180,.08),transparent 35%),
+    radial-gradient(circle at 80% 80%,rgba(0,120,255,.08),transparent 35%),
+    #010509;
+  color:#cffff7;
+  font-family:monospace;
+}
+
+#auroraCodeLab *{
+  box-sizing:border-box;
+}
+
+#auroraCodeLab.aCL-open{
+  display:block;
+}
+
+.aCL-grid{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.12;
+  background-image:
+    linear-gradient(rgba(0,255,200,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,200,.12) 1px,transparent 1px);
+  background-size:35px 35px;
+  animation:aCLGridMove 12s linear infinite;
+}
+
+@keyframes aCLGridMove{
+  from{transform:translateY(0)}
+  to{transform:translateY(35px)}
+}
+
+.aCL-top{
+  position:absolute;
+  z-index:20;
+  top:0;
+  left:0;
+  right:0;
+  height:62px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  border-bottom:1px solid #123832;
+  background:#02090de8;
+  backdrop-filter:blur(12px);
+}
+
+.aCL-title{
+  color:#38ffe0;
+  font-size:15px;
+  letter-spacing:5px;
+  text-shadow:0 0 15px #00ffe0;
+}
+
+.aCL-subtitle{
+  margin-left:12px;
+  color:#537c82;
+  font-size:9px;
+  letter-spacing:2px;
+}
+
+.aCL-topButtons{
+  display:flex;
+  gap:8px;
+}
+
+.aCL-btn{
+  border:1px solid #17645a;
+  background:#031713;
+  color:#72ffe8;
+  padding:9px 13px;
+  border-radius:7px;
+  font-family:monospace;
+  font-size:10px;
+  cursor:pointer;
+}
+
+.aCL-btn:hover{
+  border-color:#36ffe0;
+  box-shadow:0 0 15px #00ffe033;
+}
+
+.aCL-btnClose{
+  color:#ff7180;
+  border-color:#65303a;
+}
+
+#aCLWindows{
+  position:absolute;
+  inset:62px 0 0;
+  overflow:hidden;
+}
+
+/* WINDOW */
+
+.aCL-window{
+  position:absolute;
+  width:min(520px,92vw);
+  height:min(650px,78vh);
+  min-width:290px;
+  min-height:320px;
+  display:flex;
+  flex-direction:column;
+  border:1px solid #1b786b;
+  border-radius:10px;
+  overflow:hidden;
+  background:#02080ceF;
+  box-shadow:
+    0 0 25px #00ffc31c,
+    0 20px 70px #000b;
+  resize:both;
+}
+
+.aCL-window:hover{
+  border-color:#2bd9c4;
+}
+
+.aCL-windowHead{
+  height:40px;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 10px;
+  background:#041511;
+  border-bottom:1px solid #164c44;
+  cursor:move;
+  touch-action:none;
+  user-select:none;
+}
+
+.aCL-windowName{
+  color:#46ffe4;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+.aCL-windowState{
+  color:#4e7776;
+  font-size:8px;
+}
+
+.aCL-windowClose{
+  border:0;
+  background:none;
+  color:#ff6374;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.aCL-commandBar{
+  display:flex;
+  gap:6px;
+  padding:8px;
+  background:#020b0e;
+  border-bottom:1px solid #102d2a;
+}
+
+.aCL-input{
+  flex:1;
+  min-width:0;
+  border:1px solid #174c47;
+  border-radius:6px;
+  outline:none;
+  background:#010608;
+  color:#cffff6;
+  padding:9px;
+  font-family:monospace;
+  font-size:11px;
+}
+
+.aCL-input:focus{
+  border-color:#27e8d0;
+  box-shadow:0 0 12px #00ffe01c;
+}
+
+.aCL-run{
+  border:1px solid #1b8578;
+  background:#06342e;
+  color:#80fff0;
+  border-radius:6px;
+  padding:0 12px;
+  font-family:monospace;
+  font-size:10px;
+  cursor:pointer;
+}
+
+.aCL-run:disabled{
+  opacity:.35;
+  cursor:not-allowed;
+}
+
+.aCL-progress{
+  height:3px;
+  background:#041312;
+}
+
+.aCL-progressBar{
+  width:0%;
+  height:100%;
+  background:#2dffe1;
+  box-shadow:0 0 10px #00ffe0;
+  transition:width .08s linear;
+}
+
+.aCL-terminal{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  padding:10px;
+  color:#56eacb;
+  font-size:9px;
+  line-height:1.5;
+  white-space:pre-wrap;
+  word-break:break-word;
+  background:
+    linear-gradient(rgba(0,255,190,.018) 1px,transparent 1px);
+  background-size:100% 18px;
+}
+
+.aCL-line{
+  opacity:.85;
+}
+
+.aCL-line.dim{
+  color:#285e58;
+}
+
+.aCL-line.hot{
+  color:#8ffff0;
+  text-shadow:0 0 6px #00ffc033;
+}
+
+.aCL-result{
+  display:none;
+  margin:10px;
+  padding:12px;
+  border:1px solid #17675d;
+  border-radius:7px;
+  background:#031713;
+  color:#cffff7;
+  font-size:11px;
+  line-height:1.6;
+  white-space:pre-wrap;
+  word-break:break-word;
+  max-height:180px;
+  overflow:auto;
+}
+
+.aCL-result.show{
+  display:block;
+}
+
+.aCL-resultTitle{
+  color:#40ffe0;
+  font-size:9px;
+  letter-spacing:3px;
+  margin-bottom:7px;
+}
+
+.aCL-status{
+  height:22px;
+  min-height:22px;
+  padding:4px 9px;
+  color:#426d69;
+  font-size:8px;
+  border-top:1px solid #0d2926;
+  background:#02090b;
+}
+
+.aCL-status.running{
+  color:#3dffe0;
+}
+
+.aCL-status.done{
+  color:#7affae;
+}
+
+.aCL-status.error{
+  color:#ff6879;
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+  .aCL-top{
+    height:56px;
+    padding:0 9px;
+  }
+
+  .aCL-title{
+    font-size:11px;
+    letter-spacing:3px;
+  }
+
+  .aCL-subtitle{
+    display:none;
+  }
+
+  .aCL-btn{
+    padding:8px 9px;
+    font-size:8px;
+  }
+
+  #aCLWindows{
+    inset:56px 0 0;
+  }
+
+  .aCL-window{
+    width:94vw;
+    height:76vh;
+    min-width:0;
+  }
+
+  .aCL-terminal{
+    font-size:8px;
+  }
+
+}
+</style>
+
+<div id="auroraCodeLab">
+
+  <div class="aCL-grid"></div>
+
+  <div class="aCL-top">
+
+    <div>
+      <span class="aCL-title">CODE LAB</span>
+      <span class="aCL-subtitle">
+        AURORA COMMAND EXECUTION MATRIX
+      </span>
+    </div>
+
+    <div class="aCL-topButtons">
+
+      <button
+        type="button"
+        class="aCL-btn"
+        id="aCLNewWindow"
+      >
+        + NUEVA VENTANA
+      </button>
+
+      <button
+        type="button"
+        class="aCL-btn aCL-btnClose"
+        id="aCLClose"
+      >
+        × CERRAR
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="aCLWindows"></div>
+
+</div>
+
+<script>
+(function(){
+
+"use strict";
+
+/* =========================================================
+   CONFIGURACION
+   ========================================================= */
+
+const AURORA_CODE_LINES = 1200;
+const AURORA_VISIBLE_LINES = 700;
+const AURORA_BATCH = 4;
+const AURORA_SPEED = 10;
+
+let aCLWindowCount = 0;
+let aCLZIndex = 100000;
+
+/* =========================================================
+   ELEMENTOS
+   ========================================================= */
+
+const lab =
+  document.getElementById("auroraCodeLab");
+
+const windows =
+  document.getElementById("aCLWindows");
+
+const newButton =
+  document.getElementById("aCLNewWindow");
+
+const closeButton =
+  document.getElementById("aCLClose");
+
+/* =========================================================
+   UTILIDADES
+   ========================================================= */
+
+function aCLSleep(ms){
+  return new Promise(
+    resolve => setTimeout(resolve,ms)
+  );
+}
+
+function aCLRandom(min,max){
+  return Math.floor(
+    Math.random()*(max-min+1)
+  )+min;
+}
+
+function aCLHex(length=8){
+  const chars="0123456789ABCDEF";
+  let out="";
+  for(let i=0;i<length;i++){
+    out+=chars[
+      Math.floor(Math.random()*chars.length)
+    ];
+  }
+  return out;
+}
+
+function aCLBinary(length=16){
+  let out="";
+  for(let i=0;i<length;i++){
+    out+=Math.random()>0.5?"1":"0";
+  }
+  return out;
+}
+
+function aCLRandomWord(){
+  const words=[
+    "CORE",
+    "MODULE",
+    "BUFFER",
+    "PROCESS",
+    "SYSTEM",
+    "VECTOR",
+    "MATRIX",
+    "SIGNAL",
+    "ENGINE",
+    "NEURAL",
+    "AURORA",
+    "MEMORY",
+    "STREAM",
+    "KERNEL",
+    "NODE",
+    "DATA",
+    "CLOCK",
+    "PROTOCOL",
+    "CHANNEL",
+    "SEQUENCE"
+  ];
+
+  return words[
+    Math.floor(Math.random()*words.length)
+  ];
+}
+
+/* =========================================================
+   LINEAS HACKER
+   ========================================================= */
+
+function aCLGenerateLine(index,command){
+
+  const hex=aCLHex(8);
+  const bin=aCLBinary(24);
+  const pid=aCLRandom(1000,9999);
+  const word=aCLRandomWord();
+
+  const templates=[
+
+    `0x${hex} :: ${word}.INITIALIZE(${index})`,
+    `0b${bin} :: BUFFER[${index}]`,
+    `process[${pid}] :: STATE=RUNNING`,
+    `module.load("${word}_${aCLRandom(10,99)}")`,
+    `memory.allocate(0x${aCLHex(5)})`,
+    `memory.verify(0x${aCLHex(6)})`,
+    `system.clock.sync() :: OK`,
+    `core.channel[${aCLRandom(1,32)}] :: CONNECTED`,
+    `vector[${aCLRandom(10,999)}] -> 0x${hex}`,
+    `kernel.route("${word}") :: PASS`,
+    `protocol.verify(0x${aCLHex(6)})`,
+    `data.block.${aCLRandom(100,999)} :: CHECKSUM_OK`,
+    `stream.read(${aCLRandom(1000,9999)})`,
+    `buffer.write(0x${aCLHex(8)})`,
+    `thread[${aCLRandom(1,64)}] :: ACTIVE`,
+    `signal.${aCLRandom(10,99)} :: ${aCLRandom(0,1) ? "HIGH":"LOW"}`,
+    `matrix[${aCLRandom(1,99)}][${aCLRandom(1,99)}] :: SYNC`,
+    `quantum.node.${aCLRandom(100,999)} :: STABLE`,
+    `checksum::${aCLHex(12)} :: VERIFIED`,
+    `binary.sequence :: ${bin}`,
+    `execute("${command.slice(0,28)}")`,
+    `access.layer.${aCLRandom(1,9)} :: GRANTED`,
+    `cache.segment.${aCLRandom(10,999)} :: READY`,
+    `data.encrypt.stage[${aCLRandom(1,8)}]`,
+    `runtime.signal :: 0x${hex}`,
+    `>>> ANALYZING DATA BLOCK ${index}`,
+    `>>> PROCESSING VECTOR ${aCLRandom(1000,9999)}`,
+    `>>> SCANNING MEMORY SEGMENT ${hex}`,
+    `>>> VALIDATING COMMAND`,
+    `>>> EXECUTION CHANNEL READY`
+
+  ];
+
+  return templates[
+    Math.floor(Math.random()*templates.length)
+  ];
+}
+
+/* =========================================================
+   ABRIR CODE LAB
+   ========================================================= */
+
+function aCLOpen(){
+
+  lab.classList.add("aCL-open");
+
+  if(!windows.children.length){
+    aCLCreateWindow();
+  }
+
+}
+
+/* =========================================================
+   CERRAR CODE LAB
+   ========================================================= */
+
+function aCLClose(){
+
+  lab.classList.remove("aCL-open");
+
+}
+
+/* =========================================================
+   NUEVA VENTANA
+   ========================================================= */
+
+function aCLCreateWindow(){
+
+  aCLWindowCount++;
+
+  const number =
+    String(aCLWindowCount).padStart(2,"0");
+
+  const win =
+    document.createElement("div");
+
+  win.className="aCL-window";
+
+  const offset =
+    ((aCLWindowCount-1)*28)%160;
+
+  win.style.left =
+    `calc(50% - 260px + ${offset}px)`;
+
+  win.style.top =
+    `${80 + offset/2}px`;
+
+  win.style.zIndex =
+    ++aCLZIndex;
+
+  win.innerHTML=`
+
+    <div class="aCL-windowHead">
+
+      <div>
+        <span class="aCL-windowName">
+          WINDOW_${number}
+        </span>
+
+        <span class="aCL-windowState">
+          · CODE LAB
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="aCL-windowClose"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div class="aCL-commandBar">
+
+      <input
+        class="aCL-input"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Escribe un comando..."
+      >
+
+      <button
+        type="button"
+        class="aCL-run"
+      >
+        RUN
+      </button>
+
+    </div>
+
+    <div class="aCL-progress">
+      <div class="aCL-progressBar"></div>
+    </div>
+
+    <div class="aCL-terminal"></div>
+
+    <div class="aCL-result">
+      <div class="aCL-resultTitle">
+        EXECUTION RESULT
+      </div>
+      <div class="aCL-resultText"></div>
+    </div>
+
+    <div class="aCL-status">
+      READY
+    </div>
+
+  `;
+
+  windows.appendChild(win);
+
+  const input =
+    win.querySelector(".aCL-input");
+
+  const run =
+    win.querySelector(".aCL-run");
+
+  const close =
+    win.querySelector(".aCL-windowClose");
+
+  const terminal =
+    win.querySelector(".aCL-terminal");
+
+  const result =
+    win.querySelector(".aCL-result");
+
+  const resultText =
+    win.querySelector(".aCL-resultText");
+
+  const progress =
+    win.querySelector(".aCL-progressBar");
+
+  const status =
+    win.querySelector(".aCL-status");
+
+  win.addEventListener(
+    "pointerdown",
+    ()=>{
+      win.style.zIndex=++aCLZIndex;
+    }
+  );
+
+  close.addEventListener(
+    "click",
+    ()=>{
+      win.remove();
+    }
+  );
+
+  run.addEventListener(
+    "click",
+    ()=>{
+      aCLRun(
+        win,
+        input,
+        run,
+        terminal,
+        result,
+        resultText,
+        progress,
+        status
+      );
+    }
+  );
+
+  input.addEventListener(
+    "keydown",
+    e=>{
+      if(e.key==="Enter"){
+        e.preventDefault();
+
+        aCLRun(
+          win,
+          input,
+          run,
+          terminal,
+          result,
+          resultText,
+          progress,
+          status
+        );
+      }
+    }
+  );
+
+  aCLMakeDraggable(win);
+
+  setTimeout(
+    ()=>input.focus(),
+    100
+  );
+
+  return win;
+}
+
+/* =========================================================
+   DRAG WINDOWS
+   ========================================================= */
+
+function aCLMakeDraggable(win){
+
+  const head =
+    win.querySelector(".aCL-windowHead");
+
+  let dragging=false;
+  let startX=0;
+  let startY=0;
+  let startLeft=0;
+  let startTop=0;
+
+  head.addEventListener(
+    "pointerdown",
+    e=>{
+
+      if(
+        e.target.closest(".aCL-windowClose")
+      ){
+        return;
+      }
+
+      dragging=true;
+
+      head.setPointerCapture(e.pointerId);
+
+      const rect=
+        win.getBoundingClientRect();
+
+      startX=e.clientX;
+      startY=e.clientY;
+      startLeft=rect.left;
+      startTop=rect.top;
+
+      win.style.zIndex=++aCLZIndex;
+
+    }
+  );
+
+  head.addEventListener(
+    "pointermove",
+    e=>{
+
+      if(!dragging) return;
+
+      const dx=e.clientX-startX;
+      const dy=e.clientY-startY;
+
+      const maxX=
+        window.innerWidth-win.offsetWidth;
+
+      const maxY=
+        window.innerHeight-win.offsetHeight;
+
+      win.style.left=
+        Math.max(
+          0,
+          Math.min(maxX,startLeft+dx)
+        )+"px";
+
+      win.style.top=
+        Math.max(
+          62,
+          Math.min(maxY,startTop+dy)
+        )+"px";
+
+    }
+  );
+
+  head.addEventListener(
+    "pointerup",
+    ()=>{
+      dragging=false;
+    }
+  );
+
+  head.addEventListener(
+    "pointercancel",
+    ()=>{
+      dragging=false;
+    }
+  );
+
+}
+
+/* =========================================================
+   EJECUTAR VENTANA
+   ========================================================= */
+
+async function aCLRun(
+  win,
+  input,
+  run,
+  terminal,
+  result,
+  resultText,
+  progress,
+  status
+){
+
+  const command =
+    input.value.trim();
+
+  if(!command){
+    input.focus();
+    return;
+  }
+
+  run.disabled=true;
+  input.disabled=true;
+
+  terminal.textContent="";
+  result.classList.remove("show");
+  resultText.textContent="";
+  progress.style.width="0%";
+
+  status.className="aCL-status running";
+  status.textContent=
+    "EXECUTING :: "+command.toUpperCase();
+
+  terminal.scrollTop=0;
+
+  /* ========================================
+     GENERAR 1200 LINEAS
+     ======================================== */
+
+  for(
+    let i=1;
+    i<=AURORA_CODE_LINES;
+    i+=AURORA_BATCH
+  ){
+
+    const fragment =
+      document.createDocumentFragment();
+
+    for(
+      let j=0;
+      j<AURORA_BATCH &&
+      i+j<=AURORA_CODE_LINES;
+      j++
+    ){
+
+      const line =
+        document.createElement("div");
+
+      line.className="aCL-line";
+
+      if(
+        Math.random()<0.15
+      ){
+        line.classList.add("hot");
+      }
+
+      if(
+        Math.random()<0.08
+      ){
+        line.classList.add("dim");
+      }
+
+      line.textContent =
+        aCLGenerateLine(
+          i+j,
+          command
+        );
+
+      fragment.appendChild(line);
+
+    }
+
+    terminal.appendChild(fragment);
+
+    /* mantener rendimiento del celular */
+
+    while(
+      terminal.children.length>
+      AURORA_VISIBLE_LINES
+    ){
+
+      terminal.removeChild(
+        terminal.firstChild
+      );
+
+    }
+
+    terminal.scrollTop=
+      terminal.scrollHeight;
+
+    const percent =
+      Math.min(
+        100,
+        Math.floor(
+          (i/AURORA_CODE_LINES)*100
+        )
+      );
+
+    progress.style.width=
+      percent+"%";
+
+    status.textContent=
+      `PROCESSING :: ${percent}%`;
+
+    await aCLSleep(AURORA_SPEED);
+
+  }
+
+  progress.style.width="100%";
+
+  status.textContent=
+    "FINALIZING EXECUTION...";
+
+  await aCLSleep(450);
+
+  /* ========================================
+     RESULTADO REAL
+     ======================================== */
+
+  try{
+
+    const output =
+      await aCLExecuteCommand(command);
+
+    resultText.textContent =
+      String(output);
+
+    result.classList.add("show");
+
+    status.className=
+      "aCL-status done";
+
+    status.textContent=
+      "EXECUTION COMPLETE :: 100%";
+
+  }catch(error){
+
+    resultText.textContent =
+      "ERROR: "+
+      error.message;
+
+    result.classList.add("show");
+
+    status.className=
+      "aCL-status error";
+
+    status.textContent=
+      "EXECUTION ERROR";
+
+  }
+
+  run.disabled=false;
+  input.disabled=false;
+  input.focus();
+
+}
+
+/* =========================================================
+   COMANDOS
+   ========================================================= */
+
+async function aCLExecuteCommand(raw){
+
+  const command=raw.trim();
+
+  const parts=
+    command.split(/\s+/);
+
+  const cmd=
+    parts[0].toLowerCase();
+
+  const args=
+    parts.slice(1);
+
+  const rest=
+    command.substring(
+      parts[0].length
+    ).trim();
+
+  /* HELP */
+
+  if(
+    cmd==="/help" ||
+    cmd==="/commands"
+  ){
+
+    return `
+CODE LAB COMMANDS
+
+SYSTEM
+/help
+/commands
+/time
+/date
+/datetime
+/timestamp
+/status
+/ping
+/online
+
+CALCULATIONS
+/calc 25*8
+/sum 10 20 30
+/average 10 20 30
+/min 10 20 5
+/max 10 20 50
+/percent 25 200
+/random 1 100
+
+TEXT
+/echo hello
+/upper hello
+/lower HELLO
+/reverse Aurora
+/length hello
+/count palabra
+/urlencode texto
+/urldecode texto
+
+DATA
+/json {"name":"Aurora","online":true}
+/base64 encode hello
+/base64 decode aGVsbG8=
+/hash hello
+/uuid
+
+GENERATORS
+/password 16
+/color
+/hex 20
+/binary 32
+
+DEVICE
+/browser
+/platform
+/screen
+/language
+/timezone
+/network
+/memory
+/battery
+
+STORAGE
+/storage
+
+TOOLS
+/copy texto
+/download texto
+/clear
+
+EXAMPLES
+
+/calc (25+5)*4
+/average 10 20 30
+/random 1 9999
+/password 20
+/hash Aurora
+/base64 encode AURORA
+/json {"system":"online"}
+`;
+  }
+
+  /* TIME */
+
+  if(cmd==="/time"){
+
+    return new Date().toLocaleTimeString();
+
+  }
+
+  /* DATE */
+
+  if(cmd==="/date"){
+
+    return new Date().toLocaleDateString();
+
+  }
+
+  /* DATETIME */
+
+  if(cmd==="/datetime"){
+
+    return new Date().toLocaleString();
+
+  }
+
+  /* TIMESTAMP */
+
+  if(cmd==="/timestamp"){
+
+    return Date.now().toString();
+
+  }
+
+  /* STATUS */
+
+  if(cmd==="/status"){
+
+    return `
+AURORA CODE LAB
+STATUS: ONLINE
+WINDOWS: ${windows.children.length}
+ENGINE: ACTIVE
+COMMAND MATRIX: READY
+ANIMATION ENGINE: READY
+BROWSER: ${navigator.onLine?"ONLINE":"OFFLINE"}
+`;
+
+  }
+
+  /* PING */
+
+  if(cmd==="/ping"){
+
+    const start=performance.now();
+
+    await aCLSleep(
+      aCLRandom(20,60)
+    );
+
+    const ms=
+      (performance.now()-start)
+      .toFixed(1);
+
+    return `LOCAL CORE RESPONSE: ${ms} ms`;
+
+  }
+
+  /* ONLINE */
+
+  if(cmd==="/online"){
+
+    return navigator.onLine
+      ? "NETWORK STATUS: ONLINE"
+      : "NETWORK STATUS: OFFLINE";
+
+  }
+
+  /* CALCULATOR */
+
+  if(cmd==="/calc"){
+
+    if(!rest){
+      throw new Error(
+        "USO: /calc 25*8"
+      );
+    }
+
+    if(
+      !/^[0-9+\-*/().%\s^]+$/.test(rest)
+    ){
+      throw new Error(
+        "EXPRESION NO VALIDA"
+      );
+    }
+
+    const expression=
+      rest.replace(/\^/g,"**");
+
+    const value=
+      Function(
+        '"use strict";return ('+
+        expression+
+        ')'
+      )();
+
+    if(
+      typeof value!=="number" ||
+      !Number.isFinite(value)
+    ){
+      throw new Error(
+        "RESULTADO NO VALIDO"
+      );
+    }
+
+    return value;
+
+  }
+
+  /* SUM */
+
+  if(cmd==="/sum"){
+
+    const nums=
+      args.map(Number);
+
+    if(
+      !nums.length ||
+      nums.some(n=>!Number.isFinite(n))
+    ){
+      throw new Error(
+        "USO: /sum 10 20 30"
+      );
+    }
+
+    return nums.reduce(
+      (a,b)=>a+b,
+      0
+    );
+
+  }
+
+  /* AVERAGE */
+
+  if(cmd==="/average"){
+
+    const nums=
+      args.map(Number);
+
+    if(
+      !nums.length ||
+      nums.some(n=>!Nu
